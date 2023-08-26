@@ -1,4 +1,4 @@
 package AccionesSemánticas;
 public interface AcciónSemántica {
-    public int ejecutar (AccionSemáticaParametros params);
+    public Character ejecutar (AccionSemáticaParametros params);
 }
