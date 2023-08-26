@@ -1,0 +1,1 @@
+1) A acción semántica de agregar caracter, puede ser la misma para todos los casos? O la deberiamos manejar diferente por cada una. En el caso de la acción semántica por caracter inválido, podríamos generalizarlo?
