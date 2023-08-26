@@ -1,13 +1,21 @@
-C = caracter { L = letra, @ = arroba, D = digito, + , -, /, * = operadores # = hashtag (con 2 tengo comentario) nl = bajada de linea <,>,= = comparadores (juntos puedo también inicializar o finalizar cadenas de caracteres) bl = blanco
-tab = tabulacion
+C = caracter { 
+    L = letra 
+    @ = arroba 
+    D = digito
+    + , -, /, * = operadores 
+    # = hashtag (con 2 tengo comentario) 
+    nl = bajada de linea 
+    <,>,= = comparadores (juntos puedo también inicializar o finalizar cadenas de caracteres) 
+    bl = blanco
+    tab = tabulacion
 }
 
 A.S 1:
 - Devolver a la entrada el último carácter leído
 - Buscar en la TS
-* Si está, +Si es PR, devolver la Palabra Reservada +Si no, Devolver ID + Punt TS
-*Si no está,+Alta en la TS
-+Devolver ID + Punt TS
+    * Si está, +Si es PR, devolver la Palabra Reservada +Si no, Devolver ID + Punt TS
+    * Si no está, +Alta en la TS
+-Devolver ID + Punt TS
 A.S 2:
 - Inicializar string (se reserva 25 caracteres para identificadores)
 - Agregar letra o arroba al string
