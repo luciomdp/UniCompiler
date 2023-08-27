@@ -10,27 +10,27 @@ C = caracter {
     tab = tabulacion
 }
 
-A.S 1:
+A.S 1: BuscaEnTSYDevuelveUltimoCaracter
 - Devolver a la entrada el último carácter leído
 - Buscar en la TS
-    * Si está, +Si es PR, devolver la Palabra Reservada +Si no, Devolver ID + Punt TS
+    * Si está, +Si es PR, devolver la Palabra Reservada +Si no, Devolver ID (lexema) + Punt TS (id token identificador)
     * Si no está, +Alta en la TS
 -Devolver ID + Punt TS
-A.S 2:
+A.S 2: IniciaStringYAgregaLetraOArroba
 - Inicializar string (se reserva 25 caracteres para identificadores)
 - Agregar letra o arroba al string
-A.S 3:
+A.S 3: AgregaLetraODigito
 - Agregar letra o digito o arroba al string
-A.S 4:
+A.S 4: IniciaStringYAgregaDigito
 - Inicializar string para la constante
 - Agregar dígito al string
-A.S 5:
+A.S 5: AgregaDigito
 - Agregar dígito al string
-A.S 6:
+A.S 6: VerificaRangoCteYAltaEnTs
 - Devolver a la entrada el último carácter leído
 - Verificar rango de la constante
 - Alta en la TS
-- Devolver CTE + Punt TS
+- Devolver CTE (lexico) + Punt TS (id token)
 A.S 7:
 - Inicializar string
 - Agregar caracter unitario (+ - / * ( ) , ; =)

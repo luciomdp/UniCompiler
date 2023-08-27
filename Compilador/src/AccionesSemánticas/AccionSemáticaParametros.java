@@ -12,7 +12,6 @@ public class AccionSemáticaParametros {
     private Character ultimoCaracterLeido;
     private int cantidadCaracteresLexema;
 
-    
 
     public AccionSemáticaParametros() {
         lexema = "";

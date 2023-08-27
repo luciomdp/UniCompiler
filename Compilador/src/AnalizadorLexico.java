@@ -13,7 +13,7 @@ import objects.TablaSimbolos;
 
 
 public class AnalizadorLexico {
-    private HashMap<Character, Long> caracters;
+    private HashMap<Integer, Integer> caracters;
     private int matrizEstados [][];
     private AcciónSemántica matrizAccionesSemanticas [][];
     private BufferedReader codeReader;
@@ -30,55 +30,54 @@ public class AnalizadorLexico {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        caracters = new HashMap<Character, Long>();
+        //Este map nos sirve para saber que columna en las matrices es cada caracter (en columna 0 son letras, la 1 digitos)
+        //La clave es integer, porque el read() nos devuelve el entero decimal que hace referencia a ese caracter en el unicode, por ej nl es 10
+        //Ver archivo tabla unicode en documentación/analizador lexico
+        caracters = new HashMap<Integer, Integer>();
         tablaPalabrasReservadas = new TablaPalabrasReservadas();
         tablaSimbolos = new TablaSimbolos();
         leerNuevoCaracter = true;
-        for (char c = 'a'; c <= 'z'; c++) {
-            caracters.put(c, Long.valueOf(0));
-            caracters.put(Character.toUpperCase(c), Long.valueOf(0));
+        for (int code = 97; code <= 122; code++) {
+            caracters.put(code, 0); // letras desde 'a'- 'z'
+            caracters.put((code - 32), 0); // letras desde 'A'- 'Z'
         }
-        for (Character c = '0'; c <= '9'; c++) 
-            caracters.put(c, Long.valueOf(1));
+        for (int code = 48; code <= 57; code++) 
+            caracters.put(code, 1); // nros del 0-9
         
-            caracters.put('/', Long.valueOf(2));
-            caracters.put('*', Long.valueOf(3));
-            caracters.put('+', Long.valueOf(4));
-            caracters.put('-', Long.valueOf(5));
-            caracters.put('=', Long.valueOf(6));
-            caracters.put('<', Long.valueOf(7));
-            caracters.put('>', Long.valueOf(8));
-            caracters.put(' ', Long.valueOf(9)); //otros
-            caracters.put(' ', Long.valueOf(10));//blanco
-            caracters.put(' ', Long.valueOf(11));//tab
-            caracters.put(' ', Long.valueOf(12)); //nl
-            caracters.put('#', Long.valueOf(13));
-            caracters.put(':', Long.valueOf(14));
-            caracters.put('@', Long.valueOf(15));
-
-        
+        caracters.put(47, 2);   // '/'
+        caracters.put(42, 3);   // '*'
+        caracters.put(43, 4);   // '+'
+        caracters.put(45, 5);   // '-'
+        caracters.put(61, 6);   // '='
+        caracters.put(60, 7);   // '<'
+        caracters.put(62, 8);   // '>'
+        caracters.put(null, 9);   // otros
+        caracters.put(32, 10);  // espacio
+        caracters.put(9, 11);   // tab
+        caracters.put(10, 12);  // nueva línea (nl)
+        caracters.put(35, 13);  // '#'
+        caracters.put(58, 14);  // ':'
+        caracters.put(64, 15);  // '@'
 
     }
 
     public long getToken () {
         int estadoActual = 0;
-        char charCaracterActual;
         AcciónSemántica as;
         // que sea variable local  nos permite no depender de que las acciones semánticas que dan fin a un proceso de getToken nos dejen las variables vacias (lexema, cantidadcaracteresleidos, tipotoken). 
         AccionSemáticaParametros accionSematicaParametros = new AccionSemáticaParametros();
         accionSematicaParametros.setTablaPalabrasReservadas(tablaPalabrasReservadas);
         accionSematicaParametros.setTablaSimbolos(tablaSimbolos);
-        while (estadoActual != -1){
+        while (estadoActual != -1 && caracterActual!=-1){
             try {
                  // sin este if, cuando hay que leer el caracter que me llevó al fin del autómata, lo va a borrar y va a leer el siguiente a ese
                 if (leerNuevoCaracter)
                     caracterActual = codeReader.read();
                 // si es -1 implica final de flujo de entrada (creo que es final de archivo también)
                 if (caracterActual != -1){
-                    charCaracterActual = (char)caracterActual;
-                    accionSematicaParametros.setUltimoCaracterLeido(charCaracterActual);
-                    as = matrizAccionesSemanticas[estadoActual][caracters.get(charCaracterActual).intValue()];
-                    estadoActual = matrizEstados [estadoActual][caracters.get(charCaracterActual).intValue()];
+                    accionSematicaParametros.setUltimoCaracterLeido((char)caracterActual);
+                    as = matrizAccionesSemanticas[estadoActual][caracters.get(caracterActual)];
+                    estadoActual = matrizEstados [estadoActual][caracters.get(caracterActual)];
                     as.ejecutar(accionSematicaParametros);
                     leerNuevoCaracter = true;
                 }

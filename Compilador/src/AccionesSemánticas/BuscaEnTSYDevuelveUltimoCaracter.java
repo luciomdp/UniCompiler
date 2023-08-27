@@ -1,8 +1,4 @@
 package AccionesSemánticas;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import objects.TipoToken;
 
 public class BuscaEnTSYDevuelveUltimoCaracter implements AcciónSemántica{
