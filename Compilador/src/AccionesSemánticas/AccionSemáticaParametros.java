@@ -12,6 +12,13 @@ public class AccionSemáticaParametros {
     private Character ultimoCaracterLeido;
     private int cantidadCaracteresLexema;
 
+    
+
+    public AccionSemáticaParametros() {
+        lexema = "";
+        cantidadCaracteresLexema = 0;
+    }
+
     public TablaSimbolos getTablaSimbolos() {
         return tablaSimbolos;
     }

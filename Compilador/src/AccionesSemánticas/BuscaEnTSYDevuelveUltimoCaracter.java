@@ -17,16 +17,15 @@ public class BuscaEnTSYDevuelveUltimoCaracter implements AcciónSemántica{
     //     * Si no está, +Alta en la TS
     // -Devolver ID + Punt TS
     @Override
-    public Character ejecutar(AccionSemáticaParametros params) {
-        if (params.getTablaPalabrasReservadas().esPalabraReservada(params.getLexema())){
-            // la palabra reservada que debería devolver es el lexema
-        }
-        else {
+    public void ejecutar(AccionSemáticaParametros params) {
+        if (!params.getTablaPalabrasReservadas().esPalabraReservada(params.getLexema())){
             if (!params.getTablaSimbolos().contains(params.getLexema())) 
                 params.getTablaSimbolos().insert(params.getLexema(), TipoToken.IDENTIFICADOR);
+            params.setTipoToken(TipoToken.IDENTIFICADOR);
         }
-        params.setTipoToken(TipoToken.IDENTIFICADOR);
-        return params.getUltimoCaracterLeido();
+        else
+            //nos devuelve el de la palabra reservada (hay que ver si se puede mejorar)
+            params.setTipoToken(TipoToken.fromValue(params.getTablaPalabrasReservadas().getPalabraReservadaId(params.getLexema())));
     }
     
 }

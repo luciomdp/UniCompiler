@@ -7,12 +7,11 @@ public class AgregaLetraODigito implements AcciónSemántica{
         - Agregar letra o digito o arroba al string
      */
     @Override
-    public Character ejecutar(AccionSemáticaParametros params) {
+    public void ejecutar(AccionSemáticaParametros params) {
         if (params.getUltimoCaracterLeido() < 25){
             params.setLexema(params.getLexema()+params.getUltimoCaracterLeido());
             params.setCantidadCaracteresLexema(params.getCantidadCaracteresLexema()+1);
         }
-        return params.getUltimoCaracterLeido();
     }
     
 }

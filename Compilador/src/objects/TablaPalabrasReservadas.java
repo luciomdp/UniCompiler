@@ -1,28 +1,34 @@
 package objects;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+
 
 public class TablaPalabrasReservadas {
-    private static Set<String> palabrasReservadas;
+    private HashMap<String, Long> palabrasReservadas;
 
     public TablaPalabrasReservadas (){
-        palabrasReservadas = new HashSet<>();
-        palabrasReservadas.add("if");
-        palabrasReservadas.add("then");
-        palabrasReservadas.add("else");
-        palabrasReservadas.add("begin");
-        palabrasReservadas.add("end");
-        palabrasReservadas.add("end_if");
-        palabrasReservadas.add("print");
-        palabrasReservadas.add("while");
-        palabrasReservadas.add("do");
-        palabrasReservadas.add("fun");
-        palabrasReservadas.add("return");
+
+        palabrasReservadas = new HashMap<>();
+        palabrasReservadas.put("if", 20L);
+        palabrasReservadas.put("then", 21L);
+        palabrasReservadas.put("else", 22L);
+        palabrasReservadas.put("begin", 23L);
+        palabrasReservadas.put("end", 24L);
+        palabrasReservadas.put("end_if", 25L);
+        palabrasReservadas.put("print", 26L);
+        palabrasReservadas.put("while", 27L);
+        palabrasReservadas.put("do", 28L);
+        palabrasReservadas.put("fun", 29L);
+        palabrasReservadas.put("return", 30L);
     }
 
-    public static boolean esPalabraReservada(String palabra) {
-        return palabrasReservadas.contains(palabra);
+    public boolean esPalabraReservada(String palabra) {
+        return palabrasReservadas.get(palabra)==null?false:true;
     }
+
+    public Long getPalabraReservadaId(String palabraReservada){
+        return palabrasReservadas.get(palabraReservada);
+    }
+    
 }
 
