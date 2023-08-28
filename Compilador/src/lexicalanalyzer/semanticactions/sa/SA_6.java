@@ -1,11 +1,8 @@
 package lexicalanalyzer.semanticactions.sa;
 
-import java.math.BigInteger;
-
 import lexicalanalyzer.semanticactions.ISemanticAction;
 import lexicalanalyzer.semanticactions.SAParam;
 import objects.enums.ETokenType;
-
 public class SA_6 implements ISemanticAction{
     //-32768 y 32767 --> integer
     // 4294967295 --> ulongint
@@ -35,6 +32,5 @@ public class SA_6 implements ISemanticAction{
     
         params.setReadNewCharacter(false);
     }
-
-    
+  
 }

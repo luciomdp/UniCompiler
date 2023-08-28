@@ -3,5 +3,11 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
+    ],
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-1.8",
+            "path": "c:/Program Files (x86)/Java/jre1.8.0_361",
+          },
     ]
 }

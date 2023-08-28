@@ -2,16 +2,16 @@ package lexicalanalyzer.semanticactions.sa;
 
 import lexicalanalyzer.semanticactions.ISemanticAction;
 import lexicalanalyzer.semanticactions.SAParam;
-public class SA_4 implements ISemanticAction{
+import objects.enums.ETokenType;
 
+public class SA_17 implements ISemanticAction{
     /*
-     A.S 4:
-        - Inicializar string para la constante
-        - Agregar dígito al string
+        A.S 17:
+            - Inicializar string dinamicamente para almacenar comentario 
      */
     @Override
     public void execute(SAParam params) {
-        params.getLexema().append(params.getLastReadedCharacter());  
+        params.setTokenType(ETokenType.CONSTANTE_CADENA);
     }
     
 }
