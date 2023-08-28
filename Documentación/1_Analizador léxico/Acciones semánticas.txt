@@ -10,55 +10,73 @@ C = caracter {
     tab = tabulacion
 }
 
-A.S 1: BuscaEnTSYDevuelveUltimoCaracter
+A.S 1:
 - Devolver a la entrada el último carácter leído
 - Buscar en la TS
     * Si está, +Si es PR, devolver la Palabra Reservada +Si no, Devolver ID (lexema) + Punt TS (id token identificador)
     * Si no está, +Alta en la TS
 -Devolver ID + Punt TS
-A.S 2: IniciaStringYAgregaLetraOArroba
+
+A.S 2:
 - Inicializar string (se reserva 25 caracteres para identificadores)
 - Agregar letra o arroba al string
-A.S 3: AgregaLetraODigito
+
+A.S 3:
 - Agregar letra o digito o arroba al string
-A.S 4: IniciaStringYAgregaDigito
+
+A.S 4:
 - Inicializar string para la constante
 - Agregar dígito al string
-A.S 5: AgregaDigito
+
+A.S 5:
 - Agregar dígito al string
-A.S 6: VerificaRangoCteYAltaEnTs
+
+A.S 6:
 - Devolver a la entrada el último carácter leído
 - Verificar rango de la constante
 - Alta en la TS
 - Devolver CTE (lexico) + Punt TS (id token)
+
 A.S 7:
 - Inicializar string
 - Agregar caracter unitario (+ - / * ( ) , ; =)
+
 A.S 8:
 - Lanzar error (ya que no vino un "#" y ningún otr token válido podría seguir de un solo "#") y continuar el reconocimiento ignorando el "#"
+
 A.S 9:
 - Inicializar string (se reservan 2 caracteres para el operador de asignación)
 - Agregar ":" al string 
+
 A.S 10:
 - Agregar "=" al string 
+
 A.S 11:
 - Lanzar error (ya que no vino un "=" y ningún otr token válido podría seguir del ":") y continuar el reconocimiento ignorando el ":"
+
 A.S 12:
 - Inicializar string (se reservan 2 caracteres para el operador de comparador >)
 - Agregamos un ">" al string.
+
 A.S 13:
 - Consumir caracter y devolverlo (ya que ese caracter debe ser leído al arrancar el análisis del próximo token, y no formaría parte del actual)
+
 A.S 14:
 - Inicializar string (se reservan 2 caracteres para el operador de comparador <)
 - Agregamos un "<" al string.
+
 A.S 15:
 - Consumir caracter distinto de ">","=","<"  y devolverlo (ya que ese caracter debe ser leído al arrancar el análisis del próximo token, y no formaría parte del actual)
+
 A.S 16:
 - Agregar el "=" o ">" al string 
+
 A.S 17:
 - Inicializar string dinamicamente para almacenar comentario 
+
 A.S 18:
 - Agregar caracter distinto de ">" al string
+
 A.S 19:
 - Agregar ">" al string
 - Agregar y el caracter distinto de ">" al string
