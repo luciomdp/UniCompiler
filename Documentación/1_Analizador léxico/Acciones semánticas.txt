@@ -7,7 +7,7 @@ C = caracter {
     nl = bajada de linea 
     <,>,= = comparadores (juntos puedo también inicializar o finalizar cadenas de caracteres) 
     bl = blanco
-    tab = tabulacion
+    tab = tabulacions
 }
 
 A.S 1:
