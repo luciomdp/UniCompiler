@@ -26,8 +26,19 @@ public enum ETokenType {
     PARENTESIS_DER (17),
     COMA (18),
     PUNTO_Y_COMA (19),
-    PALABRA_RESERVADA (20);
-
+    IF (20),
+    THEN (21),
+    ELSE(22),
+    BEGIN(23),
+    END(24),
+    END_IF(25),
+    PRINT(26),
+    WHILE(27),
+    DO(28),
+    FUN(29),
+    RETURN(30),
+    ITOUL(31)
+    ;
     private int value;
     private static final Map<Integer, ETokenType> valueToTokenMap = new HashMap<>();
     

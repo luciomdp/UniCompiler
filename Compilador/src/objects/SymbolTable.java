@@ -11,18 +11,18 @@ public class SymbolTable {
     public SymbolTable() {
         symbolTable = new HashMap<String, ETokenType>();
         //Agregamos palabras reservadas a la tabla de símbolos
-        symbolTable.put("if", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("then", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("else", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("begin", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("end", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("end_if", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("print", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("while", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("do", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("fun", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("return", ETokenType.PALABRA_RESERVADA);
-        symbolTable.put("itoul", ETokenType.PALABRA_RESERVADA);
+        symbolTable.put("if", ETokenType.IF);
+        symbolTable.put("then", ETokenType.THEN);
+        symbolTable.put("else", ETokenType.ELSE);
+        symbolTable.put("begin", ETokenType.BEGIN);
+        symbolTable.put("end", ETokenType.END);
+        symbolTable.put("end_if", ETokenType.END_IF);
+        symbolTable.put("print", ETokenType.PRINT);
+        symbolTable.put("while", ETokenType.WHILE);
+        symbolTable.put("do", ETokenType.DO);
+        symbolTable.put("fun", ETokenType.FUN);
+        symbolTable.put("return", ETokenType.RETURN);
+        symbolTable.put("itoul", ETokenType.ITOUL);
     }
 
     public void insert(String lexeme, ETokenType tokenType) {
