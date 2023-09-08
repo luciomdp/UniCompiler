@@ -1,22 +1,26 @@
 package objects.enums;
 
 public enum ECharacterType {
-    LOWERCASE (1),
-    UPPERCASE (2),
-    NUMBER (3),
-    SLASH(4), // "/"
-    ASTERISK(5), // "*"
-    PLUS(6), // "+"
-    HYPHEN(7),// "-"
-    EQUAL(8),// "="
-    LESS_THAN(9),// "<"
-    GREATER_THAN(10),// ">"
-    HASHTAG(11),// "#"
-    COLON(12),// ":"
-    AT(13),// "<"
+    LOWERCASE (0),
+    UPPERCASE (1),
+    DIGIT (2),
+    SLASH(3), // "/"
+    ASTERISK(4), // "*"
+    PLUS(5), // "+"
+    HYPHEN(6), // "-"
+    OPEN_PARENTHESIS(7), // "("
+    CLOSE_PARENTHESIS(8), // ")"
+    COMMA(9),// ","
+    SEMICOLON(10),// ";"
+    EQUAL(11),// "="
+    LESS_THAN(12),// "<"
+    GREATER_THAN(13),// ">"
     SPACE(14),// " "
     TAB(15),// "    "
     NEW_LINE(16),// "nl",
+    HASHTAG(17),// "#"
+    COLON(18),// ":"
+    AT(19),// "@"
     OTHERS(17);
 
     private int value;
@@ -30,48 +34,53 @@ public enum ECharacterType {
     }
 
     public static ECharacterType fromChar(char character) {
-        //Si no funciona, pasar un int y en el case poner el valor unicode para devolver el tipo de caracter
         switch (character) {
             case '/':
-                return SLASH;
+                return ECharacterType.SLASH;
             case '*':
-                return ASTERISK;
+                return ECharacterType.ASTERISK;
             case '+':
-                return PLUS;
+                return ECharacterType.PLUS;
             case '-':
-                return HYPHEN;
+                return ECharacterType.HYPHEN;
             case '=':
-                return EQUAL;
+                return ECharacterType.EQUAL;
             case '<':
-                return LESS_THAN;
+                return ECharacterType.LESS_THAN;
             case '>':
-                return GREATER_THAN;
+                return ECharacterType.GREATER_THAN;
             case '#':
-                return HASHTAG;
+                return ECharacterType.HASHTAG;
             case ':':
-                return COLON;
+                return ECharacterType.COLON;
             case '@':
-                return AT;
+                return ECharacterType.AT;
             case ' ':
-                return SPACE;
+                return ECharacterType.SPACE;
             case '\t':
-                return TAB;
+                return ECharacterType.TAB;
             case '\n':
-                return NEW_LINE;
+                return ECharacterType.NEW_LINE;
+            case '(':
+                return ECharacterType.OPEN_PARENTHESIS;
+            case ')':
+                return ECharacterType.CLOSE_PARENTHESIS;
+            case ',':
+                return ECharacterType.COMMA;
+            case ';':
+                return ECharacterType.SEMICOLON;
             default:
                 if (Character.isLowerCase(character)) {
-                    return LOWERCASE;
+                    return ECharacterType.LOWERCASE;
                 } else if (Character.isUpperCase(character)) {
-                    return UPPERCASE;
+                    return ECharacterType.UPPERCASE;
                 } else if (Character.isDigit(character)) {
-                    return NUMBER;
+                    return ECharacterType.DIGIT;
                 } else {
-                    return OTHERS;
+                    return ECharacterType.OTHERS;
                 }
         }
-    }
-
-
+    }    
 
 }
 
