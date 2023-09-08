@@ -12,6 +12,7 @@ public class SA_5 implements ISemanticAction{
      */
     @Override
     public void execute(SAParam params) {
+        params.getLexema().append(params.getLastReadedCharacter()); 
         switch(params.getLexema().toString()) {
             case "+": params.setTokenType(ETokenType.PLUS);
             break;

@@ -33,9 +33,9 @@ public class LexicalAnalizer {
         {1, 1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, 6, 0, 0, 0, 3, 5, 1, -1},
         {1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1},
         {-1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1},
         {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, -1},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
         {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
         {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1, -1, -1, -1, -1, -1, -1},
         {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 8, 8, 8, 8, 8, 8, -1},
@@ -89,9 +89,10 @@ public class LexicalAnalizer {
                 currentState = stateTable [currentState][ECharacterType.fromChar((char)currentCharacter).getValue()];
                 //El if es necesario aca, porque cuando ejecuta una acción léxica que va al estado final sin el if lee el siguiente caracter
                 if (SAParam.isReadNewCharacter())
-                    currentCharacter = sourceCode.read(); 
+                    currentCharacter = sourceCode.read();
+                else 
+                    readNewCharacter = false;
             }
-            readNewCharacter = SAParam.isReadNewCharacter();
             return SAParam.getTokenType().getValue();
 
         } catch (IOException e) {

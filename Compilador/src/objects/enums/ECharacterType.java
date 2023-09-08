@@ -61,6 +61,8 @@ public enum ECharacterType {
                 return ECharacterType.TAB;
             case '\n':
                 return ECharacterType.NEW_LINE;
+            case 13:
+                return ECharacterType.NEW_LINE; 
             case '(':
                 return ECharacterType.OPEN_PARENTHESIS;
             case ')':

@@ -13,8 +13,9 @@ public class SA_6 implements ISemanticAction{
     //Me parece que no hay accion semantica 11, incluida en la 10
     @Override
     public void execute(SAParam params) {
-            params.setTokenType(ETokenType.ERROR);
-            params.setMessage(new StringBuilder("Depués de un # unicamente puede ir otro #. Después de un : unicamente puede ir un ="));
+        params.setReadNewCharacter(false);
+        params.setTokenType(ETokenType.ERROR);
+        params.setMessage(new StringBuilder("Depués de un # unicamente puede ir otro #. Después de un : unicamente puede ir un ="));
     }
     
 }

@@ -11,10 +11,11 @@ public class SA_10 implements ISemanticAction{
      */
     @Override
     public void execute(SAParam params) {
+        params.getLexema().append(params.getLastReadedCharacter());  
         switch(params.getLexema().toString()) {
-            case "=": params.setTokenType(ETokenType.LESS_EQUAL);
+            case "<=": params.setTokenType(ETokenType.LESS_EQUAL);
             break;
-            case ">": params.setTokenType(ETokenType.NOT_EQUAL);
+            case "<>": params.setTokenType(ETokenType.NOT_EQUAL);
             break;
             // default: params.setTokenType(ETokenType.ERROR); --> PARA MI NO VA, NUNCA VA A CAER EN ESTA AS SI NO ES UN ">" o "="
         }
