@@ -60,13 +60,10 @@ public class LexicalAnalizer {
     private int currentCharacter;
     private boolean readNewCharacter;
 
-    public LexicalAnalizer (String fileName) {
-        try {
-            File file = new File (fileName);
-            sourceCode = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } 
+    public LexicalAnalizer (String fileName) throws FileNotFoundException{
+
+        File file = new File (fileName);
+        sourceCode = new BufferedReader(new FileReader(file));
         symbolTable = new SymbolTable();     
         readNewCharacter = true;
     }
