@@ -12,6 +12,7 @@ import lexicalanalyzer.semanticactions.sa.SA_11;
 import lexicalanalyzer.semanticactions.sa.SA_12;
 import lexicalanalyzer.semanticactions.sa.SA_13;
 import lexicalanalyzer.semanticactions.sa.SA_14;
+import lexicalanalyzer.semanticactions.sa.SA_15;
 import lexicalanalyzer.semanticactions.sa.SA_2;
 import lexicalanalyzer.semanticactions.sa.SA_3;
 import lexicalanalyzer.semanticactions.sa.SA_4;
@@ -29,29 +30,29 @@ import objects.enums.ETokenType;
 public class LexicalAnalizer {
 
     private final int stateTable [][] = {
-        {1, 1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, 6, 0, 0, 0, 3, 5, 1},
-        {1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1},
-        {-1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0},
-        {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0},
-        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1, -1, -1, -1, -1, -1},
-        {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 8, 8, 8, 8, 8, 8},
-        {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, -1, 8, 8, 8, 8, 8, 8}
+        {1, 1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, 6, 0, 0, 0, 3, 5, 1, -1},
+        {1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1},
+        {-1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, -1},
+        {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 4, 4, 4, -1},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1, -1, -1, -1, -1, -1, -1},
+        {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 8, 8, 8, 8, 8, 8, -1},
+        {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, -1, 8, 8, 8, 8, 8, 8, -1}
     };
 
     private final ISemanticAction semanticActionsTable [][] = {
-        {new SA_3(), new SA_3(),new SA_3(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_3(),new SA_3(),null,null,null,null,new SA_3(),new SA_3()},
-        {new SA_2(), new SA_2(),new SA_2(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_2()},
-        {new SA_4(), new SA_4(), new SA_3(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4()},
-        {new SA_6(), new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(), null,new SA_6(),new SA_6()},
-        {null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null},
-        {new SA_6(), new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_14(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6()},
-        {new SA_8(), new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_7(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8()},
-        {new SA_9(), new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_10(),new SA_11(),new SA_10(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9()},
-        {new SA_12(), new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),null,new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12()},
-        {new SA_13(), new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),null,new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13()}
+        {new SA_3(), new SA_3(),new SA_3(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_3(),new SA_3(),null,null,null,null,new SA_3(),new SA_3(),new SA_15()},
+        {new SA_2(), new SA_2(),new SA_2(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_2(),new SA_1()},
+        {new SA_4(), new SA_4(), new SA_3(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(),new SA_4()},
+        {new SA_6(), new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(), null,new SA_6(),new SA_6(),new SA_6()},
+        {null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null},
+        {new SA_6(), new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_14(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6()},
+        {new SA_8(), new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_7(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8()},
+        {new SA_9(), new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_10(),new SA_11(),new SA_10(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9()},
+        {new SA_12(), new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),null,new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12()},
+        {new SA_13(), new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),null,new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13()}
     };
     private SymbolTable symbolTable;
 
@@ -76,7 +77,7 @@ public class LexicalAnalizer {
         try {
             if (readNewCharacter)
                 currentCharacter = sourceCode.read(); //n
-            while (currentState != ELexicalAnalizerState.FINAL.getValue() && currentCharacter!=-1){ // -1 es EOF
+            while (currentState != ELexicalAnalizerState.FINAL.getValue()){ // -1 es EOF
                 
                 //Busco la acción semántica correspondiente a la transición, para el estado en el que estoy y el tipo de caracter que consumo
                 semanticAction = semanticActionsTable[currentState][ECharacterType.fromChar((char)currentCharacter).getValue()];// 3 2

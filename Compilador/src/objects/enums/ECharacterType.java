@@ -21,7 +21,7 @@ public enum ECharacterType {
     HASHTAG(17),// "#"
     COLON(18),// ":"
     AT(19),// "@"
-    OTHERS(17);
+    OTHERS(20);
 
     private int value;
     

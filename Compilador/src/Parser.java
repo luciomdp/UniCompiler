@@ -34,7 +34,7 @@ public class Parser extends JFrame{
             fileChooser.setDialogTitle("Elegí el archivo a compilar");
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fileChooser.setAcceptAllFileFilterUsed(false);
-            fileChooser.setCurrentDirectory(new File("C:\\Programacion\\Facultad\\CompiladorUNI\\TestUnits"));
+            fileChooser.setCurrentDirectory(new File("C:\\PROYECTOS\\PERSONAL\\CompiladorUNI\\TestUnits"));
             try {
                 if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
                  path = fileChooser.getSelectedFile().getAbsolutePath();
