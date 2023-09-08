@@ -12,10 +12,7 @@ public class SA_8 implements ISemanticAction{
      */
     @Override
     public void execute(SAParam params) {
-        if (params.getLastReadedCharacter() == '=')
-            params.setTokenType(ETokenType.ERROR);
-        else
-            params.setTokenType(ETokenType.GREATER_THAN);
+        params.setTokenType(ETokenType.GREATER_THAN);
         params.setReadNewCharacter(false);
     }
 

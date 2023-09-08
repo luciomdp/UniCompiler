@@ -6,7 +6,6 @@ import java.util.Map;
 public enum ETokenType {
     
     END_OF_FILE (-1, "EOF"),
-    ERROR (0, "Error"),
     ID (1, "Id"),
     INT_CONST (2, "Int"),
     ULONGINT_CONST (3, "Ulongint"),

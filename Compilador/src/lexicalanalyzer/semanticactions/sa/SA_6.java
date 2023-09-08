@@ -14,8 +14,7 @@ public class SA_6 implements ISemanticAction{
     @Override
     public void execute(SAParam params) {
         params.setReadNewCharacter(false);
-        params.setTokenType(ETokenType.ERROR);
-        params.setMessage(new StringBuilder("Depués de un # unicamente puede ir otro #. Después de un : unicamente puede ir un ="));
+        params.setMessageError(new StringBuilder("Depués de un # unicamente puede ir otro #. Después de un : unicamente puede ir un ="));
     }
     
 }

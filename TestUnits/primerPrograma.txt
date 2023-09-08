@@ -1,6 +1,6 @@
 a:=4294967294
 ## hola que tal 
-aaaaaaaaaaaaaaaaaaaaaaaaaaaa:= << estamos probando cadenas
+aaaaaaaaaaaaaaaaaaaaaaaaaaaabb:= << estamos probando cadenas
 seguimos probando cadenas
 aa>>
 if (a = g)

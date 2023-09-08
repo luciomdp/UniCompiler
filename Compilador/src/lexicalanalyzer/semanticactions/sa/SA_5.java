@@ -32,7 +32,6 @@ public class SA_5 implements ISemanticAction{
             break;
             case "=": params.setTokenType(ETokenType.EQUAL);
             break;
-            default: params.setTokenType(ETokenType.ERROR);
         }
         params.setReadNewCharacter(true);
     }

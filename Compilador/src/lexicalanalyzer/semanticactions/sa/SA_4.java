@@ -27,9 +27,7 @@ public class SA_4 implements ISemanticAction{
                 params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.ULONGINT_CONST);
                 params.setTokenType(ETokenType.ULONGINT_CONST);
             }  
-        }else 
-            params.setTokenType(ETokenType.ERROR);
-    
+        }
         params.setReadNewCharacter(false);
     }
   

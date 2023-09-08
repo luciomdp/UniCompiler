@@ -60,6 +60,7 @@ public class LexicalAnalizer {
 
     private int currentCharacter;
     private boolean readNewCharacter;
+    private SAParam SAParam;
 
     public LexicalAnalizer (String fileName) throws FileNotFoundException{
 
@@ -72,7 +73,7 @@ public class LexicalAnalizer {
     public long getToken () {
 
         int currentState = ELexicalAnalizerState.INITIAL.getValue(); //Iniciamos en el estado inicial (0)
-        SAParam SAParam = new SAParam(symbolTable); //Inicializamos la semantic action param con nuestra tabla de símbolos
+        SAParam = new SAParam(symbolTable); //Inicializamos la semantic action param con nuestra tabla de símbolos
         ISemanticAction semanticAction;
         try {
             if (readNewCharacter)
@@ -97,8 +98,16 @@ public class LexicalAnalizer {
 
         } catch (IOException e) {
         
-            return ETokenType.ERROR.getValue();
+            return 0;
         }
     }
+
+    public String getErrorMessage () {
+        return SAParam!=null?SAParam.getMessageError().toString():"";
+    }
+    public String getWarningMessage () {
+        return SAParam!=null?SAParam.getMessageWarning().toString():"";
+    }
+
 
 }

@@ -3,6 +3,7 @@ import java.awt.*;
 
 import java.io.*;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
@@ -63,6 +64,8 @@ public class Parser extends JFrame{
         do {
             currentToken = lexicalAnalizer.getToken();
             panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ")\n");
+            panel.appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
+            panel.appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -73,24 +76,26 @@ public class Parser extends JFrame{
         panel.appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");
     }
 
-    private class  PanelParserInfo extends JPanel{
+    private class PanelParserInfo extends JPanel {
 
-        private final Color BACKGROUND_PANEL = new Color(90,75,181,255),BACKGROUND_COMPONENTS = new Color(47,159,241,255);
+        private final Color BACKGROUND_PANEL = new Color(90, 75, 181, 255), BACKGROUND_COMPONENTS = new Color(47, 159, 241, 255);
         private JTextPane txtArea;
-        private StringBuilder str;
+        private StyledDocument styledDocument;
 
-        public PanelParserInfo (){
-            str = new StringBuilder("");
+        public PanelParserInfo() {
             txtArea = new JTextPane();
             txtArea.setPreferredSize(new Dimension(700, 500));
             txtArea.setEditable(false);
             txtArea.setBackground(BACKGROUND_COMPONENTS);
             Font f = new Font(Font.MONOSPACED, Font.BOLD, 12);
             txtArea.setFont(f);
-            StyledDocument doc = txtArea.getStyledDocument();
+            
+            styledDocument = txtArea.getStyledDocument();
+            
             SimpleAttributeSet center = new SimpleAttributeSet();
             StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-            doc.setParagraphAttributes(0, doc.getLength(), center, false);
+            styledDocument.setParagraphAttributes(0, styledDocument.getLength(), center, false);
+            
             JScrollPane panel = new JScrollPane(txtArea);
             add(panel);
             setBackground(BACKGROUND_PANEL);
@@ -98,8 +103,27 @@ public class Parser extends JFrame{
         }
 
         public void appendData(String data) {
-            str.append(data);
-            txtArea.setText(str.toString());
+            appendText(data, Color.BLACK); // Color negro para appendData
+        }
+
+        public void appendWarning(String data) {
+            appendText(data, Color.YELLOW); // Color rojo para appendError
+        }
+
+        public void appendError(String data) {
+            appendText(data, Color.RED); // Color rojo para appendError
+        }
+
+        private void appendText(String text, Color color) {
+            SimpleAttributeSet attributes = new SimpleAttributeSet();
+            StyleConstants.setForeground(attributes, color);
+            
+            int length = styledDocument.getLength();
+            try {
+                styledDocument.insertString(length, text, attributes);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
