@@ -21,11 +21,11 @@ public class SA_4 implements ISemanticAction{
         //El negativo no importa porque no podemos definir en esta etapa si es positivo o negativo nuestro valor cte
         if(longValue <= Long.valueOf(4294967295L)) {
             if (longValue <= Long.valueOf(32767)){// es integer
-                params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.CONSTANTE_ENTERA);
-                params.setTokenType(ETokenType.CONSTANTE_ENTERA);
+                params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.INT_CONST);
+                params.setTokenType(ETokenType.INT_CONST);
             }else{// es ulongint
-                params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.CONSTANTE_ULONGINT);
-                params.setTokenType(ETokenType.CONSTANTE_ULONGINT);
+                params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.ULONGINT_CONST);
+                params.setTokenType(ETokenType.ULONGINT_CONST);
             }  
         }else 
             params.setTokenType(ETokenType.ERROR);

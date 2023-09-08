@@ -15,7 +15,7 @@ public class SA_8 implements ISemanticAction{
         if (params.getLastReadedCharacter() == '=')
             params.setTokenType(ETokenType.ERROR);
         else
-            params.setTokenType(ETokenType.MAYOR_QUE);
+            params.setTokenType(ETokenType.GREATER_THAN);
         params.setReadNewCharacter(false);
     }
 

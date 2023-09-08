@@ -13,23 +13,23 @@ public class SA_5 implements ISemanticAction{
     @Override
     public void execute(SAParam params) {
         switch(params.getLexema().toString()) {
-            case "+": params.setTokenType(ETokenType.MAS);
+            case "+": params.setTokenType(ETokenType.PLUS);
             break;
-            case "-": params.setTokenType(ETokenType.MENOS);
+            case "-": params.setTokenType(ETokenType.MINUS);
             break;
             case "/": params.setTokenType(ETokenType.DIVISION);
             break;
-            case "*": params.setTokenType(ETokenType.MULTIPLICACION);
+            case "*": params.setTokenType(ETokenType.MULTIPLICATION);
             break;
-            case "(": params.setTokenType(ETokenType.PARENTESIS_IZQ);
+            case "(": params.setTokenType(ETokenType.LEFT_PARENTHESIS);
             break;
-            case ")": params.setTokenType(ETokenType.PARENTESIS_DER);
+            case ")": params.setTokenType(ETokenType.RIGHT_PARENTHESIS);
             break;
-            case ",": params.setTokenType(ETokenType.COMA);
+            case ",": params.setTokenType(ETokenType.COMMA);
             break;
-            case ";": params.setTokenType(ETokenType.PUNTO_Y_COMA);
+            case ";": params.setTokenType(ETokenType.SEMICOLON);
             break;
-            case "=": params.setTokenType(ETokenType.IGUAL);
+            case "=": params.setTokenType(ETokenType.EQUAL);
             break;
             default: params.setTokenType(ETokenType.ERROR);
         }

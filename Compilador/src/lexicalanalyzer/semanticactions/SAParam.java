@@ -19,7 +19,7 @@ public class SAParam {
         this.symbolTable = symbolTable;
         lexema = new StringBuilder();
         readNewCharacter = true;
-        tokenType = ETokenType.FIN_DE_ARCHIVO;
+        tokenType = ETokenType.END_OF_FILE;
     }
 
     public SymbolTable getSymbolTable() {

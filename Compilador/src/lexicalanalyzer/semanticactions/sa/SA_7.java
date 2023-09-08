@@ -14,7 +14,7 @@ public class SA_7 implements ISemanticAction{
     public void execute(SAParam params) {
         if (params.getLastReadedCharacter() == '='){
             params.getLexema().append(params.getLastReadedCharacter());
-            params.setTokenType(ETokenType.MAYOR_IGUAL);
+            params.setTokenType(ETokenType.GREATER_EQUAL);
             // params.setTokenType(ETokenType.ASIGNACION); --> esto es la AS 6
         }   
         else

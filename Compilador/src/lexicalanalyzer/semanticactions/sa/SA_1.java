@@ -17,7 +17,7 @@ public class SA_1 implements ISemanticAction{
     @Override
     public void execute(SAParam params) {
         if (!params.getSymbolTable().contains(params.getLexema().toString())) 
-            params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.IDENTIFICADOR);
+            params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.ID);
         params.setTokenType(params.getSymbolTable().lookup(params.getLexema().toString()));
         
         params.setReadNewCharacter(false);

@@ -12,9 +12,9 @@ public class SA_10 implements ISemanticAction{
     @Override
     public void execute(SAParam params) {
         switch(params.getLexema().toString()) {
-            case "=": params.setTokenType(ETokenType.MENOR_IGUAL);
+            case "=": params.setTokenType(ETokenType.LESS_EQUAL);
             break;
-            case ">": params.setTokenType(ETokenType.NO_IGUAL);
+            case ">": params.setTokenType(ETokenType.NOT_EQUAL);
             break;
             // default: params.setTokenType(ETokenType.ERROR); --> PARA MI NO VA, NUNCA VA A CAER EN ESTA AS SI NO ES UN ">" o "="
         }

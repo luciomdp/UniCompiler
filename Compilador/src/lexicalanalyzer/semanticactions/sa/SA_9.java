@@ -14,7 +14,7 @@ public class SA_9 implements ISemanticAction{
     @Override
     public void execute(SAParam params) {
         params.setReadNewCharacter(false);
-        params.setTokenType(ETokenType.MENOR_QUE);
+        params.setTokenType(ETokenType.LESS_THAN);
     }  
       
 }

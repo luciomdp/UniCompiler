@@ -7,6 +7,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import objects.enums.ETokenType;
+
 public class Parser extends JFrame{
     private PanelParserInfo panel;
 
@@ -59,8 +61,7 @@ public class Parser extends JFrame{
         panel.appendData("------------- << Tokens en orden >> -------------\n");
         do {
             currentToken = lexicalAnalizer.getToken();
-            panel.appendData(currentToken.toString());
-            panel.appendData("\n");
+            panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ")\n");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
