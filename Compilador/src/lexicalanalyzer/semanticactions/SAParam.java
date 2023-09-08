@@ -8,6 +8,7 @@ public class SAParam {
     
     private Character lastReadedCharacter;
     private StringBuilder lexema;
+    private StringBuilder message;
     private ETokenType tokenType;
     
     //Para las acciones semánticas que sean de transición a estado final, se define esta variable que indicará si el caracter leído es parte del token actual, (rnc=true) o si debería comenzar la lectura del próximo token en el último caracter consumido (rnc=false)
@@ -59,6 +60,14 @@ public class SAParam {
 
     public void setLexema(StringBuilder lexema) {
         this.lexema = lexema;
+    }
+
+    public StringBuilder getMessage() {
+        return message;
+    }
+
+    public void setMessage(StringBuilder message) {
+        this.message = message;
     }
     
 }

@@ -6,17 +6,15 @@ import objects.enums.ETokenType;
 
 public class SA_9 implements ISemanticAction{
     /*
-    A.S 9:
-        - Inicializar string (se reservan 2 caracteres para el operador de asignación)
-        - Agregar ":" al string 
+        A.S 9:
+            - Consumir caracter distinto de ">","=","<"  y devolverlo 
+            (ya que ese caracter debe ser leído al arrancar el análisis del próximo token, 
+            y no formaría parte del actual)
      */
-    //Me parece que no hay accion semantica 9
     @Override
     public void execute(SAParam params) {
-        if (params.getLastReadedCharacter() == ':')
-            params.getLexema().append(params.getLastReadedCharacter());
-        else
-            params.setTokenType(ETokenType.ERROR);
-    }
-    
+        params.setReadNewCharacter(false);
+        params.setTokenType(ETokenType.MENOR_QUE);
+    }  
+      
 }

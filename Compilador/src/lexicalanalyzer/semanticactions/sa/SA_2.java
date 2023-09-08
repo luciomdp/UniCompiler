@@ -2,17 +2,22 @@ package lexicalanalyzer.semanticactions.sa;
 
 import lexicalanalyzer.semanticactions.ISemanticAction;
 import lexicalanalyzer.semanticactions.SAParam;
+import objects.enums.ETokenType;
 
 public class SA_2 implements ISemanticAction{
 
     /*
      A.S 2:
-        - Inicializar string (se reserva 25 caracteres para identificadores)
-        - Agregar letra o arroba al string
+        - Agregar letra o digito o arroba al string
      */
     @Override
     public void execute(SAParam params) {
-        params.getLexema().append(params.getLastReadedCharacter());
+        if (params.getLexema().length() < 25)
+            params.getLexema().append(params.getLastReadedCharacter());  
+        else {
+            params.setTokenType(ETokenType.ERROR); 
+            params.setMessage(new StringBuilder("La cadena ha alzanzado un tope de 25 caracteres"));
+        }
     }
     
 }

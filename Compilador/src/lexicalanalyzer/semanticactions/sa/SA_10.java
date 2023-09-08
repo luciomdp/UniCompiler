@@ -7,17 +7,17 @@ import objects.enums.ETokenType;
 public class SA_10 implements ISemanticAction{
     /*
         A.S 10:
-            - Agregar "=" al string 
+            - Agregar el "=" o ">" al string 
      */
-    //Me parece que no hay accion semantica 10, o simplemente es reconocer token asignacion
     @Override
     public void execute(SAParam params) {
-        if (params.getLastReadedCharacter() == '='){
-            params.getLexema().append(params.getLastReadedCharacter());
-            params.setTokenType(ETokenType.ASIGNACION); o params.setTokenType(ETokenType.MAYOR_IGUAL);
-        }   
-        else
-            params.setTokenType(ETokenType.ERROR);
+        switch(params.getLexema().toString()) {
+            case "=": params.setTokenType(ETokenType.MENOR_IGUAL);
+            break;
+            case ">": params.setTokenType(ETokenType.NO_IGUAL);
+            break;
+            // default: params.setTokenType(ETokenType.ERROR); --> PARA MI NO VA, NUNCA VA A CAER EN ESTA AS SI NO ES UN ">" o "="
+        }
         params.setReadNewCharacter(true);
     }
     

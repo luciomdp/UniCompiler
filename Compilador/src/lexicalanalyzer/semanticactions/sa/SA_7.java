@@ -6,34 +6,20 @@ import objects.enums.ETokenType;
 
 public class SA_7 implements ISemanticAction{
     /*
-     A.S 7:
-        - Inicializar string
-        - Agregar caracter unitario (+ - / * ( ) , ; =)
+        A.S 7:
+            - Agregar "=" al string 
      */
+    //Me parece que no hay accion semantica 10, o simplemente es reconocer token asignacion
     @Override
     public void execute(SAParam params) {
-        switch(params.getLexema().toString()) {
-            case "+": params.setTokenType(ETokenType.MAS);
-            break;
-            case "-": params.setTokenType(ETokenType.MENOS);
-            break;
-            case "/": params.setTokenType(ETokenType.DIVISION);
-            break;
-            case "*": params.setTokenType(ETokenType.MULTIPLICACION);
-            break;
-            case "(": params.setTokenType(ETokenType.PARENTESIS_IZQ);
-            break;
-            case ")": params.setTokenType(ETokenType.PARENTESIS_DER);
-            break;
-            case ",": params.setTokenType(ETokenType.COMA);
-            break;
-            case ";": params.setTokenType(ETokenType.PUNTO_Y_COMA);
-            break;
-            case "=": params.setTokenType(ETokenType.IGUAL);
-            break;
-            default: params.setTokenType(ETokenType.ERROR);
-        }
+        if (params.getLastReadedCharacter() == '='){
+            params.getLexema().append(params.getLastReadedCharacter());
+            params.setTokenType(ETokenType.MAYOR_IGUAL);
+            // params.setTokenType(ETokenType.ASIGNACION); --> esto es la AS 6
+        }   
+        else
+            params.setTokenType(ETokenType.ERROR);
         params.setReadNewCharacter(true);
     }
- 
+    
 }
