@@ -36,7 +36,8 @@ public enum ETokenType {
     DO (28, "Do"),
     FUN (29, "Fun"),
     RETURN (30, "Return"),
-    ITOUL (31, "ITOUL"),
+    ITOUL (31, "ITOUL"), 
+    IGNORE (32, "Ignore"),
     ;
     private int value;
     private String description;

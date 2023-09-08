@@ -1,11 +1,28 @@
-a:=4294967294
-## hola que tal 
-aaaaaaaaaaaaaaaaaaaaaaaaaaaabb:= << estamos probando cadenas
-seguimos probando cadenas
-aa>>
-if (a = g)
-a >= b
-b <= c
-c > j
-i < t
-p<>w
+## Constantes con el primer y último valor dentro del rango. 
+a := 32767
+c := 4294967295 
+## Constantes con el primer valor fuera del rango. 
+b := 4294967296
+## Identificadores de menos y mas de 25 caracteres. 
+rrrrrrrrrrrrrrrrrrrr := 2
+## Identificadores con letras, digitos y @.
+identificador1@
+@identificador1
+identi@ficador1
+##Identificadores bien y mal definidos 
+identificador1
+IDENTIFICADOR1
+IdEnTiFiCaDoR1
+ident;@indet
+##Palabras reservadas escritas en minúsculas y mayúsculas
+else
+ELSE
+WHILE
+while
+## Cadenas bien y mal definida
+<<hola soy tomas >>
+< hola soy tomas
+<< hola soy tomas << >>
+<< hola soy tomas + hola soy tomas >>
+##Comentarios bien y mal definidos.
+# este es un comentario mal definido

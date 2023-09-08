@@ -28,6 +28,7 @@ public class SA_4 implements ISemanticAction{
                 params.setTokenType(ETokenType.ULONGINT_CONST);
             }  
         }
+        
         params.setReadNewCharacter(false);
     }
   

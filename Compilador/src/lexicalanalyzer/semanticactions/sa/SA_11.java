@@ -12,6 +12,7 @@ public class SA_11 implements ISemanticAction{
     @Override
     public void execute(SAParam params) {
         params.setTokenType(ETokenType.STRING_CONST);
+        params.setLexema(new StringBuilder());
     }
     
 }

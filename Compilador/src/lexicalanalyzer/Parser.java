@@ -63,9 +63,12 @@ public class Parser extends JFrame{
         panel.appendData("------------- << Tokens en orden >> -------------\n");
         do {
             currentToken = lexicalAnalizer.getToken();
-            panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ")\n");
-            panel.appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
-            panel.appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
+            if (currentToken!= ETokenType.IGNORE.getValue()){
+                panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ")\n");
+                // panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ") -->"+lexicalAnalizer.getLexema()+"\n");
+                panel.appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
+                panel.appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
+            }
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {

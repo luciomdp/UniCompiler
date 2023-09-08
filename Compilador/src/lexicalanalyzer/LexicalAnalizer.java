@@ -108,6 +108,9 @@ public class LexicalAnalizer {
     public String getWarningMessage () {
         return SAParam!=null?SAParam.getMessageWarning().toString():"";
     }
+    public String getLexema () {
+        return SAParam!=null?SAParam.getLexema().toString():"";
+    }
 
 
 }
