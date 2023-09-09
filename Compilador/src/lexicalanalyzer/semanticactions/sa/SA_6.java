@@ -2,8 +2,6 @@ package lexicalanalyzer.semanticactions.sa;
 
 import lexicalanalyzer.semanticactions.ISemanticAction;
 import lexicalanalyzer.semanticactions.SAParam;
-import objects.enums.ETokenType;
-
 public class SA_6 implements ISemanticAction{
     /*
         A.S 6:

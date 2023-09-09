@@ -8,7 +8,6 @@ public class SA_15 implements ISemanticAction{
 
     @Override
     public void execute(SAParam params) {
-        // TODO Auto-generated method stub
         params.setTokenType(ETokenType.END_OF_FILE);
     }
     

@@ -25,7 +25,6 @@ import lexicalanalyzer.semanticactions.ISemanticAction;
 import objects.SymbolTable;
 import objects.enums.ECharacterType;
 import objects.enums.ELexicalAnalizerState;
-import objects.enums.ETokenType;
 
 public class LexicalAnalizer {
 
