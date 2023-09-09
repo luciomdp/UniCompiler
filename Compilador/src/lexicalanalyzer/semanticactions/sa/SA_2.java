@@ -14,7 +14,7 @@ public class SA_2 implements ISemanticAction{
         if (params.getLexema().length() < 25)
             params.getLexema().append(params.getLastReadedCharacter());  
         else {
-            params.setMessageWarning(new StringBuilder("WARNING: La cadena ha alzanzado un tope de 25 caracteres"));
+            params.setMessageWarning("WARNING: La cadena ha alzanzado un tope de 25 caracteres");
         }
     }
     

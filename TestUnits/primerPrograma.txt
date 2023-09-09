@@ -2,9 +2,9 @@
 a := 32767
 c := 4294967295 
 ## Constantes con el primer valor fuera del rango. 
-b := 4294967296
+b := 4294967297
 ## Identificadores de menos y mas de 25 caracteres. 
-rrrrrrrrrrrrrrrrrrrr := 2
+esteesunidentificadordemasdeveinticincocaracteres := 2
 ## Identificadores con letras, digitos y @.
 identificador1@
 @identificador1

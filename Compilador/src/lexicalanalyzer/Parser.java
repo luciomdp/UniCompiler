@@ -60,17 +60,19 @@ public class Parser extends JFrame{
     public void beginToParse() {
         Long currentToken;
         panel.appendData("--------------------------- << Comienzo del análisis léxico >> ---------------------------\n");
-        panel.appendData("------------- << Tokens en orden >> -------------\n");
+        panel.appendData("------------- << [Lexema,Token] >> -------------\n");
         do {
             currentToken = lexicalAnalizer.getToken();
-            if (currentToken!= ETokenType.IGNORE.getValue()){
-                panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ")\n");
-                // panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ") -->"+lexicalAnalizer.getLexema()+"\n");
+            if (currentToken!= ETokenType.IGNORE.getValue())
+                if(ETokenType.getLexemeTokenTypes().contains(currentToken))
+                    panel.appendData("[ "+lexicalAnalizer.getLexema()+ " , "+ currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ") ]\n");
+                else
+                    panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ")\n");
                 panel.appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
                 panel.appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
-            }
+            
             try {
-                Thread.sleep(500);
+                Thread.sleep(250);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

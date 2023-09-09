@@ -8,8 +8,8 @@ public class SAParam {
     
     private Character lastReadedCharacter;
     private StringBuilder lexema;
-    private StringBuilder messageError;
-    private StringBuilder messageWarning;
+    private String messageError;
+    private String messageWarning;
     private ETokenType tokenType;
     
     //Para las acciones semánticas que sean de transición a estado final, se define esta variable que indicará si el caracter leído es parte del token actual, (rnc=true) o si debería comenzar la lectura del próximo token en el último caracter consumido (rnc=false)
@@ -20,8 +20,8 @@ public class SAParam {
         this.symbolTable = symbolTable;
         lexema = new StringBuilder();
         readNewCharacter = true;
-        messageError = new StringBuilder("");
-        messageWarning = new StringBuilder("");
+        messageError = "";
+        messageWarning = "";
         tokenType = ETokenType.IGNORE;
     }
 
@@ -65,21 +65,21 @@ public class SAParam {
         this.lexema = lexema;
     }
 
-    public StringBuilder getMessageError() {
+    public String getMessageError() {
         return messageError;
     }
 
-    public void setMessageError(StringBuilder messageError) {
+    public void setMessageError(String messageError) {
         this.messageError = messageError;
     }
 
-    public StringBuilder getMessageWarning() {
+    public String getMessageWarning() {
         return messageWarning;
     }
 
-    public void setMessageWarning(StringBuilder messageWarning) {
+    public void setMessageWarning(String messageWarning) {
         this.messageWarning = messageWarning;
     }
-
+    
     
 }

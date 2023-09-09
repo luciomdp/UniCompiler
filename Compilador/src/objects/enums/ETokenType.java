@@ -1,6 +1,8 @@
 package objects.enums;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public enum ETokenType {
@@ -65,6 +67,10 @@ public enum ETokenType {
 
     public static ETokenType fromValue(int value) {
         return valueToTokenMap.get(value);
+    }
+
+    public static List<Long> getLexemeTokenTypes() {
+        return Arrays.asList(ETokenType.ID.getValue(),ETokenType.STRING_CONST.getValue(),ETokenType.INT_CONST.getValue(),ETokenType.ULONGINT_CONST.getValue()).stream().map(element -> element.longValue()).toList();
     }
 
 }

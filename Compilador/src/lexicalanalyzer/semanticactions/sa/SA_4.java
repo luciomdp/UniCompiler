@@ -27,7 +27,8 @@ public class SA_4 implements ISemanticAction{
                 params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.ULONGINT_CONST);
                 params.setTokenType(ETokenType.ULONGINT_CONST);
             }  
-        }
+        }else 
+            params.setMessageError("ERROR: ulongint soporta hasta 4294967295");
         
         params.setReadNewCharacter(false);
     }
