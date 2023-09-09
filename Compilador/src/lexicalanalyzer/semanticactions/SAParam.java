@@ -22,7 +22,7 @@ public class SAParam {
         readNewCharacter = true;
         messageError = new StringBuilder("");
         messageWarning = new StringBuilder("");
-        tokenType = ETokenType.END_OF_FILE;
+        tokenType = ETokenType.IGNORE;
     }
 
     public SymbolTable getSymbolTable() {

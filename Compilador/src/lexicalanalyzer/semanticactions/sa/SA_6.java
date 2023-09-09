@@ -13,6 +13,8 @@ public class SA_6 implements ISemanticAction{
     public void execute(SAParam params) {
         params.setReadNewCharacter(false);
         params.setMessageError(new StringBuilder("Depués de un # unicamente puede ir otro #. Después de un : unicamente puede ir un ="));
+        params.setTokenType(ETokenType.END_OF_FILE);
+
     }
     
 }
