@@ -13,10 +13,16 @@ public class SA_14 implements ISemanticAction{
     @Override
     public void execute(SAParam params) {
         if (params.getLastReadedCharacter() == '='){
-            params.getLexema().append(params.getLastReadedCharacter());
-            params.setTokenType(ETokenType.ASIGNACION); 
-        }   
-        params.setReadNewCharacter(true);
+            params.getLexema().append(params.getLastReadedCharacter());  
+            params.setReadNewCharacter(true); 
+        }
+        else{
+            params.getLexema().append("="); 
+            params.setMessageWarning("WARNING: luego del : siempre debe ir un = para representar la asignación");
+            params.setReadNewCharacter(false); 
+        } 
+        params.setTokenType(ETokenType.ASIGNACION); 
+        
     }
     
 }
