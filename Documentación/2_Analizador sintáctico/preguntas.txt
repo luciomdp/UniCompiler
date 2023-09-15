@@ -1,4 +1,5 @@
 Pregunta, 
 1. donde se debe declarar exactamente la variable yylval
 2. la clase ParserVal, se debe declarar en el código Java?(como la tenemos ahora)
-3. 
+3. No se debe permitir anidamiento de expresiones con paréntesis.
+4. Que es esto --> Sentencia de iteración asignada al grupo
