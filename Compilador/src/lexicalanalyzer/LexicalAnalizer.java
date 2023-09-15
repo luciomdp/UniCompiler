@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 import lexicalanalyzer.semanticactions.SAParam;
 import lexicalanalyzer.semanticactions.sa.SA_1;
 import lexicalanalyzer.semanticactions.sa.SA_10;
@@ -60,14 +64,43 @@ public class LexicalAnalizer {
     private int currentCharacter;
     private boolean readNewCharacter;
     private SAParam SAParam;
-    //public ParserVal yylval;
 
+    public LexicalAnalizer (){
+        String path = "";
+        do {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Elegí el archivo a compilar");
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            fileChooser.setCurrentDirectory(new File("TestUnits"));
+            try {
+                if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+                 path = fileChooser.getSelectedFile().getAbsolutePath();
+                else
+                    Thread.currentThread().stop();
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null,(String)"No se ha seleccionado ningún archivo");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }while(path == null || !readFiles(path));
+    }
     public LexicalAnalizer (String fileName) throws FileNotFoundException{
 
         File file = new File (fileName);
         sourceCode = new BufferedReader(new FileReader(file));
         symbolTable = new SymbolTable();     
         readNewCharacter = true;
+    }
+
+    public static boolean readFiles(String path) {
+        try {
+            lexicalAnalizer = new LexicalAnalizer(path);
+            return true;
+        }catch(FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     
     public long getToken () {
