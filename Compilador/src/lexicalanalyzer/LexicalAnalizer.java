@@ -75,7 +75,7 @@ public class LexicalAnalizer {
             fileChooser.setCurrentDirectory(new File("TestUnits"));
             try {
                 if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
-                 path = fileChooser.getSelectedFile().getAbsolutePath();
+                    path = fileChooser.getSelectedFile().getAbsolutePath();
                 else
                     Thread.currentThread().stop();
             } catch (NullPointerException e) {
@@ -85,17 +85,13 @@ public class LexicalAnalizer {
             }
         }while(path == null || !readFiles(path));
     }
-    public LexicalAnalizer (String fileName) throws FileNotFoundException{
 
-        File file = new File (fileName);
-        sourceCode = new BufferedReader(new FileReader(file));
-        symbolTable = new SymbolTable();     
-        readNewCharacter = true;
-    }
-
-    public static boolean readFiles(String path) {
+    public boolean readFiles(String path) {
         try {
-            lexicalAnalizer = new LexicalAnalizer(path);
+            File file = new File (path);
+            sourceCode = new BufferedReader(new FileReader(file));
+            symbolTable = new SymbolTable();     
+            readNewCharacter = true;
             return true;
         }catch(FileNotFoundException e) {
             e.printStackTrace();

@@ -49,7 +49,7 @@ public class TokenViewer extends JFrame{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }while(currentToken != -1);
+        }while(currentToken != ETokenType.END_OF_FILE.getValue());
         
         panel.appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");
     }

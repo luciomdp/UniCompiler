@@ -18,8 +18,7 @@
 
 //#line 4 "calc.y"
     import lexicalanalyzer.LexicalAnalizer;
-    import javax.swing.JFileChooser;
-//#line 20 "Parser.java"
+//#line 19 "Parser.java"
 
 
 
@@ -381,17 +380,13 @@ final static String yyrule[] = {
 "retorno : RETURN '(' expresion ')' ';'",
 };
 
-//#line 122 "calc.y"
-private static JFileChooser fileChooser = new JFileChooser();
-private static String path;
+//#line 121 "calc.y"
 private static LexicalAnalizer lexicalAnalizer;
 
 public static void main(String[] args) throws Exception {
-    initialiceLexicalAnalicer();
-    //TokenViewer parser = new TokenViewer(lexicalAnalizer);
-    //parser.beginToParse();
+    lexicalAnalizer = new LexicalAnalizer();
     Parser parser = new Parser(true);
-    parser.yyparse();
+    parser.yyparse(); 
 }
 
 public int yylex() {
@@ -399,40 +394,10 @@ public int yylex() {
     yyval = new ParserVal(lexicalAnalizer.getLexema());
     return token;
 }
-
-public void initialiceLexicalAnalicer() {
-    do {
-        fileChooser.setDialogTitle("Elegí el archivo a compilar");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.setCurrentDirectory(new File("TestUnits"));
-        try {
-            if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
-                path = fileChooser.getSelectedFile().getAbsolutePath();
-            else
-                Thread.currentThread().stop();
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null,(String)"No se ha seleccionado ningún archivo");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }while(path == null || !readFiles(path));
-}
-
-    public static boolean readFiles(String path) {
-    try {
-        lexicalAnalizer = new LexicalAnalizer(path);
-        return true;
-    }catch(FileNotFoundException e) {
-        e.printStackTrace();
-        return false;
-    }
-}
-
 public void yyerror(String s) {
     System.out.println(s);
 }
-//#line 364 "Parser.java"
+//#line 329 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -587,14 +552,14 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 11:
-//#line 34 "calc.y"
+//#line 33 "calc.y"
 {System.out.println("Error en sentencia");}
 break;
 case 37:
-//#line 96 "calc.y"
-{System.out.println("ERROR: te olvidaste el "DO"");}
+//#line 95 "calc.y"
+{System.out.println("ERROR: te olvidaste el DO");}
 break;
-//#line 521 "Parser.java"
+//#line 486 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
