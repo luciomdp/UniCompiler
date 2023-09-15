@@ -69,6 +69,7 @@ impresion : PRINT '(' STRING_CONST ')' ';'
 /* ITERACION */
 retorno: 
             WHILE '(' condicion ')' DO bloque
+        |   WHILE '(' condicion ')' bloque {System.out.println("ERROR: te olvidaste el "DO")}
 ;
 /* RETORNO */
 retorno: 
