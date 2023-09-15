@@ -40,7 +40,9 @@ public enum ETokenType {
     DO (273, "Do"),
     FUN (274, "Fun"),
     RETURN (275, "Return"),
-    ITOUL (276, "ITOUL")
+    ITOUL (276, "ITOUL"),
+    INTEGER(277,"Integer"),
+    ULONGINT(278,"Ulongint")
     ;
     private int value;
     private String description;

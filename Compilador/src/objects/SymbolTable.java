@@ -23,6 +23,8 @@ public class SymbolTable {
         symbolTable.put("fun", ETokenType.FUN);
         symbolTable.put("return", ETokenType.RETURN);
         symbolTable.put("itoul", ETokenType.ITOUL);
+        symbolTable.put("integer", ETokenType.INTEGER);
+        symbolTable.put("ulongint", ETokenType.ULONGINT);
     }
 
     public void insert(String lexeme, ETokenType tokenType) {
