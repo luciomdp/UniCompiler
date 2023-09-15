@@ -7,7 +7,8 @@
 %%
 /* -----  SENTENCIA START -----  */
 
-programa : bloque
+programa : 
+            bloque
 ;
 
 /* -----  INICIO -----  */
@@ -47,32 +48,33 @@ variable :
 /* ----- SENTENCIAS EJECUTABLES ----- */
 /* ASIGNACION */
 asignacion : 
-                ID ASIGNACION expresion ';'
-        |       error ';'   {System.out.println("Error en asignación");}
+            ID ASIGNACION expresion ';'
+        |   error ';'   {System.out.println("Error en asignación");}
 ;
 
 expresion : 
-                termino
-        |       expresion '+' termino 
-        |       expresion '-' termino   
+            termino
+        |   expresion '+' termino 
+        |   expresion '-' termino   
 ;
 
 termino :   
-                factor
-        |       termino '*' factor 
-        |       termino '/' factor 
+            factor
+        |   termino '*' factor 
+        |   termino '/' factor 
     ;
 
 factor :    
-                ID 
-        |       INT_CONST  
-        |       ULONGINT_CONST
-        |       '(' expresion ')'
+            ID 
+        |   INT_CONST  
+        |   ULONGINT_CONST
+        |   '(' expresion ')'
         
 ;
 /* ----- OTRAS ----- */
 /* IMPRESION */
-impresion : PRINT '(' STRING_CONST ')' ';'
+impresion : 
+            PRINT '(' STRING_CONST ')' ';'
 ;
 /* ITERACION */
 iteracion: 
@@ -81,14 +83,14 @@ iteracion:
 ;
 /* SELECCION */
 seleccion: 
-                IF '(' condicion ')' THEN bloque bloque_else END_IF
+            IF '(' condicion ')' THEN bloque bloque_else END_IF
 ;
 bloque_else:
-                ELSE bloque
-        |       '' 
+            ELSE bloque
+        |   '' 
 ;
 condicion:
-                (ID|INT_CONST|ULONGINT_CONST) (GREATER_EQUAL|LESS_EQUAL|NOT_EQUAL|GREATER_THAN|LESS_THAN|EQUAL) (ID|INT_CONST|ULONGINT_CONST)
+            (ID|INT_CONST|ULONGINT_CONST) (GREATER_EQUAL|LESS_EQUAL|NOT_EQUAL|GREATER_THAN|LESS_THAN|EQUAL) (ID|INT_CONST|ULONGINT_CONST)
 ;
 /* RETORNO */
 retorno: 
@@ -97,12 +99,12 @@ retorno:
 ;
 /* INVOCACIÓN */
 inovacion: 
-                ID '(' parametros ')' ';'
+            ID '(' parametros ')' ';'
 ;
 parametros:
-                ID
-        |       INT_CONST
-        |       ULONGINT_CONST
+            ID
+        |   INT_CONST
+        |   ULONGINT_CONST
 ;
 
 /* --------------- CODIGO --------------- */
