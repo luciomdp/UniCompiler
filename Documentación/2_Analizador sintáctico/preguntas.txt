@@ -4,3 +4,7 @@ Pregunta,
 3. No se debe permitir anidamiento de expresiones con paréntesis.
 4. Que es esto --> Sentencia de iteración asignada al grupo
 5. Como hacemos para el tema de indicar numero de linea para cada estructura? con acciones?
+
+Notas:
+
+- guardar un solo token para las constantes, que el tipo de dato sea diferente

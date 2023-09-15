@@ -7,9 +7,8 @@ import java.util.Map;
 
 public enum ETokenType {
 
-    IGNORE(-1,""),
-    
-    END_OF_FILE (0, "EOF"),
+    IGNORE(279,""),
+    END_OF_FILE (-1, "EOF"),
     PLUS (43, "Plus"),
     MINUS (45, "Minus"),
     MULTIPLICATION (42, "Multiplication"),
