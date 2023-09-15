@@ -1,8 +1,8 @@
 
 /* --------------- DECLARACION --------------- */
 
-%token ID INT_CONST ULONGINT_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN  ITOUL INTEGER ULONGINT GREATER_THAN LESS_THAN EQUAL
-%left '+' '-' '*' '/'
+%token ID INT_CONST ULONGINT_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT GREATER_THAN LESS_THAN EQUAL
+
 /* --------------- GRAMATICA --------------- */
 %%
 /* -----  SENTENCIA START -----  */
@@ -17,7 +17,7 @@ bloque :
             BEGIN sentencias END
 ;
 sentencias : 
-            sentencia sentencias
+            sentencias sentencia
         |   sentencia
 ;
 sentencia :  
@@ -26,6 +26,7 @@ sentencia :
         |   impresion
         |   iteracion
         |   retorno
+        |   error ';'   {System.out.println("Error en sentencia");}
 ;
 
 /* ----- SENTENCIAS DECLARATIVAS ----- */
@@ -38,7 +39,7 @@ tipo :
             INTEGER
         |   ULONGINT
 variables : 
-            variable ',' variables
+            variables ',' variable 
         |   variable
 ;
 variable : 
@@ -49,7 +50,6 @@ variable :
 /* ASIGNACION */
 asignacion : 
             ID ASIGNACION expresion ';'
-        |   error ';'   {System.out.println("Error en asignación");}
 ;
 
 expresion : 
@@ -68,9 +68,18 @@ factor :
             ID 
         |   INT_CONST  
         |   ULONGINT_CONST
-        |   '(' expresion ')'
-        
+        |   invocacion
 ;
+
+invocacion: 
+            ID '(' parametros ')' ';'
+;
+parametros:
+            ID
+        |   INT_CONST
+        |   ULONGINT_CONST
+;
+
 /* ----- OTRAS ----- */
 /* IMPRESION */
 impresion : 
@@ -83,28 +92,24 @@ iteracion:
 ;
 /* SELECCION */
 seleccion: 
-            IF '(' condicion ')' THEN bloque bloque_else END_IF
+            IF '(' condicion ')' THEN bloque ELSE bloque se END_IF
+        |   IF '(' condicion ')' THEN bloque END_IF
 ;
-bloque_else:
-            ELSE bloque
-        |   '' 
-;
+
 condicion:
-            (ID|INT_CONST|ULONGINT_CONST) (GREATER_EQUAL|LESS_EQUAL|NOT_EQUAL|GREATER_THAN|LESS_THAN|EQUAL) (ID|INT_CONST|ULONGINT_CONST)
+            expresion comparador expresion
+;
+comparador:
+            GREATER_EQUAL
+        |   LESS_EQUAL
+        |   NOT_EQUAL
+        |   '>'
+        |   '<'
+        |   '='
 ;
 /* RETORNO */
 retorno: 
-            RETURN expresion ';'
-        |   RETURN expresion ';' sentencias  {System.out.println("WARNING return debería ser la última línea de una sentencia")}
-;
-/* INVOCACIÓN */
-inovacion: 
-            ID '(' parametros ')' ';'
-;
-parametros:
-            ID
-        |   INT_CONST
-        |   ULONGINT_CONST
+            RETURN '(' expresion ')' ';'
 ;
 
 /* --------------- CODIGO --------------- */

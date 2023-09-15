@@ -10,16 +10,15 @@ import javax.swing.text.StyledDocument;
 
 import objects.enums.ETokenType;
 
-public class Parser extends JFrame{
-    private PanelParserInfo panel;
+public class TokenViewer extends JFrame{
 
-    private JFileChooser fileChooser = new JFileChooser();
-    private String path;
-
+    private PanelTokenViewer panel;
     private LexicalAnalizer lexicalAnalizer;
 
-    public Parser() {
-        panel = new PanelParserInfo();
+    public TokenViewer(LexicalAnalizer lexicalAnalizer) {
+
+        this.lexicalAnalizer = lexicalAnalizer;
+        panel = new PanelTokenViewer();
         add(panel);
 		setTitle("FasTALC (FASTA Language Compiler)");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,32 +28,6 @@ public class Parser extends JFrame{
         setVisible(true);
         setResizable(false);
 
-        do {
-            fileChooser.setDialogTitle("Elegí el archivo a compilar");
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            fileChooser.setCurrentDirectory(new File("TestUnits"));
-            try {
-                if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
-                 path = fileChooser.getSelectedFile().getAbsolutePath();
-                else
-                    Thread.currentThread().stop();
-            } catch (NullPointerException e) {
-                JOptionPane.showMessageDialog(null,(String)"No se ha seleccionado ningún archivo");
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }while(path == null || !readFiles(path));
-    }
-
-    public boolean readFiles(String path) {
-        try {
-            lexicalAnalizer = new LexicalAnalizer(path);
-            return true;
-        }catch(FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public void beginToParse() {
@@ -81,13 +54,13 @@ public class Parser extends JFrame{
         panel.appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");
     }
 
-    private class PanelParserInfo extends JPanel {
+    private class PanelTokenViewer extends JPanel {
 
         private final Color BACKGROUND_PANEL = new Color(90, 75, 181, 255), BACKGROUND_COMPONENTS = new Color(47, 159, 241, 255);
         private JTextPane txtArea;
         private StyledDocument styledDocument;
 
-        public PanelParserInfo() {
+        public PanelTokenViewer() {
             txtArea = new JTextPane();
             txtArea.setPreferredSize(new Dimension(700, 500));
             txtArea.setEditable(false);

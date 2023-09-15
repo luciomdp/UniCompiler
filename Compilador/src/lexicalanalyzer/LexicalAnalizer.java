@@ -25,8 +25,7 @@ import lexicalanalyzer.semanticactions.ISemanticAction;
 import objects.SymbolTable;
 import objects.enums.ECharacterType;
 import objects.enums.ELexicalAnalizerState;
-import semanticanalyzer.ParserVal;
-
+import objects.enums.ETokenType;
 public class LexicalAnalizer {
 
     private final int stateTable [][] = {
@@ -61,6 +60,7 @@ public class LexicalAnalizer {
     private int currentCharacter;
     private boolean readNewCharacter;
     private SAParam SAParam;
+    //public ParserVal yylval;
 
     public LexicalAnalizer (String fileName) throws FileNotFoundException{
 
@@ -94,7 +94,10 @@ public class LexicalAnalizer {
                 else 
                     readNewCharacter = false;
             }
-            ParserVal yylval = new ParserVal(getLexema());
+            /*if(ETokenType.getLexemeTokenTypes().contains(SAParam.getTokenType().getValue()))
+                yylval = new ParserVal(getLexema());
+            else
+                yylval = null;*/
             return SAParam.getTokenType().getValue();
 
         } catch (IOException e) {
@@ -114,7 +117,6 @@ public class LexicalAnalizer {
     }
 
     public int yylex() {
-
         return Long.valueOf(getToken()).intValue();
     }
 }
