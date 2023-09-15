@@ -5,9 +5,14 @@
 
 /* --------------- GRAMATICA --------------- */
 %%
+/* -----  SENTENCIA START -----  */
 
-/* INICIO */
-programa :   
+programa : bloque
+;
+
+/* -----  INICIO -----  */
+
+bloque :   
             BEGIN sentencias END
 ;
 sentencias : 
@@ -18,14 +23,15 @@ sentencia :
             declaracion
         |   asignacion
         |   impresion
+        |   iteracion
         |   retorno
 ;
 
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
             tipo variables ';' //Declaracion de dato
-        |   tipo FUN ID '(' tipo ID ')' BEGIN sentencias END //Declaracion de funcion con 1 parametro
-        |   tipo FUN ID '('  ')' BEGIN sentencias END //Declaracion de funcion con 0 parametro
+        |   tipo FUN ID '(' tipo ID ')' bloque //Declaracion de funcion con 1 parametro
+        |   tipo FUN ID '('  ')' bloque //Declaracion de funcion con 0 parametro
 ;
 tipo :       
             INTEGER
@@ -56,9 +62,13 @@ factor :    ID
         |   INT_CONST  
         |   ULONGINT_CONST
 ;
-
+/* ----- OTRAS ----- */
 /* IMPRESION */
 impresion : PRINT '(' STRING_CONST ')' ';'
+;
+/* ITERACION */
+retorno: 
+            WHILE '(' condicion ')' DO bloque
 ;
 /* RETORNO */
 retorno: 
