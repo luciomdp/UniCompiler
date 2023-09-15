@@ -1,0 +1,4 @@
+Pregunta, 
+1. donde se debe declarar exactamente la variable yylval
+2. la clase ParserVal, se debe declarar en el código Java?(como la tenemos ahora)
+3. 

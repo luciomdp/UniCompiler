@@ -25,6 +25,7 @@ import lexicalanalyzer.semanticactions.ISemanticAction;
 import objects.SymbolTable;
 import objects.enums.ECharacterType;
 import objects.enums.ELexicalAnalizerState;
+import semanticanalyzer.ParserVal;
 
 public class LexicalAnalizer {
 
@@ -93,6 +94,7 @@ public class LexicalAnalizer {
                 else 
                     readNewCharacter = false;
             }
+            ParserVal yylval = new ParserVal(getLexema());
             return SAParam.getTokenType().getValue();
 
         } catch (IOException e) {
@@ -111,5 +113,8 @@ public class LexicalAnalizer {
         return SAParam!=null?SAParam.getLexema().toString():"";
     }
 
+    public int yylex() {
 
+        return Long.valueOf(getToken()).intValue();
+    }
 }
