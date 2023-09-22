@@ -1,0 +1,78 @@
+
+
+Identificadores:
+
+   h, unnombremuylargoquedarawarning1,unnombremuylargoquedarawarning1,a,b123 @x123, x12@abc, AbC1@X;  
+   @123, 123b
+
+Constantes:
+
+Enteros sin signo: Constantes enteras con valores entre 0 y 65535. 
+	
+	0, 123, 65535, 65536, -65534, -65535
+
+Enteros largos: Constantes enteras con valores entre –2147483648 y 2147483647.
+
+	2147483647, 2147483648, 2147483649, -2147483648, -12345678
+	
+
+
+Palabras reservadas:
+
+	if, IF
+	then, THEN
+	else, ELSE
+	begin
+	end
+	end_if
+	print
+	while
+	do
+	fun
+	return
+grupo 2
+	uinteger
+	longint
+grupo 1
+	integer
+	ulongint
+	itoul
+	
+
+
+Comentarios y cadenas:
+    */Esto es
+un
+		comentario/*
+
+## Comentario de una linea
+
+<< cadena    
+ de varias   
+
+ lineas! >>
+
+"cadena | corta"
+
+print("mensaje de bienvenida");
+
+No validos:
+
+	%
+	$
+	&
+	#
+	[  ]
+	{´ }
+
+Código:
+
+if (a>b) a:=0;
+if (a<0) a:-1;
+if (b>=0) a:=a+b*c/d;
+if (b<=0) b:=1+2-3/4*5;
+if  (c=1) b:=0
+if (c<>d) b:-a*b
+
+*/ comentario sin cerrar
+
