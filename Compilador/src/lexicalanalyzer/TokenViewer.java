@@ -28,30 +28,23 @@ public class TokenViewer extends JFrame{
         setVisible(true);
         setResizable(false);
 
-    }
-
-    public void beginToParse() {
-        Long currentToken;
         panel.appendData("--------------------------- << Comienzo del análisis léxico >> ---------------------------\n");
         panel.appendData("------------- << [Lexema,Token] >> -------------\n");
-        do {
-            currentToken = lexicalAnalizer.getToken();
-            if (currentToken!= ETokenType.IGNORE.getValue())
-                if(ETokenType.getLexemeTokenTypes().contains(currentToken))
-                    panel.appendData("[ "+lexicalAnalizer.getLexema()+ " , "+ currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ") ]\n");
-                else
-                    panel.appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ")\n");
-                panel.appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
-                panel.appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
-            
-            try {
-                Thread.sleep(250);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }while(currentToken != ETokenType.END_OF_FILE.getValue());
+    }
+
+    public void printToken(int tokenValue) {
+
+        if(ETokenType.getLexemeTokenTypes().contains(Long.valueOf(tokenValue)))
+            panel.appendData("[ "+lexicalAnalizer.getLexema()+ " , "+ Integer.valueOf(tokenValue).toString() + "(" + ETokenType.getDescription(tokenValue) + ") ]\n");
+        else
+            panel.appendData(Integer.valueOf(tokenValue).toString() + "(" + ETokenType.getDescription(tokenValue) + ")\n");
+        panel.appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
+        panel.appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
         
-        panel.appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");
+        try {Thread.sleep(250);} catch (InterruptedException e) {e.printStackTrace();} //Espera (animación)
+        
+        if(tokenValue == ETokenType.END_OF_FILE.getValue()) //Si era último token
+            panel.appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");
     }
 
     private class PanelTokenViewer extends JPanel {

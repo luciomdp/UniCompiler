@@ -5,9 +5,9 @@ public class App {
     private static LexicalAnalizer lexicalAnalizer;
 
     public static void main(String[] args) throws Exception {
-        lexicalAnalizer = new LexicalAnalizer();
+        /*lexicalAnalizer = new LexicalAnalizer();
         TokenViewer parser = new TokenViewer(lexicalAnalizer);
-        parser.beginToParse();
+        parser.beginToParse();*/
     }
 
 }
