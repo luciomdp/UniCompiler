@@ -94,7 +94,8 @@ factor :
 ;
 
 invocacion: 
-            ID '(' parametros ')' ';'
+            ID '(' parametros ')'
+        |   ID '('')'
 ;
 parametros:
             ID
