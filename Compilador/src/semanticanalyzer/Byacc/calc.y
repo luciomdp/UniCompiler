@@ -32,8 +32,12 @@ sentencia :
         |   seleccion {mainView.getSemanticViewer().appendData("seleccion\n");}
         |   error ';'   {mainView.getSemanticViewer().appendError("Error de sentencia\n");}
 ;
-sentencias_ejecutables :  
-        |   declaracion_variables {mainView.getSemanticViewer().appendData("declaracion variables\n");}
+sentencias_ejecutables : 
+            sentencias_ejecutables sentencia_ejecutable
+        |   sentencia_ejecutable
+;
+sentencia_ejecutable :  
+            declaracion_variables {mainView.getSemanticViewer().appendData("declaracion variables\n");}
         |   asignacion {mainView.getSemanticViewer().appendData("asignacion\n");}
         |   impresion {mainView.getSemanticViewer().appendData("impresion\n");}
         |   iteracion {mainView.getSemanticViewer().appendData("iteracion\n");}
