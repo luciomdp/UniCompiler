@@ -1,8 +1,8 @@
 
 /* --------------- DECLARACION --------------- */
 %{
-    import components.MainView;
-    import lexicalanalyzer.LexicalAnalizer;
+    import lexicalanalyzer.*;
+    import components.*;
 %}
 
 %token ID NUMERIC_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT
@@ -18,40 +18,36 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            BEGIN sentencias END
+            BEGIN sentencias END {mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");}
 ;
 sentencias : 
             sentencias sentencia
         |   sentencia
 ;
 sentencia :  
-            declaracion
-        |   asignacion
-        |   impresion
-        |   iteracion
-        |   seleccion
-        |   error ';'   {System.out.println("Error en sentencia");}
+            declaracion {mainView.getSemanticViewer().appendData("declaracion\n");}
+        |   asignacion {mainView.getSemanticViewer().appendData("asignacion\n");}
+        |   impresion {mainView.getSemanticViewer().appendData("impresion\n");}
+        |   iteracion {mainView.getSemanticViewer().appendData("iteracion\n");}
+        |   seleccion {mainView.getSemanticViewer().appendData("seleccion\n");}
+        |   error ';'   {mainView.getSemanticViewer().appendError("Error de sentencia\n");}
 ;
-
 sentencias_ejecutables :  
-            sentencias_ejecutables sentencia_ejecutable
-        |   sentencia_ejecutable
-;
-sentencia_ejecutable :  
-            declaracion_variables
-        |   asignacion
-        |   impresion
-        |   iteracion
+        |   declaracion_variables {mainView.getSemanticViewer().appendData("declaracion variables\n");}
+        |   asignacion {mainView.getSemanticViewer().appendData("asignacion\n");}
+        |   impresion {mainView.getSemanticViewer().appendData("impresion\n");}
+        |   iteracion {mainView.getSemanticViewer().appendData("iteracion\n");}
         |   seleccion
-        |   error ';'   {System.out.println("Error en sentencia ejecutable");}
+        |   error ';'   {mainView.getSemanticViewer().appendError("Error de sentencia ejecutable\n");}
+;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
-            tipo variables ';' //Declaracion de dato
-        |   tipo FUN ID '(' tipo ID ')' bloque_funciones //Declaracion de funcion con 1 parametro
-        |   tipo FUN ID '('  ')' bloque_funciones //Declaracion de funcion con 0 parametro
+            tipo variables ';'
+        |   tipo FUN ID '(' tipo ID ')' bloque_funciones
+        |   tipo FUN ID '('  ')' bloque_funciones
 ;
 declaracion_variables :   
-            tipo variables ';' //Declaracion de dato
+            tipo variables ';'
 ;
 bloque_funciones :   
             BEGIN sentencias retorno END
@@ -110,7 +106,7 @@ impresion :
 /* ITERACION */
 iteracion: 
             WHILE '(' condicion ')' DO bloque_ejecutables
-        |   WHILE '(' condicion ')' bloque_ejecutables {System.out.println("ERROR: te olvidaste el DO");}
+        |   WHILE '(' condicion ')' bloque_ejecutables {mainView.getSemanticViewer().appendError("Error: te olvidaste el DO\n");}
 ;
 /* SELECCION */
 seleccion: 
@@ -156,10 +152,5 @@ public int yylex() {
     return token;
 }
 public void yyerror(String s) {
-    mainView.getSemanticViewer().appendData(s + "\n");
-}
-public void debug(String msg)
-{
-  if (yydebug)
-    mainView.getSemanticViewer().appendData(msg + "\n");
+    mainView.getSemanticViewer().appendError(s + "\n");
 }

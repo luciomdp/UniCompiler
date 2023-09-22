@@ -36,7 +36,7 @@ public abstract class AbstractPanelViewer extends JPanel{
     }
 
     public void appendData(String data) {
-        appendText(data, Color.BLACK); // Color negro para appendData
+        appendText(data, Color.WHITE); // Color blanco para appendData
     }
 
     public void appendWarning(String data) {
