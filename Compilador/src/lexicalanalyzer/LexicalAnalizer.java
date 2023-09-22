@@ -146,6 +146,8 @@ public class LexicalAnalizer {
     }
 
     public int yylex() {
-        return Long.valueOf(getToken()).intValue();
+        Long tokenLong = getToken();
+        int tokenInt = Long.valueOf(tokenLong).intValue();
+        return ((tokenInt==ETokenType.IGNORE.getValue())?yylex():tokenInt);
     }
 }
