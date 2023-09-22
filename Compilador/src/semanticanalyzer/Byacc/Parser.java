@@ -414,9 +414,9 @@ public int yylex() {
     return token;
 }
 public void yyerror(String s) {
-    mainView.getSemanticViewer().appendError(s + "\n");
+    mainView.getSemanticViewer().appendError(s + ", en la línea"+ lexicalAnalizer.getNewLineCount() +"\n");
 }
-//#line 348 "Parser.java"
+//#line 349 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -622,7 +622,7 @@ case 46:
 //#line 109 "calc.y"
 {mainView.getSemanticViewer().appendError("Error: te olvidaste el DO\n");}
 break;
-//#line 549 "Parser.java"
+//#line 550 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

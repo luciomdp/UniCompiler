@@ -152,5 +152,5 @@ public int yylex() {
     return token;
 }
 public void yyerror(String s) {
-    mainView.getSemanticViewer().appendError(s + "\n");
+    mainView.getSemanticViewer().appendError(s + ", en la línea"+ lexicalAnalizer.getNewLineCount() +"\n");
 }
