@@ -1,10 +1,8 @@
 package lexicalanalyzer.semanticactions;
 
-import objects.SymbolTable;
 import objects.enums.ETokenType;
 
 public class SAParam {
-    private SymbolTable symbolTable;
     
     private Character lastReadedCharacter;
     private StringBuilder lexema;
@@ -16,21 +14,12 @@ public class SAParam {
     private boolean readNewCharacter;
 
 
-    public SAParam(SymbolTable symbolTable) {
-        this.symbolTable = symbolTable;
+    public SAParam() {
         lexema = new StringBuilder();
         readNewCharacter = true;
         messageError = "";
         messageWarning = "";
         tokenType = ETokenType.IGNORE;
-    }
-
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
-    }
-
-    public void setSymbolTable(SymbolTable tablaSimbolos) {
-        this.symbolTable = tablaSimbolos;
     }
 
     public ETokenType getTokenType() {

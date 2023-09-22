@@ -1,6 +1,7 @@
 package components;
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,21 +14,24 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
-import lexicalanalyzer.LexicalAnalizer;
+import objects.ConfigurationParams;
 
 public class MainView  extends JFrame{
 
     private JTabbedPane tab;
     private TokenViewer panelTokenViewer; 
     private SemanticViewer semanticViewer;
+    private SymbolTableViewer symbolTableViewer;
     
-    public MainView(LexicalAnalizer lexicalAnalizer) {
+    public MainView() {
         tab = new JTabbedPane(JTabbedPane.TOP);
-        panelTokenViewer = new TokenViewer(lexicalAnalizer);   
+        panelTokenViewer = new TokenViewer();   
         semanticViewer = new SemanticViewer();
+        symbolTableViewer = new SymbolTableViewer();
        
         tab.addTab("Visualizador de Tokens", generateIcon("Compilador/src/images/token.png"), panelTokenViewer, null);
         tab.addTab("Visualizador semántico", generateIcon("Compilador/src/images/semantica.png"), semanticViewer, null);
+        tab.addTab("Tabla de símbolos", generateIcon("Compilador/src/images/tablasimbolo.png"), symbolTableViewer, null);
 
         this.setIconImage(new ImageIcon("Compilador/src/images/logo.png").getImage());
 		setTitle("FasTALC (FASTA Language Compiler)");
@@ -68,6 +72,14 @@ public class MainView  extends JFrame{
 
     public void setSemanticViewer(SemanticViewer semanticViewer) {
         this.semanticViewer = semanticViewer;
+    }
+
+    public SymbolTableViewer getSymbolTableViewer() {
+        return symbolTableViewer;
+    }
+
+    public void setSymbolTableViewer(SymbolTableViewer symbolTableViewer) {
+        this.symbolTableViewer = symbolTableViewer;
     }
     
 }

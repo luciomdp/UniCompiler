@@ -2,6 +2,7 @@ package lexicalanalyzer.semanticactions.sa;
 
 import lexicalanalyzer.semanticactions.ISemanticAction;
 import lexicalanalyzer.semanticactions.SAParam;
+import objects.ConfigurationParams;
 import objects.SymbolTableItem;
 import objects.enums.EDataType;
 import objects.enums.ETokenType;
@@ -23,10 +24,10 @@ public class SA_4 implements ISemanticAction{
         //El negativo no importa porque no podemos definir en esta etapa si es positivo o negativo nuestro valor cte
         if(longValue <= Long.valueOf(4294967295L)) {
             if (longValue <= Long.valueOf(32767)){// es integer
-                params.getSymbolTable().insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.INTEGER));
+                ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.INTEGER));
                 params.setTokenType(ETokenType.NUMERIC_CONST);
             }else{// es ulongint
-                params.getSymbolTable().insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.ULONGINT));
+                ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.ULONGINT));
                 params.setTokenType(ETokenType.NUMERIC_CONST);
             }  
         }else 
