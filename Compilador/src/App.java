@@ -1,16 +1,9 @@
-import components.MainView;
-import lexicalanalyzer.LexicalAnalizer;
+import objects.ConfigurationParams;
 
 public class App {
-    private static LexicalAnalizer lexicalAnalizer;
-    private static MainView mainView;
-
     public static void main(String[] args) throws Exception {
-        lexicalAnalizer = new LexicalAnalizer();
-        mainView = new MainView(lexicalAnalizer);
-        mainView.getPanelTokenViewer().parseAll();
-        Parser parser = new Parser(true);
-        parser.yyparse(); 
+        ConfigurationParams globalParams = new ConfigurationParams(false);
+        ConfigurationParams.mainView.getPanelTokenViewer().parseAll();
     }
 
 }

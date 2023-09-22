@@ -26,7 +26,6 @@ import lexicalanalyzer.semanticactions.sa.SA_7;
 import lexicalanalyzer.semanticactions.sa.SA_8;
 import lexicalanalyzer.semanticactions.sa.SA_9;
 import lexicalanalyzer.semanticactions.ISemanticAction;
-import objects.SymbolTable;
 import objects.enums.ECharacterType;
 import objects.enums.ELexicalAnalizerState;
 import objects.enums.ETokenType;
@@ -57,10 +56,7 @@ public class LexicalAnalizer {
         {new SA_12(), new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),null,new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(), new SA_12()},
         {new SA_13(), new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),null,new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(), new SA_13()}
     };
-    private SymbolTable symbolTable;
-
     private BufferedReader sourceCode;
-
     private int currentCharacter;
     private boolean readNewCharacter;
     private SAParam SAParam;
@@ -91,8 +87,7 @@ public class LexicalAnalizer {
     public boolean readFiles(String path) {
         try {
             File file = new File (path);
-            sourceCode = new BufferedReader(new FileReader(file));
-            symbolTable = new SymbolTable();     
+            sourceCode = new BufferedReader(new FileReader(file));   
             readNewCharacter = true;
             return true;
         }catch(FileNotFoundException e) {
@@ -104,7 +99,7 @@ public class LexicalAnalizer {
     public long getToken () {
 
         int currentState = ELexicalAnalizerState.INITIAL.getValue(); //Iniciamos en el estado inicial (0)
-        SAParam = new SAParam(symbolTable); //Inicializamos la semantic action param con nuestra tabla de símbolos
+        SAParam = new SAParam(); //Inicializamos la semantic action param con nuestra tabla de símbolos
         ISemanticAction semanticAction;
         try {
             if (readNewCharacter)
