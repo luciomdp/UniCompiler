@@ -4,7 +4,7 @@
     import lexicalanalyzer.LexicalAnalizer;
 %}
 
-%token ID INT_CONST ULONGINT_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT IGNORE
+%token ID NUMERIC_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT IGNORE
 
 /* --------------- GRAMATICA --------------- */
 %%
@@ -81,12 +81,10 @@ termino :
     ;
 
 factor :    
-            ID 
-        |   INT_CONST  
-        |   ULONGINT_CONST
+            ID  
+        |   NUMERIC_CONST
         |   invocacion
-        |   '-' INT_CONST  
-        |   '-' ULONGINT_CONST
+        |   '-' NUMERIC_CONST
         |   ITOUL '(' expresion ')'
 ;
 
@@ -95,10 +93,8 @@ invocacion:
 ;
 parametros:
             ID
-        |   INT_CONST
-        |   ULONGINT_CONST
-        |   '-' INT_CONST  
-        |   '-' ULONGINT_CONST
+        |   NUMERIC_CONST 
+        |   '-' NUMERIC_CONST
 ;
 
 /* ----- OTRAS ----- */

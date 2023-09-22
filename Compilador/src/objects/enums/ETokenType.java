@@ -22,27 +22,26 @@ public enum ETokenType {
     SEMICOLON (59, "Semicolon"),
 
     ID (257, "Id"),
-    INT_CONST (258, "Int"),
-    ULONGINT_CONST (259, "Ulongint"),
-    STRING_CONST (260, "String"),
-    ASIGNACION (261, "Asignacion"),
-    GREATER_EQUAL (262, "Greater equal"),
-    LESS_EQUAL (263, "Less equal"),
-    NOT_EQUAL (264, "Not equal"),
-    IF (265, "If"),
-    THEN (266, "Then"),
-    ELSE (267, "Else"),
-    BEGIN (268, "Begin"),
-    END (269, "End"),
-    END_IF (270, "End if"),
-    PRINT (271, "Print"),
-    WHILE (272, "While"),
-    DO (273, "Do"),
-    FUN (274, "Fun"),
-    RETURN (275, "Return"),
-    ITOUL (276, "ITOUL"),
-    INTEGER(277,"Integer"),
-    ULONGINT(278,"Ulongint")
+    NUMERIC_CONST (258, "Numeric"),
+    STRING_CONST (259, "String"),
+    ASIGNACION (260, "Asignacion"),
+    GREATER_EQUAL (261, "Greater equal"),
+    LESS_EQUAL (262, "Less equal"),
+    NOT_EQUAL (263, "Not equal"),
+    IF (264, "if"),
+    THEN (265, "then"),
+    ELSE (266, "else"),
+    BEGIN (267, "begin"),
+    END (268, "end"),
+    END_IF (269, "end_if"),
+    PRINT (270, "print"),
+    WHILE (271, "while"),
+    DO (272, "do"),
+    FUN (273, "fun"),
+    RETURN (274, "return"),
+    ITOUL (275, "itoul"),
+    INTEGER(276,"integer"),
+    ULONGINT(277,"ulongint")
     ;
     private int value;
     private String description;
@@ -72,7 +71,7 @@ public enum ETokenType {
     }
 
     public static List<Long> getLexemeTokenTypes() {
-        return Arrays.asList(ETokenType.ID.getValue(),ETokenType.STRING_CONST.getValue(),ETokenType.INT_CONST.getValue(),ETokenType.ULONGINT_CONST.getValue()).stream().map(element -> element.longValue()).toList();
+        return Arrays.asList(ETokenType.ID.getValue(),ETokenType.STRING_CONST.getValue(),ETokenType.NUMERIC_CONST.getValue(),ETokenType.NUMERIC_CONST.getValue()).stream().map(element -> element.longValue()).toList();
     }
 
 }

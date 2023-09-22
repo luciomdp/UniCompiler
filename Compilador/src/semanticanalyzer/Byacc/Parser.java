@@ -158,7 +158,7 @@ final ParserVal dup_yyval(ParserVal val)
 //#### end semantic value section ####
 public final static short ID=257;
 public final static short INT_CONST=258;
-public final static short ULONGINT_CONST=259;
+public final static short NUMERIC_CONST=259;
 public final static short STRING_CONST=260;
 public final static short ASIGNACION=261;
 public final static short GREATER_EQUAL=262;
@@ -334,7 +334,7 @@ null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-null,null,null,null,null,null,"ID","INT_CONST","ULONGINT_CONST","STRING_CONST",
+null,null,null,null,null,null,"ID","INT_CONST","NUMERIC_CONST","STRING_CONST",
 "ASIGNACION","GREATER_EQUAL","LESS_EQUAL","NOT_EQUAL","IF","THEN","ELSE",
 "BEGIN","END","END_IF","PRINT","WHILE","DO","FUN","RETURN","ITOUL","INTEGER",
 "ULONGINT","IGNORE",
@@ -378,16 +378,16 @@ final static String yyrule[] = {
 "termino : termino '/' factor",
 "factor : ID",
 "factor : INT_CONST",
-"factor : ULONGINT_CONST",
+"factor : NUMERIC_CONST",
 "factor : invocacion",
 "factor : '-' INT_CONST",
-"factor : '-' ULONGINT_CONST",
+"factor : '-' NUMERIC_CONST",
 "invocacion : ID '(' parametros ')' ';'",
 "parametros : ID",
 "parametros : INT_CONST",
-"parametros : ULONGINT_CONST",
+"parametros : NUMERIC_CONST",
 "parametros : '-' INT_CONST",
-"parametros : '-' ULONGINT_CONST",
+"parametros : '-' NUMERIC_CONST",
 "impresion : PRINT '(' STRING_CONST ')' ';'",
 "iteracion : WHILE '(' condicion ')' DO bloque_ejecutables",
 "iteracion : WHILE '(' condicion ')' bloque_ejecutables",

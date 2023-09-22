@@ -2,6 +2,8 @@ package lexicalanalyzer.semanticactions.sa;
 
 import lexicalanalyzer.semanticactions.ISemanticAction;
 import lexicalanalyzer.semanticactions.SAParam;
+import objects.SymbolTableItem;
+import objects.enums.EDataType;
 import objects.enums.ETokenType;
 public class SA_4 implements ISemanticAction{
     //-32768 y 32767 --> integer
@@ -21,11 +23,11 @@ public class SA_4 implements ISemanticAction{
         //El negativo no importa porque no podemos definir en esta etapa si es positivo o negativo nuestro valor cte
         if(longValue <= Long.valueOf(4294967295L)) {
             if (longValue <= Long.valueOf(32767)){// es integer
-                params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.INT_CONST);
-                params.setTokenType(ETokenType.INT_CONST);
+                params.getSymbolTable().insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.INTEGER));
+                params.setTokenType(ETokenType.NUMERIC_CONST);
             }else{// es ulongint
-                params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.ULONGINT_CONST);
-                params.setTokenType(ETokenType.ULONGINT_CONST);
+                params.getSymbolTable().insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.ULONGINT));
+                params.setTokenType(ETokenType.NUMERIC_CONST);
             }  
         }else 
             params.setMessageError("ERROR: ulongint soporta hasta 4294967295");

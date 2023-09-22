@@ -2,6 +2,7 @@ package lexicalanalyzer.semanticactions.sa;
 
 import lexicalanalyzer.semanticactions.ISemanticAction;
 import lexicalanalyzer.semanticactions.SAParam;
+import objects.SymbolTableItem;
 import objects.enums.ETokenType;
 public class SA_1 implements ISemanticAction{
 
@@ -17,9 +18,8 @@ public class SA_1 implements ISemanticAction{
     @Override
     public void execute(SAParam params) {
         if (!params.getSymbolTable().contains(params.getLexema().toString())) 
-            params.getSymbolTable().insert(params.getLexema().toString(), ETokenType.ID);
-        params.setTokenType(params.getSymbolTable().lookup(params.getLexema().toString()));
-        
+            params.getSymbolTable().insert(params.getLexema().toString(),new SymbolTableItem(ETokenType.ID, null));
+        params.setTokenType(params.getSymbolTable().lookup(params.getLexema().toString()).getTokenType());   
         params.setReadNewCharacter(false);
     }
     
