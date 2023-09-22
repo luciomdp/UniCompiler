@@ -31,14 +31,18 @@ sentencia :
         |   seleccion
         |   error ';'   {System.out.println("Error en sentencia");}
 ;
+
 sentencias_ejecutables :  
-        |   declaracion_variables
+            sentencias_ejecutables sentencia_ejecutable
+        |   sentencia_ejecutable
+;
+sentencia_ejecutable :  
+            declaracion_variables
         |   asignacion
         |   impresion
         |   iteracion
         |   seleccion
         |   error ';'   {System.out.println("Error en sentencia ejecutable");}
-;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
             tipo variables ';' //Declaracion de dato
@@ -81,12 +85,10 @@ termino :
     ;
 
 factor :    
-            ID 
-        |   INT_CONST  
-        |   ULONGINT_CONST
+            ID  
+        |   NUMERIC_CONST
         |   invocacion
-        |   '-' INT_CONST  
-        |   '-' ULONGINT_CONST
+        |   '-' NUMERIC_CONST
         |   ITOUL '(' expresion ')'
 ;
 
@@ -95,10 +97,8 @@ invocacion:
 ;
 parametros:
             ID
-        |   INT_CONST
-        |   ULONGINT_CONST
-        |   '-' INT_CONST  
-        |   '-' ULONGINT_CONST
+        |   NUMERIC_CONST 
+        |   '-' NUMERIC_CONST
 ;
 
 /* ----- OTRAS ----- */

@@ -51,18 +51,18 @@
 
   36  factor : ID
   37         | INT_CONST
-  38         | ULONGINT_CONST
+  38         | NUMERIC_CONST
   39         | invocacion
   40         | '-' INT_CONST
-  41         | '-' ULONGINT_CONST
+  41         | '-' NUMERIC_CONST
 
   42  invocacion : ID '(' parametros ')' ';'
 
   43  parametros : ID
   44             | INT_CONST
-  45             | ULONGINT_CONST
+  45             | NUMERIC_CONST
   46             | '-' INT_CONST
-  47             | '-' ULONGINT_CONST
+  47             | '-' NUMERIC_CONST
 
   48  impresion : PRINT '(' STRING_CONST ')' ';'
 
@@ -261,7 +261,7 @@ state 20
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	ITOUL  shift 33
 	'-'  shift 34
 	.  error
@@ -278,7 +278,7 @@ state 21
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	ITOUL  shift 33
 	'-'  shift 34
 	.  error
@@ -303,7 +303,7 @@ state 23
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	ITOUL  shift 33
 	'-'  shift 34
 	.  error
@@ -382,7 +382,7 @@ state 31
 
 
 state 32
-	factor : ULONGINT_CONST .  (38)
+	factor : NUMERIC_CONST .  (38)
 
 	.  reduce 38
 
@@ -396,10 +396,10 @@ state 33
 
 state 34
 	factor : '-' . INT_CONST  (40)
-	factor : '-' . ULONGINT_CONST  (41)
+	factor : '-' . NUMERIC_CONST  (41)
 
 	INT_CONST  shift 48
-	ULONGINT_CONST  shift 49
+	NUMERIC_CONST  shift 49
 	.  error
 
 
@@ -514,7 +514,7 @@ state 46
 
 	ID  shift 67
 	INT_CONST  shift 68
-	ULONGINT_CONST  shift 69
+	NUMERIC_CONST  shift 69
 	'-'  shift 70
 	.  error
 
@@ -526,7 +526,7 @@ state 47
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	ITOUL  shift 33
 	'-'  shift 34
 	.  error
@@ -544,7 +544,7 @@ state 48
 
 
 state 49
-	factor : '-' ULONGINT_CONST .  (41)
+	factor : '-' NUMERIC_CONST .  (41)
 
 	.  reduce 41
 
@@ -560,7 +560,7 @@ state 51
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	'-'  shift 34
 	.  error
 
@@ -574,7 +574,7 @@ state 52
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	'-'  shift 34
 	.  error
 
@@ -588,7 +588,7 @@ state 53
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	'-'  shift 34
 	.  error
 
@@ -601,7 +601,7 @@ state 54
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	'-'  shift 34
 	.  error
 
@@ -650,7 +650,7 @@ state 61
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	ITOUL  shift 33
 	'-'  shift 34
 	.  error
@@ -718,17 +718,17 @@ state 68
 
 
 state 69
-	parametros : ULONGINT_CONST .  (45)
+	parametros : NUMERIC_CONST .  (45)
 
 	.  reduce 45
 
 
 state 70
 	parametros : '-' . INT_CONST  (46)
-	parametros : '-' . ULONGINT_CONST  (47)
+	parametros : '-' . NUMERIC_CONST  (47)
 
 	INT_CONST  shift 85
-	ULONGINT_CONST  shift 86
+	NUMERIC_CONST  shift 86
 	.  error
 
 
@@ -886,7 +886,7 @@ state 85
 
 
 state 86
-	parametros : '-' ULONGINT_CONST .  (47)
+	parametros : '-' NUMERIC_CONST .  (47)
 
 	.  reduce 47
 
@@ -1127,7 +1127,7 @@ state 116
 
 	ID  shift 30
 	INT_CONST  shift 31
-	ULONGINT_CONST  shift 32
+	NUMERIC_CONST  shift 32
 	ITOUL  shift 33
 	'-'  shift 34
 	.  error

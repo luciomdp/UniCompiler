@@ -1,12 +1,5 @@
 package components;
 import java.awt.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
-
 import lexicalanalyzer.LexicalAnalizer;
 import objects.enums.ETokenType;
 
