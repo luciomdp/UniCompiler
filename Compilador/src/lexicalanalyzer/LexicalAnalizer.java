@@ -68,7 +68,7 @@ public class LexicalAnalizer {
 
     public LexicalAnalizer (){
         String path = "";
-        newLineCount = 0;
+        newLineCount = 1;
         do {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Elegí el archivo a compilar");
@@ -156,4 +156,9 @@ public class LexicalAnalizer {
         int tokenInt = Long.valueOf(tokenLong).intValue();
         return ((tokenInt==ETokenType.IGNORE.getValue())?yylex():tokenInt);
     }
+
+    public int getNewLineCount() {
+        return newLineCount;
+    }
+    
 }
