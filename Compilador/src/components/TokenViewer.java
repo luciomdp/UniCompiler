@@ -1,6 +1,7 @@
 package components;
 import java.awt.*;
 import lexicalanalyzer.LexicalAnalizer;
+import objects.ConfigurationParams;
 import objects.enums.ETokenType;
 
 public class TokenViewer extends AbstractPanelViewer {
@@ -18,9 +19,9 @@ public class TokenViewer extends AbstractPanelViewer {
     public void printToken(int tokenValue) {
 
         if(ETokenType.getLexemeTokenTypes().contains(Long.valueOf(tokenValue)))
-            appendData("[ "+lexicalAnalizer.getLexema()+ " , "+ Integer.valueOf(tokenValue).toString() + "(" + ETokenType.getDescription(tokenValue) + ") ]\n");
+            appendData("[ "+lexicalAnalizer.getLexema()+ " , "+ (ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() + " "):"") + ETokenType.getDescription(tokenValue) + " ]\n");
         else
-            appendData(Integer.valueOf(tokenValue).toString() + "(" + ETokenType.getDescription(tokenValue) + ")\n");
+            appendData((ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() +" \"" + ETokenType.getDescription(tokenValue) + "\""):ETokenType.getDescription(tokenValue)) + "\n");
         appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
         appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
         
@@ -34,19 +35,7 @@ public class TokenViewer extends AbstractPanelViewer {
         Long currentToken;
         do {
             currentToken = lexicalAnalizer.getToken();
-            if (currentToken!= ETokenType.IGNORE.getValue())
-                if(ETokenType.getLexemeTokenTypes().contains(currentToken))
-                    appendData("[ "+lexicalAnalizer.getLexema()+ " , "+ currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ") ]\n");
-                else
-                    appendData(currentToken.toString() + "(" + ETokenType.getDescription(currentToken.intValue()) + ")\n");
-                appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
-                appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
-            
-            try {
-                Thread.sleep(250);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            printToken(currentToken.intValue());
         }while(currentToken != ETokenType.END_OF_FILE.getValue());
         
         appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");

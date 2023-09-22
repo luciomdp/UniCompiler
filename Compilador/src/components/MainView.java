@@ -47,7 +47,7 @@ public class MainView  extends JFrame{
     private Icon generateIcon(String path) {
         try {
             BufferedImage originalImage = ImageIO.read(new File(path));
-            Image scaledImage = originalImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            Image scaledImage = originalImage.getScaledInstance(18, 18, Image.SCALE_SMOOTH);
             return new ImageIcon(scaledImage);
         } catch (IOException e) {
            return null;
