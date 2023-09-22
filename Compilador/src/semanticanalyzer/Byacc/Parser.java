@@ -615,6 +615,10 @@ case 16:
 //#line 43 "calc.y"
 {mainView.getSemanticViewer().appendData("iteracion\n");}
 break;
+case 17:
+//#line 44 "calc.y"
+{mainView.getSemanticViewer().appendData("seleccion\n");}
+break;
 case 18:
 //#line 45 "calc.y"
 {mainView.getSemanticViewer().appendError("Error de sentencia ejecutable\n");}
@@ -623,7 +627,7 @@ case 47:
 //#line 113 "calc.y"
 {mainView.getSemanticViewer().appendError("Error: te olvidaste el DO\n");}
 break;
-//#line 550 "Parser.java"
+//#line 554 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

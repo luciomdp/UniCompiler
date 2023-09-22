@@ -41,7 +41,7 @@ sentencia_ejecutable :
         |   asignacion {mainView.getSemanticViewer().appendData("asignacion\n");}
         |   impresion {mainView.getSemanticViewer().appendData("impresion\n");}
         |   iteracion {mainView.getSemanticViewer().appendData("iteracion\n");}
-        |   seleccion
+        |   seleccion {mainView.getSemanticViewer().appendData("seleccion\n");}
         |   error ';'   {mainView.getSemanticViewer().appendError("Error de sentencia ejecutable\n");}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
