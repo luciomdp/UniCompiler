@@ -140,22 +140,19 @@ retorno:
 
 /* --------------- CODIGO --------------- */
 %%
-private static LexicalAnalizer lexicalAnalizer;
-private static MainView mainView;
 
 public static void main(String[] args) throws Exception {
-    lexicalAnalizer = new LexicalAnalizer();
-    mainView = new MainView(lexicalAnalizer);
+    ConfigurationParams globalParams = new ConfigurationParams(false);
     Parser parser = new Parser(true);
     parser.yyparse(); 
 }
 
 public int yylex() {
-    int token = lexicalAnalizer.yylex();
-    mainView.getPanelTokenViewer().printToken(token);
-    yyval = new ParserVal(lexicalAnalizer.getLexema());
+    int token = ConfigurationParams.lexicalAnalizer.yylex();
+    ConfigurationParams.mainView.getPanelTokenViewer().printToken(token);
+    yyval = new ParserVal(ConfigurationParams.lexicalAnalizer.getLexema());
     return token;
 }
 public void yyerror(String s) {
-    mainView.getSemanticViewer().appendError(s + ", en la línea"+ lexicalAnalizer.getNewLineCount() +"\n");
+    ConfigurationParams.mainView.getSemanticViewer().appendError(s + ", en la línea"+ lexicalAnalizer.getNewLineCount() +"\n");
 }
