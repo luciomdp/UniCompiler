@@ -1,31 +1,43 @@
 begin
-    a := 32767
-    c := 4294967295 
-    ## Constantes con el primer valor fuera del rango. 
-    b := 4294967297
-    ## Identificadores de menos y mas de 25 caracteres. 
-    esteesunidentificadordemasdeveinticincocaracteres := 2
-    ## Identificadores con letras, digitos y @.
-    identificador1@
-    # este es un comentario mal definido
-    @identificador1
-    identi@ficador1
-    ##Identificadores bien y mal definidos 
-    identificador1
-    IDENTIFICADOR1
-    IdEnTiFiCaDoR1
-    ident;@indet
-    ##Palabras reservadas escritas en minúsculas y mayúsculas
-    else
-    ELSE
-    WHILE
-    while
-    ## Cadenas bien y mal definida
-    <<hola soy tomas >>
-    < hola soy tomas
-    << hola soy tomas << >>
-    << hola soy tomas + hola soy tomas >>
-    ##Comentarios bien y mal definidos.
-    # este es un comentario mal definido
-    a :783
+	while (a <> b) do 
+	begin
+		if (a <= b) then
+		begin
+			d := 54678;
+		end
+		end_if		
+	end
+	integer a;
+	a := 250;
+	ulongint b;
+	b := 3294967295;
+	print (<<Probando>>);
+	##Este es un comentario
+	integer fun funcion ()
+	begin
+		if (a <= b) then
+		begin
+			d := 54678;
+			while (a <> b) do 
+			begin
+				if (a <= b) then
+				begin
+					d := 54678;
+				end
+				end_if		
+			end
+		end
+		end_if
+		print (<<probando probando>>);
+		return (59);
+	end
+	while (a <> b) do 
+	begin
+		if (a <= b) then
+		begin
+			d := 54678;
+		end
+		end_if		
+	end
+
 end

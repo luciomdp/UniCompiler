@@ -33,29 +33,29 @@ import objects.enums.ETokenType;
 public class LexicalAnalizer {
 
     private final int stateTable [][] = {
-        {1, 1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, 6, 0, 0, 0, 3, 5, 1, -1},
-        {1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1},
-        {-1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-        {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-        {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, -1, 4, 4, 4, -1},
-        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1, -1, -1, -1, -1, -1, -1},
-        {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 8, 8, 8, 8, 8, 8, -1},
-        {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, -1, 8, 8, 8, 8, 8, 8, -1}
+        {1, 1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, 6, 0, 0, 0, 3, 5, 1, -1, 1},
+        {1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, -1, 1},
+        {-1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+        {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
+        {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, -1, 4, 4, 4, -1, 4},
+        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+        {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 8, 8, 8, 8, 8, 8, -1, 8},
+        {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, -1, 8, 8, 8, 8, 8, 8, -1, 8}
     };
 
     private final ISemanticAction semanticActionsTable [][] = {
-        {new SA_3(), new SA_3(),new SA_3(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_3(),new SA_3(),null,null,null,null,new SA_3(),new SA_3(),new SA_15()},
-        {new SA_2(), new SA_2(),new SA_2(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_2(),new SA_1()},
-        {new SA_4(), new SA_4(), new SA_3(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(),new SA_4()},
-        {new SA_6(), new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(), null,new SA_6(),new SA_6(),new SA_6()},
-        {null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null},
-        {new SA_14(), new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14()},
-        {new SA_8(), new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_7(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8()},
-        {new SA_9(), new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_10(),new SA_11(),new SA_10(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9()},
-        {new SA_12(), new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),null,new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12()},
-        {new SA_13(), new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),null,new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13()}
+        {new SA_3(), new SA_3(),new SA_3(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_5(),new SA_3(),new SA_3(),null,null,null,null,new SA_3(),new SA_3(),new SA_15(), new SA_3()},
+        {new SA_2(), new SA_2(),new SA_2(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_1(),new SA_2(),new SA_1(), new SA_2()},
+        {new SA_4(), new SA_4(), new SA_3(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(), new SA_4(),new SA_4(), new SA_4()},
+        {new SA_6(), new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(),new SA_6(), null,new SA_6(),new SA_6(),new SA_6(), new SA_6()},
+        {null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null, null},
+        {new SA_14(), new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(),new SA_14(), new SA_14()},
+        {new SA_8(), new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_7(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(), new SA_8()},
+        {new SA_9(), new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_10(),new SA_11(),new SA_10(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(), new SA_9()},
+        {new SA_12(), new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),null,new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(), new SA_12()},
+        {new SA_13(), new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),null,new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(), new SA_13()}
     };
     private SymbolTable symbolTable;
 

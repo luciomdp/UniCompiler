@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="zJP9Rn_apFHwhB3t_4ZS" name="Page-1">
-        <mxGraphModel dx="2758" dy="361" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2686" dy="607" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -112,7 +112,7 @@
                 <mxCell id="20" value="&lt;font color=&quot;#00ff00&quot;&gt;d&lt;/font&gt;&lt;br&gt;A.S. 3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#CC0000;rotation=0;" parent="1" vertex="1">
                     <mxGeometry x="-993" y="333.43" width="40" height="23.57" as="geometry"/>
                 </mxCell>
-                <mxCell id="22" value="&lt;font color=&quot;#00ff00&quot;&gt;l d @&lt;br&gt;&lt;/font&gt;&lt;span style=&quot;color: rgb(204, 0, 0);&quot;&gt;A.S. 2&lt;/span&gt;&lt;font color=&quot;#00ff00&quot;&gt;&lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                <mxCell id="22" value="&lt;font color=&quot;#00ff00&quot;&gt;l d @ _&lt;br&gt;&lt;/font&gt;&lt;span style=&quot;color: rgb(204, 0, 0);&quot;&gt;A.S. 2&lt;/span&gt;&lt;font color=&quot;#00ff00&quot;&gt;&lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="-806" y="90" width="60" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="24" value="F" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontColor=#FFFFFF;" parent="1" vertex="1">
@@ -140,7 +140,7 @@
                         <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="29" value="&lt;font color=&quot;#00ff00&quot;&gt;C - (l + d + @)&lt;/font&gt;&lt;br&gt;A.S. 1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#CC0000;rotation=20;" parent="1" vertex="1">
+                <mxCell id="29" value="&lt;font color=&quot;#00ff00&quot;&gt;C - (l + d + @+_)&lt;/font&gt;&lt;br&gt;A.S. 1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#CC0000;rotation=20;" parent="1" vertex="1">
                     <mxGeometry x="-422.00000000000006" y="240" width="80" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="33" value="" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontColor=#00FF00;endArrow=none;" parent="1" source="11" target="32" edge="1">

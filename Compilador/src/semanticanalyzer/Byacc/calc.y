@@ -1,10 +1,11 @@
 
 /* --------------- DECLARACION --------------- */
 %{
+    import components.MainView;
     import lexicalanalyzer.LexicalAnalizer;
 %}
 
-%token ID INT_CONST ULONGINT_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT
+%token ID NUMERIC_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT
 
 /* --------------- GRAMATICA --------------- */
 %%
@@ -156,4 +157,9 @@ public int yylex() {
 }
 public void yyerror(String s) {
     mainView.getSemanticViewer().appendData(s + "\n");
+}
+public void debug(String msg)
+{
+  if (yydebug)
+    mainView.getSemanticViewer().appendData(msg + "\n");
 }
