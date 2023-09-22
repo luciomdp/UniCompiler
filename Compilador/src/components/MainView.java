@@ -1,3 +1,4 @@
+package components;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -13,18 +14,20 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
 import lexicalanalyzer.LexicalAnalizer;
-import lexicalanalyzer.TokenViewer;
 
 public class MainView  extends JFrame{
 
     private JTabbedPane tab;
     private TokenViewer panelTokenViewer; 
+    private SemanticViewer semanticViewer;
     
     public MainView(LexicalAnalizer lexicalAnalizer) {
         tab = new JTabbedPane(JTabbedPane.TOP);
-        panelTokenViewer = new TokenViewer(lexicalAnalizer);        
+        panelTokenViewer = new TokenViewer(lexicalAnalizer);   
+        semanticViewer = new SemanticViewer();
        
-        tab.addTab("Visualizador de Tokens", generateTokenIcon(), panelTokenViewer, null);
+        tab.addTab("Visualizador de Tokens", generateIcon("Compilador/src/images/token.png"), panelTokenViewer, null);
+        tab.addTab("Visualizador semántico", generateIcon("Compilador/src/images/semantica.png"), semanticViewer, null);
 
         this.setIconImage(new ImageIcon("Compilador/src/images/logo.png").getImage());
 		setTitle("FasTALC (FASTA Language Compiler)");
@@ -39,14 +42,11 @@ public class MainView  extends JFrame{
         setVisible(true);
         pack();
         setLocationRelativeTo(null);
-
-        panelTokenViewer.appendData("--------------------------- << Comienzo del análisis léxico >> ---------------------------\n");
-        panelTokenViewer.appendData("------------- << [Lexema,Token] >> -------------\n");
     }
 
-    private Icon generateTokenIcon() {
+    private Icon generateIcon(String path) {
         try {
-            BufferedImage originalImage = ImageIO.read(new File("Compilador/src/images/token.png"));
+            BufferedImage originalImage = ImageIO.read(new File(path));
             Image scaledImage = originalImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
             return new ImageIcon(scaledImage);
         } catch (IOException e) {
@@ -60,6 +60,14 @@ public class MainView  extends JFrame{
 
     public void setPanelTokenViewer(TokenViewer panelTokenViewer) {
         this.panelTokenViewer = panelTokenViewer;
+    }
+
+    public SemanticViewer getSemanticViewer() {
+        return semanticViewer;
+    }
+
+    public void setSemanticViewer(SemanticViewer semanticViewer) {
+        this.semanticViewer = semanticViewer;
     }
     
 }
