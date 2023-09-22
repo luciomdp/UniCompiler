@@ -17,13 +17,14 @@ public class TokenViewer extends AbstractPanelViewer {
     }
 
     public void printToken(int tokenValue) {
-
-        if(ETokenType.getLexemeTokenTypes().contains(Long.valueOf(tokenValue)))
-            appendData("[ "+lexicalAnalizer.getLexema()+ " , "+ (ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() + " "):"") + ETokenType.getDescription(tokenValue) + " ]\n");
-        else
-            appendData((ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() +" \"" + ETokenType.getDescription(tokenValue) + "\""):ETokenType.getDescription(tokenValue)) + "\n");
+        if (tokenValue != ETokenType.IGNORE.getValue()){
+            if(ETokenType.getLexemeTokenTypes().contains(Long.valueOf(tokenValue)))
+                appendData("[ "+lexicalAnalizer.getLexema()+ " , "+ (ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() + " "):"") + ETokenType.getDescription(tokenValue) + " ]\n");
+            else
+                appendData((ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() +" \"" + ETokenType.getDescription(tokenValue) + "\""):ETokenType.getDescription(tokenValue)) + "\n");
+        }
         appendWarning(lexicalAnalizer.getWarningMessage()!=""?lexicalAnalizer.getWarningMessage()+"\n":"");
-        appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"\n":"");
+        appendError(lexicalAnalizer.getErrorMessage()!=""?lexicalAnalizer.getErrorMessage()+"(linea "+lexicalAnalizer.getNewLineCount()+")"+"\n":"");
         
         try {Thread.sleep(250);} catch (InterruptedException e) {e.printStackTrace();} //Espera (animación)
         

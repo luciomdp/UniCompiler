@@ -18,7 +18,8 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            BEGIN sentencias END {mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");}
+            ID BEGIN sentencias END {mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");}
+        |   error ';'{mainView.getSemanticViewer().appendError("El programa debe comenzar con un nombre seguido de begin y debe finalizar con end \n");}
 ;
 sentencias : 
             sentencias sentencia
@@ -153,6 +154,8 @@ public static void main(String[] args) throws Exception {
 public int yylex() {
     int token = lexicalAnalizer.yylex();
     mainView.getPanelTokenViewer().printToken(token);
+    if (token ==ETokenType.IGNORE.getValue())
+      return yylex();
     yyval = new ParserVal(lexicalAnalizer.getLexema());
     return token;
 }

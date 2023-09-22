@@ -21,8 +21,9 @@ public enum ECharacterType {
     HASHTAG(17),// "#"
     COLON(18),// ":"
     AT(19),// "@"
-    OTHERS(20),
-    UNDERSCORE(21);
+    EOF(20),
+    UNDERSCORE(21),
+    OTHERS(22);
 
     private int value;
     
@@ -36,6 +37,8 @@ public enum ECharacterType {
 
     public static ECharacterType fromChar(char character) {
         switch (character) {
+            case 65535 :
+                return ECharacterType.EOF;
             case '_':
                 return ECharacterType.UNDERSCORE;
             case '/':
