@@ -6,10 +6,12 @@ import objects.enums.ETokenType;
 public class SymbolTableItem {
     private ETokenType tokenType;
     private EDataType dataType;
+    private Long itemEntryCount;
 
     public SymbolTableItem(ETokenType tokenType, EDataType dataType) {
         this.tokenType = tokenType;
         this.dataType = dataType;
+        itemEntryCount = 1L;
     }
 
     public ETokenType getTokenType() {
@@ -25,5 +27,12 @@ public class SymbolTableItem {
         this.dataType = dataType;
     }
 
-    
+    public Long getItemEntryCount() {
+        return itemEntryCount;
+    }
+
+    public void setItemEntryCount(Long itemEntryCount) {
+        this.itemEntryCount = itemEntryCount;
+    }
+
 }
