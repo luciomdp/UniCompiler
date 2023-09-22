@@ -1,3 +1,4 @@
+import components.MainView;
 import lexicalanalyzer.LexicalAnalizer;
 
 public class App {

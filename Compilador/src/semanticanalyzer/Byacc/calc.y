@@ -155,5 +155,5 @@ public int yylex() {
     return token;
 }
 public void yyerror(String s) {
-    System.out.println(s);
+    mainView.getSemanticViewer().appendData(s + "\n");
 }
