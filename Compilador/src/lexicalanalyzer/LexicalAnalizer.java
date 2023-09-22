@@ -64,9 +64,11 @@ public class LexicalAnalizer {
     private int currentCharacter;
     private boolean readNewCharacter;
     private SAParam SAParam;
+    private int newLineCount;
 
     public LexicalAnalizer (){
         String path = "";
+        newLineCount = 0;
         do {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Elegí el archivo a compilar");
@@ -114,6 +116,10 @@ public class LexicalAnalizer {
                 if(semanticAction != null) {
                     SAParam.setLastReadedCharacter((char)currentCharacter);
                     semanticAction.execute(SAParam);
+                }
+                else if (currentCharacter == 10){ // es el new line verdadero, no el 
+                    newLineCount++;
+                    System.out.println("New line: "+newLineCount);
                 }
                 //Calculo próximo estado en base al estado en el que estoy y el tipo de caracter que consumí
                 currentState = stateTable [currentState][ECharacterType.fromChar((char)currentCharacter).getValue()];
