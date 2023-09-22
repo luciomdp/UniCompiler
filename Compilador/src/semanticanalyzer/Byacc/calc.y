@@ -139,18 +139,18 @@ retorno:
 /* --------------- CODIGO --------------- */
 %%
 private static LexicalAnalizer lexicalAnalizer;
-private static TokenViewer visualLexicalAnalizerPanel;
+private static MainView mainView;
 
 public static void main(String[] args) throws Exception {
     lexicalAnalizer = new LexicalAnalizer();
-    visualLexicalAnalizerPanel = new TokenViewer(lexicalAnalizer);
+    mainView = new MainView(lexicalAnalizer);
     Parser parser = new Parser(true);
     parser.yyparse(); 
 }
 
 public int yylex() {
     int token = lexicalAnalizer.yylex();
-    visualLexicalAnalizerPanel.printToken(token);
+    mainView.getPanelTokenViewer().printToken(token);
     yyval = new ParserVal(lexicalAnalizer.getLexema());
     return token;
 }
