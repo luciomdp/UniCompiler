@@ -19,7 +19,6 @@ programa :
 
 bloque :   
             ID BEGIN sentencias END {mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");}
-        |   error ';'{mainView.getSemanticViewer().appendError("El programa debe comenzar con un nombre seguido de begin y debe finalizar con end \n");}
 ;
 sentencias : 
             sentencias sentencia
