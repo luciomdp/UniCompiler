@@ -25,6 +25,8 @@ public class SymbolTable {
         symbolTable.put("itoul", new SymbolTableItem(ETokenType.ITOUL, null, 0L));
         symbolTable.put("integer", new SymbolTableItem(ETokenType.INTEGER, null, 0L));
         symbolTable.put("ulongint", new SymbolTableItem(ETokenType.ULONGINT, null, 0L));
+        
+        
     }
 
     public void insert(String lexeme, SymbolTableItem tokenType) {
@@ -40,6 +42,10 @@ public class SymbolTable {
 
     public SymbolTableItem lookup(String lexeme) {
         return symbolTable.get(lexeme);
+    }
+
+    public SymbolTableItem remove(String lexeme) {
+        return symbolTable.remove(lexeme);
     }
 
     public boolean contains(String lexeme) {

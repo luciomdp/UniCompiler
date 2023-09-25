@@ -23,13 +23,16 @@ public class SA_4 implements ISemanticAction{
         //Mientras no pasemos el límite máximo permitido para una cte de tipo ulongint (4294967295)
         //El negativo no importa porque no podemos definir en esta etapa si es positivo o negativo nuestro valor cte
         if(longValue <= Long.valueOf(4294967295L)) {
-            if (longValue <= Long.valueOf(32767)){// es integer
-                ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.INTEGER));
-                params.setTokenType(ETokenType.NUMERIC_CONST);
-            }else{// es ulongint
-                ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.ULONGINT));
-                params.setTokenType(ETokenType.NUMERIC_CONST);
-            }  
+            if (!ConfigurationParams.symbolTable.contains(params.getLexema().toString())){
+                if (longValue <= Long.valueOf(32767)){// es integer
+                    ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.INTEGER));
+                }else{// es ulongint
+                    ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.ULONGINT));
+                }
+            }
+            else 
+                ConfigurationParams.symbolTable.addEntryCount(params.getLexema().toString());
+            params.setTokenType(ETokenType.NUMERIC_CONST);
         }else 
             params.setMessageError("ERROR: ulongint soporta hasta 4294967295");
         

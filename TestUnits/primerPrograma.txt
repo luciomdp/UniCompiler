@@ -19,7 +19,7 @@ begin
 	begin
 		if (a <= b) then
 		begin
-			d := 54678;
+			d := -54678;
 			while (a <> b) do 
 			begin
 				if (a <= b) then
