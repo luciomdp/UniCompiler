@@ -1,8 +1,12 @@
 
 /* --------------- DECLARACION --------------- */
 %{
-    import lexicalanalyzer.*;
-    import components.*;
+import lexicalanalyzer.*;
+import objects.ConfigurationParams;
+import objects.SymbolTableItem;
+import objects.enums.EDataType;
+import objects.enums.ETokenType;
+import components.*;
 %}
 
 %token ID NUMERIC_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT
@@ -18,31 +22,31 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            ID BEGIN sentencias END {mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");}
+            ID BEGIN sentencias END {ConfigurationParams.mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");}
 ;
 sentencias : 
             sentencias sentencia
         |   sentencia
 ;
 sentencia :  
-            declaracion {mainView.getSemanticViewer().appendData("declaracion\n");}
-        |   asignacion {mainView.getSemanticViewer().appendData("asignacion\n");}
-        |   impresion {mainView.getSemanticViewer().appendData("impresion\n");}
-        |   iteracion {mainView.getSemanticViewer().appendData("iteracion\n");}
-        |   seleccion {mainView.getSemanticViewer().appendData("seleccion\n");}
-        |   error ';'   {mainView.getSemanticViewer().appendError("Error de sentencia\n");}
+            declaracion {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion\n");}
+        |   asignacion {ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion\n");}
+        |   impresion {ConfigurationParams.mainView.getSemanticViewer().appendData("impresion\n");}
+        |   iteracion {ConfigurationParams.mainView.getSemanticViewer().appendData("iteracion\n");}
+        |   seleccion {ConfigurationParams.mainView.getSemanticViewer().appendData("seleccion\n");}
+        |   error ';'   {ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia\n");}
 ;
 sentencias_ejecutables : 
             sentencias_ejecutables sentencia_ejecutable
         |   sentencia_ejecutable
 ;
 sentencia_ejecutable :  
-            declaracion_variables {mainView.getSemanticViewer().appendData("declaracion variables\n");}
-        |   asignacion {mainView.getSemanticViewer().appendData("asignacion\n");}
-        |   impresion {mainView.getSemanticViewer().appendData("impresion\n");}
-        |   iteracion {mainView.getSemanticViewer().appendData("iteracion\n");}
-        |   seleccion {mainView.getSemanticViewer().appendData("seleccion\n");}
-        |   error ';'   {mainView.getSemanticViewer().appendError("Error de sentencia ejecutable\n");}
+            declaracion_variables {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion variables\n");}
+        |   asignacion {ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion\n");}
+        |   impresion {ConfigurationParams.mainView.getSemanticViewer().appendData("impresion\n");}
+        |   iteracion {ConfigurationParams.mainView.getSemanticViewer().appendData("iteracion\n");}
+        |   seleccion {ConfigurationParams.mainView.getSemanticViewer().appendData("seleccion\n");}
+        |   error ';'   {ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia ejecutable\n");}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
@@ -89,7 +93,13 @@ factor :
             ID  
         |   NUMERIC_CONST
         |   invocacion
-        |   '-' NUMERIC_CONST
+        |   '-' NUMERIC_CONST {
+                                    if (ConfigurationParams.symbolTable.contains($1)){
+                                        if (ConfigurationParams.symbolTable.lookup($1).getItemEntryCount() == 1)
+                                            ConfigurationParams.symbolTable.remove($1);
+                                    ConfigurationParams.symbolTable.insert("-"+$1, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+                                    }
+                                }
         |   ITOUL '(' expresion ')'
 ;
 
@@ -100,7 +110,13 @@ invocacion:
 parametros:
             ID
         |   NUMERIC_CONST 
-        |   '-' NUMERIC_CONST
+        |   '-' NUMERIC_CONST {
+                                    if (ConfigurationParams.symbolTable.contains($1)){
+                                        if (ConfigurationParams.symbolTable.lookup($1).getItemEntryCount() == 1)
+                                            ConfigurationParams.symbolTable.remove($1);
+                                    ConfigurationParams.symbolTable.insert("-"+$1, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+                                    }
+                            }
 ;
 
 /* ----- OTRAS ----- */
@@ -111,7 +127,7 @@ impresion :
 /* ITERACION */
 iteracion: 
             WHILE '(' condicion ')' DO bloque_ejecutables
-        |   WHILE '(' condicion ')' bloque_ejecutables {mainView.getSemanticViewer().appendError("Error: te olvidaste el DO\n");}
+        |   WHILE '(' condicion ')' bloque_ejecutables {ConfigurationParams.mainView.getSemanticViewer().appendError("Error: te olvidaste el DO\n");}
 ;
 /* SELECCION */
 seleccion: 
@@ -156,5 +172,5 @@ public int yylex() {
     return token;
 }
 public void yyerror(String s) {
-    ConfigurationParams.mainView.getSemanticViewer().appendError(s + ", en la línea"+ lexicalAnalizer.getNewLineCount() +"\n");
+    ConfigurationParams.mainView.getSemanticViewer().appendError(s + ", en la línea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
 }
