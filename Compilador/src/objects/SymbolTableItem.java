@@ -13,6 +13,11 @@ public class SymbolTableItem {
         this.dataType = dataType;
         itemEntryCount = 1L;
     }
+    public SymbolTableItem(ETokenType tokenType, EDataType dataType, Long itemEntryCount) {
+        this.tokenType = tokenType;
+        this.dataType = dataType;
+        this.itemEntryCount = itemEntryCount;
+    }
 
     public ETokenType getTokenType() {
         return tokenType;

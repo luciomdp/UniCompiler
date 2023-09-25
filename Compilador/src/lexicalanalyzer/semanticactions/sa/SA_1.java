@@ -20,6 +20,8 @@ public class SA_1 implements ISemanticAction{
     public void execute(SAParam params) {
         if (!ConfigurationParams.symbolTable.contains(params.getLexema().toString())) 
             ConfigurationParams.symbolTable.insert(params.getLexema().toString(),new SymbolTableItem(ETokenType.ID, null));
+        else 
+            ConfigurationParams.symbolTable.addEntryCount(params.getLexema().toString());
         params.setTokenType(ConfigurationParams.symbolTable.lookup(params.getLexema().toString()).getTokenType());   
         params.setReadNewCharacter(false);
     }

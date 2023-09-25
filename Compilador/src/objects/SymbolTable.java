@@ -11,24 +11,30 @@ public class SymbolTable {
     public SymbolTable() {
         symbolTable = new HashMap<String, SymbolTableItem>();
         //Agregamos palabras reservadas a la tabla de símbolos
-        symbolTable.put("if", new SymbolTableItem(ETokenType.IF, null));
-        symbolTable.put("then", new SymbolTableItem(ETokenType.THEN, null));
-        symbolTable.put("else", new SymbolTableItem(ETokenType.ELSE, null));
-        symbolTable.put("begin", new SymbolTableItem(ETokenType.BEGIN, null));
-        symbolTable.put("end", new SymbolTableItem(ETokenType.END, null));
-        symbolTable.put("end_if", new SymbolTableItem(ETokenType.END_IF, null));
-        symbolTable.put("print", new SymbolTableItem(ETokenType.PRINT, null));
-        symbolTable.put("while", new SymbolTableItem(ETokenType.WHILE, null));
-        symbolTable.put("do", new SymbolTableItem(ETokenType.DO, null));
-        symbolTable.put("fun", new SymbolTableItem(ETokenType.FUN, null));
-        symbolTable.put("return", new SymbolTableItem(ETokenType.RETURN, null));
-        symbolTable.put("itoul", new SymbolTableItem(ETokenType.ITOUL, null));
-        symbolTable.put("integer", new SymbolTableItem(ETokenType.INTEGER, null));
-        symbolTable.put("ulongint", new SymbolTableItem(ETokenType.ULONGINT, null));
+        symbolTable.put("if", new SymbolTableItem(ETokenType.IF, null, 0L));
+        symbolTable.put("then", new SymbolTableItem(ETokenType.THEN, null, 0L));
+        symbolTable.put("else", new SymbolTableItem(ETokenType.ELSE, null, 0L));
+        symbolTable.put("begin", new SymbolTableItem(ETokenType.BEGIN, null, 0L));
+        symbolTable.put("end", new SymbolTableItem(ETokenType.END, null, 0L));
+        symbolTable.put("end_if", new SymbolTableItem(ETokenType.END_IF, null, 0L));
+        symbolTable.put("print", new SymbolTableItem(ETokenType.PRINT, null, 0L));
+        symbolTable.put("while", new SymbolTableItem(ETokenType.WHILE, null, 0L));
+        symbolTable.put("do", new SymbolTableItem(ETokenType.DO, null, 0L));
+        symbolTable.put("fun", new SymbolTableItem(ETokenType.FUN, null, 0L));
+        symbolTable.put("return", new SymbolTableItem(ETokenType.RETURN, null, 0L));
+        symbolTable.put("itoul", new SymbolTableItem(ETokenType.ITOUL, null, 0L));
+        symbolTable.put("integer", new SymbolTableItem(ETokenType.INTEGER, null, 0L));
+        symbolTable.put("ulongint", new SymbolTableItem(ETokenType.ULONGINT, null, 0L));
     }
 
     public void insert(String lexeme, SymbolTableItem tokenType) {
         symbolTable.put(lexeme, tokenType);
+        ConfigurationParams.mainView.getSymbolTableViewer().updateTable();
+    }
+
+    public void addEntryCount(String lexeme) {
+        SymbolTableItem item = symbolTable.get(lexeme);
+        item.setItemEntryCount(item.getItemEntryCount()+1);
         ConfigurationParams.mainView.getSymbolTableViewer().updateTable();
     }
 

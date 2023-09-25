@@ -1,3 +1,5 @@
+.
+programa1
 begin
 	while (a <> b) do 
 	begin
@@ -11,7 +13,7 @@ begin
 	a := 250;
 	ulongint b;
 	b := 3294967295;
-	print (<<Probando>>);
+	pri.nt (<<Probando>>);
 	##Este es un comentario
 	integer fun funcion ()
 	begin
@@ -39,5 +41,6 @@ begin
 		end
 		end_if		
 	end
-
+	c := funcion();
+	c := funcion(a);
 end
