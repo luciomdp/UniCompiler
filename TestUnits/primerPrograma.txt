@@ -9,6 +9,7 @@ begin
 		end
 		end_if		
 	end
+	z := itoul (256+897);
 	integer a;
 	a := 250;
 	ulongint b;

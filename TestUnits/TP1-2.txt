@@ -1,86 +1,47 @@
-
-
-Identificadores:
-
-   h, unnombremuylargoquedarawarning1,unnombremuylargoquedarawarning1,a,b123 @x123, x12@abc, AbC1@X;  
-   @123, 123b
-
-Constantes:
-
-Enteros: constantes enteras con valores entre -32768 y 32767
-
-	0, 123, 32767, 32768, 32766, -32768
-
-Enteros sin signo: Constantes enteras con valores entre 0 y 65535 
-	
-	0, 123, 65535, 65536, -65534, -65535
-
-Enteros largos sin signo: Constantes enteras con valores entre 0 y 4294967295
-
-	2147483647, 2147483648, 2147483649, -2147483648, -12345678
-	4294967296, 4294967297, 4294967295
-	
-
-
-Palabras reservadas:
-
-	if, IF
-	then, THEN
-	else, ELSE
+.
+programa1
+begin
+	while (a <> b) do 
 	begin
+		if (a <= b) then
+		begin
+			d := 54678;
+		end
+		end_if		
 	end
-	##end_if
-	endif
-	print
-	while
-	do
-	fun
-	return
-grupo 2
-	uinteger
-	longint
-grupo 1
-	integer
-	ulongint
-	itoul
-	
-
-
-Comentarios y cadenas:
-    */Esto es
-un
-		comentario/*
-
-## Comentario de una linea
-
-print(<<mensaje de bienvenida>>);
-
-<< cadena    
- de varias   
-
- lineas! >>
-
-## "cadena | corta"
-
-
-
-No validos:
-
-	%
-	$
-	&
-	#
-	[  ]
-	{´ }
-
-Código:
-
-if (a>b) a:=0;
-if (a<0) a:-1;
-if (b>=0) a:=a+b*c/d;
-if (b<=0) b:=1+2-3/4*5;
-if  (c=1) b:=0
-if (c<>d) b:-a*b
-
-*/ comentario sin cerrar
-
+	z := itoul (256+897);
+	integer a;
+	a := 250;
+	ulongint b;
+	b := 3294967295;
+	pri.nt (<<Probando>>);
+	##Este es un comentario
+	integer fun funcion ()
+	begin
+		if (a <= b) then
+		begin
+			d := -54678;
+			while (a <> b) do 
+			begin
+				if (a <= b) then
+				begin
+					d := -54678;
+				end
+				end_if		
+			end
+		end
+		end_if
+		print (<<probando probando>>);
+		return (59);
+	end
+	while (a <> b) do 
+	begin
+		if (a <= b) then
+		begin
+			d := 54678;
+		end
+		end_if		
+	end
+	c := funcion();
+	c := funcion(a);
+end

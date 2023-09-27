@@ -421,7 +421,7 @@ public int yylex() {
     return token;
 }
 public void yyerror(String s) {
-    ConfigurationParams.mainView.getSemanticViewer().appendError(s + ", en la línea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+    ConfigurationParams.mainView.getSemanticViewer().appendError(s + ", en la línea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
 }
 //#line 355 "Parser.java"
 //###############################################################
