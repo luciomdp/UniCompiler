@@ -404,7 +404,7 @@ final static String yyrule[] = {
 "retorno : RETURN '(' expresion ')' ';'",
 };
 
-//#line 159 "calc.y"
+//#line 171 "calc.y"
 
 public static void main(String[] args) throws Exception {
     ConfigurationParams globalParams = new ConfigurationParams(false);
@@ -417,7 +417,7 @@ public int yylex() {
     ConfigurationParams.mainView.getPanelTokenViewer().printToken(token);
     if (token ==ETokenType.IGNORE.getValue())
       return yylex();
-    yyval = new ParserVal(ConfigurationParams.lexicalAnalizer.getLexema());
+    yylval = new ParserVal(ConfigurationParams.lexicalAnalizer.getLexema());
     return token;
 }
 public void yyerror(String s) {
@@ -631,29 +631,43 @@ case 18:
 break;
 case 39:
 //#line 96 "calc.y"
-// {
-//                                     if (ConfigurationParams.symbolTable.contains(val_peek(1))){
-//                                         if (ConfigurationParams.symbolTable.lookup(val_peek(1)).getItemEntryCount() == 1)
-//                                             ConfigurationParams.symbolTable.remove(val_peek(1));
-//                                     ConfigurationParams.symbolTable.insert("-"+val_peek(1), new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
-//                                     }
-//                                 }
-// break;
-// case 45:
-// //#line 113 "calc.y"
-// {
-//                                     if (ConfigurationParams.symbolTable.contains(val_peek(1))){
-//                                         if (ConfigurationParams.symbolTable.lookup(val_peek(1)).getItemEntryCount() == 1)
-//                                             ConfigurationParams.symbolTable.remove(val_peek(1));
-//                                     ConfigurationParams.symbolTable.insert("-"+val_peek(1), new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
-//                                     }
-//                             }
+{
+                                    String lexema = val_peek(0).sval;
+                                    if (ConfigurationParams.symbolTable.contains("-"+lexema)){
+                                        ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
+                                        ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
+                                    }
+                                    else if (ConfigurationParams.symbolTable.contains(lexema)){
+                                        if (ConfigurationParams.symbolTable.lookup(lexema).getItemEntryCount() == 1)
+                                            ConfigurationParams.symbolTable.remove(lexema);
+                                        else
+                                            ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();;
+                                    ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+                                    }
+                                }
+break;
+case 45:
+//#line 119 "calc.y"
+{
+                                    String lexema = val_peek(0).sval;
+                                    if (ConfigurationParams.symbolTable.contains("-"+lexema)){
+                                        ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
+                                        ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
+                                    }
+                                    else if (ConfigurationParams.symbolTable.contains(lexema)){
+                                        if (ConfigurationParams.symbolTable.lookup(lexema).getItemEntryCount() == 1)
+                                            ConfigurationParams.symbolTable.remove(lexema);
+                                        else
+                                            ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();;
+                                    ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+                                    }
+                                }
 break;
 case 48:
-//#line 130 "calc.y"
+//#line 142 "calc.y"
 {ConfigurationParams.mainView.getSemanticViewer().appendError("Error: te olvidaste el DO\n");}
 break;
-//#line 580 "Parser.java"
+//#line 592 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

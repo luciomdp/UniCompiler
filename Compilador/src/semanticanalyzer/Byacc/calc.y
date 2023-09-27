@@ -94,10 +94,17 @@ factor :
         |   NUMERIC_CONST
         |   invocacion
         |   '-' NUMERIC_CONST {
-                                    if (ConfigurationParams.symbolTable.contains($1)){
-                                        if (ConfigurationParams.symbolTable.lookup($1).getItemEntryCount() == 1)
-                                            ConfigurationParams.symbolTable.remove($1);
-                                    ConfigurationParams.symbolTable.insert("-"+$1, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+                                    String lexema = $2.sval;
+                                    if (ConfigurationParams.symbolTable.contains("-"+lexema)){
+                                        ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
+                                        ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
+                                    }
+                                    else if (ConfigurationParams.symbolTable.contains(lexema)){
+                                        if (ConfigurationParams.symbolTable.lookup(lexema).getItemEntryCount() == 1)
+                                            ConfigurationParams.symbolTable.remove(lexema);
+                                        else
+                                            ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();;
+                                    ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
                                     }
                                 }
         |   ITOUL '(' expresion ')'
@@ -111,12 +118,19 @@ parametros:
             ID
         |   NUMERIC_CONST 
         |   '-' NUMERIC_CONST {
-                                    if (ConfigurationParams.symbolTable.contains($1)){
-                                        if (ConfigurationParams.symbolTable.lookup($1).getItemEntryCount() == 1)
-                                            ConfigurationParams.symbolTable.remove($1);
-                                    ConfigurationParams.symbolTable.insert("-"+$1, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+                                    String lexema = $2.sval;
+                                    if (ConfigurationParams.symbolTable.contains("-"+lexema)){
+                                        ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
+                                        ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
                                     }
-                            }
+                                    else if (ConfigurationParams.symbolTable.contains(lexema)){
+                                        if (ConfigurationParams.symbolTable.lookup(lexema).getItemEntryCount() == 1)
+                                            ConfigurationParams.symbolTable.remove(lexema);
+                                        else
+                                            ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();;
+                                    ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+                                    }
+                                }
 ;
 
 /* ----- OTRAS ----- */
@@ -168,7 +182,7 @@ public int yylex() {
     ConfigurationParams.mainView.getPanelTokenViewer().printToken(token);
     if (token ==ETokenType.IGNORE.getValue())
       return yylex();
-    yyval = new ParserVal(ConfigurationParams.lexicalAnalizer.getLexema());
+    yylval = new ParserVal(ConfigurationParams.lexicalAnalizer.getLexema());
     return token;
 }
 public void yyerror(String s) {

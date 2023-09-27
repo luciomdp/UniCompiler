@@ -39,5 +39,11 @@ public class SymbolTableItem {
     public void setItemEntryCount(Long itemEntryCount) {
         this.itemEntryCount = itemEntryCount;
     }
+    public void subtractOneItemEntry() {
+        this.itemEntryCount = itemEntryCount-1;
+    }
+    public void addOneItemEntry() {
+        this.itemEntryCount = itemEntryCount+1;
+    }
 
 }
