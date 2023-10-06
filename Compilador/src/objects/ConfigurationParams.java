@@ -12,6 +12,8 @@ public class ConfigurationParams {
     public static SymbolTable symbolTable;
     public static ReversePolishStructure reversePolishStructure;
 
+    public static StringBuilder currentScope;
+
     public ConfigurationParams (Boolean production) {
         if(production){
             VIEW_TOKEN_NUMBER = true;
@@ -19,7 +21,7 @@ public class ConfigurationParams {
         symbolTable = new SymbolTable();    
         lexicalAnalizer = new LexicalAnalizer();
         reversePolishStructure = new ReversePolishStructure();
-
+        currentScope = new StringBuilder();
         mainView = new MainView();
     }
 
@@ -28,5 +30,18 @@ public class ConfigurationParams {
     }
     public static void updateReversePolishView(String newVal,int index) {
         mainView.getReversePolishViewer().updateTable(newVal,index);
+    }
+    public static void addScope(String newScope) {
+        currentScope.append(".");
+        currentScope.append(newScope);
+        reversePolishStructure.generateNewReversePolish(newScope);
+    }
+    public static void removeScope() {
+        if (currentScope.lastIndexOf(".") != -1) 
+           currentScope.setLength(currentScope.lastIndexOf("."));
+    }
+
+    public static String getCurrentScope() {
+        return (currentScope.lastIndexOf(".") != -1) ? currentScope.substring(currentScope.lastIndexOf(".") + 1) : currentScope.toString();
     }
 }

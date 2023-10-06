@@ -1,7 +1,9 @@
 package objects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class ReversePolishStructure {
@@ -9,24 +11,29 @@ public class ReversePolishStructure {
     //Para agregar un elemento a la lista, tendremos que hacer o ConfigurationParams.ReversePolishStructure.add(value)
     //Para agregar varios elementos a la lista, tendremos que hacer o ConfigurationParams.ReversePolishStructure.add(Arrays.asList(values[]))
 
-    private List<String> reversePolishList;
+    private Map<String,List<String>> reversePolishList;
     private Stack<Integer> stack;
 
     public ReversePolishStructure() {
-        reversePolishList = new ArrayList<String>();
+        reversePolishList = new HashMap<String,List<String>>();
         stack = new Stack<>();
     }
 
+    public void generateNewReversePolish(String id) {
+        if(!reversePolishList.containsKey(id))
+            reversePolishList.put(id, new ArrayList<String>());
+    }
+
     public void add (String value) {
-        reversePolishList.add(value);
+        reversePolishList.get(ConfigurationParams.getCurrentScope()).add(value);
         ConfigurationParams.updateReversePolishView(value,getNextIndex()-1);
     }
     public void addInPosition (Integer value, Integer position) {
-        reversePolishList.set(position, value.toString());
+        reversePolishList.get(ConfigurationParams.getCurrentScope()).set(position, value.toString());
         ConfigurationParams.updateReversePolishView(value.toString(),position);
     }    
     public void add (Integer value) {
-        reversePolishList.add(value.toString());
+        reversePolishList.get(ConfigurationParams.getCurrentScope()).add(value.toString());
         ConfigurationParams.updateReversePolishView(value.toString(),getNextIndex()-1);
     }
 
@@ -51,11 +58,11 @@ public class ReversePolishStructure {
     }
 
     public List<String> getReversePolishList() {
-        return reversePolishList;
+        return reversePolishList.get(ConfigurationParams.getCurrentScope());
     }
 
     public void setReversePolishList(List<String> reversePolishList) {
-        this.reversePolishList = reversePolishList;
+        this.reversePolishList.put(ConfigurationParams.getCurrentScope(),reversePolishList);
     }
 
     

@@ -24,9 +24,14 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            ID BEGIN sentencias END {ConfigurationParams.mainView.getSintacticViewer().appendData("--------------------------- << Fin del análisis sintáctico >> ---------------------------");
-                                                            ConfigurationParams.reversePolishStructure.add($1.sval);
-                                    }
+            nombre_programa BEGIN sentencias END {
+                ConfigurationParams.mainView.getSintacticViewer().appendData("--------------------------- << Fin del análisis sintáctico >> ---------------------------");
+            }
+;
+nombre_programa : 
+            ID {
+                ConfigurationParams.addScope($1.sval);
+            }
 ;
 sentencias : 
             sentencias sentencia
@@ -55,26 +60,41 @@ sentencia_ejecutable :
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
             declaracion_variables ';' 
-        |   tipo inicio_funcion ID '(' tipo ID ')' bloque_funciones {
-                                                            ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                                                            ConfigurationParams.reversePolishStructure.add("fun");
-                                                            ConfigurationParams.reversePolishStructure.add($3.sval);
-                                                            ConfigurationParams.reversePolishStructure.add($6.sval);
-                                                        }
-        |   tipo inicio_funcion ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSintacticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                                                            ConfigurationParams.reversePolishStructure.add("fun");
-                                                            ConfigurationParams.reversePolishStructure.add($3.sval);                                                       
-                                                  }
+        |   cabecera_funcion inicio_funcion cuerpo_funcion fin_funcion
+        |   cabecera_funcion_parametro inicio_funcion cuerpo_funcion fin_funcion 
 ;
-inicio_funcion:
-            FUN {ConfigurationParams.mainView.getSintacticViewer().appendData("declaración de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+cabecera_funcion_parametro : 
+            tipo token_fun ID '(' tipo ID ')' {
+                ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función con parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                ConfigurationParams.addScope($3.sval);
+            }
+;
+cabecera_funcion : 
+            tipo token_fun ID '(' ')' {
+                ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función sin parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                ConfigurationParams.addScope($3.sval);
+            }
+;
+token_fun :
+            FUN {
+                ConfigurationParams.mainView.getSintacticViewer().appendData("declaración de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+            }
+;
+inicio_funcion :   
+            BEGIN
+;
+cuerpo_funcion :   
+            sentencias retorno
+;
+fin_funcion : 
+            END {
+                ConfigurationParams.removeScope();
+            }
 ;
 declaracion_variables :   
             tipo variables ';'{ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
-bloque_funciones :   
-            BEGIN sentencias retorno END
-;
+
 tipo :       
             INTEGER  {ConfigurationParams.reversePolishStructure.add("integer");}
         |   ULONGINT {ConfigurationParams.reversePolishStructure.add("ulongint");}
