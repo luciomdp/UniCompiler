@@ -10,6 +10,7 @@ public class ConfigurationParams {
     public static LexicalAnalizer lexicalAnalizer;
     public static MainView mainView;
     public static SymbolTable symbolTable;
+    public static ReversePolishStructure reversePolishStructure;
 
     public ConfigurationParams (Boolean production) {
         if(production){
@@ -18,5 +19,6 @@ public class ConfigurationParams {
         symbolTable = new SymbolTable();    
         lexicalAnalizer = new LexicalAnalizer();
         mainView = new MainView();
+        reversePolishStructure = new ReversePolishStructure();
     }
 }

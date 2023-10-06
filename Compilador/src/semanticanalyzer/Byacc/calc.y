@@ -6,6 +6,7 @@ import objects.ConfigurationParams;
 import objects.SymbolTableItem;
 import objects.enums.EDataType;
 import objects.enums.ETokenType;
+import objects.ReversePolishStructure;
 import components.*;
 %}
 
@@ -22,7 +23,9 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            ID BEGIN sentencias END {ConfigurationParams.mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");}
+            ID BEGIN sentencias END {ConfigurationParams.mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");
+                                                            ConfigurationParams.ReversePolishStructure.add($1.sval);
+                                    }
 ;
 sentencias : 
             sentencias sentencia
@@ -51,8 +54,16 @@ sentencia_ejecutable :
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
             tipo variables ';' {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   tipo FUN ID '(' tipo ID ')' bloque_funciones {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   tipo FUN ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSemanticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   tipo FUN ID '(' tipo ID ')' bloque_funciones {
+                                                            ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                                                            ConfigurationParams.ReversePolishStructure.add("fun");
+                                                            ConfigurationParams.ReversePolishStructure.add($3.sval);
+                                                            ConfigurationParams.ReversePolishStructure.add($6.sval);
+                                                        }
+        |   tipo FUN ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSemanticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                                                            ConfigurationParams.ReversePolishStructure.add("fun");
+                                                            ConfigurationParams.ReversePolishStructure.add($3.sval);                                                       
+                                                  }
 ;
 declaracion_variables :   
             tipo variables ';'
@@ -61,10 +72,10 @@ bloque_funciones :
             BEGIN sentencias retorno END
 ;
 tipo :       
-            INTEGER
-        |   ULONGINT
+            INTEGER  {ConfigurationParams.ReversePolishStructure.add("integer");
+        |   ULONGINT {ConfigurationParams.ReversePolishStructure.add("ulongint");
 variables : 
-            variables ',' variable 
+            variables ',' variable {ConfigurationParams.ReversePolishStructure.add(",");
         |   variable
 ;
 variable : 
@@ -74,27 +85,29 @@ variable :
 /* ----- SENTENCIAS EJECUTABLES ----- */
 /* ASIGNACION */
 asignacion : 
-            ID ASIGNACION expresion ';'
+            ID ASIGNACION expresion ';' {ConfigurationParams.ReversePolishStructure.add(":=");
+                                        ConfigurationParams.ReversePolishStructure.add($1.sval);}
 ;
 
 expresion : 
             termino
-        |   expresion '+' termino 
-        |   expresion '-' termino    
+        |   expresion '+' termino {ConfigurationParams.ReversePolishStructure.add("+");}
+        |   expresion '-' termino {ConfigurationParams.ReversePolishStructure.add("-");}
 ;
 
 termino :   
             factor
-        |   termino '*' factor 
-        |   termino '/' factor 
+        |   termino '*' factor {ConfigurationParams.ReversePolishStructure.add("*");}
+        |   termino '/' factor {ConfigurationParams.ReversePolishStructure.add("/");}
 ;
 
 factor :    
-            ID  
-        |   NUMERIC_CONST
+            ID  {ConfigurationParams.ReversePolishStructure.add($1.sval);}
+        |   NUMERIC_CONST {ConfigurationParams.ReversePolishStructure.add($1.sval);}
         |   invocacion
         |   '-' NUMERIC_CONST {
                                     String lexema = $2.sval;
+                                    ConfigurationParams.ReversePolishStructure.add("-"+lexema);
                                     if (ConfigurationParams.symbolTable.contains("-"+lexema)){
                                         ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
                                         ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
@@ -107,18 +120,19 @@ factor :
                                     ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
                                     }
                                 }
-        |   ITOUL '(' expresion ')'
+        |   ITOUL '(' expresion ')' {ConfigurationParams.ReversePolishStructure.add("itoul");}
 ;
 
 invocacion: 
-            ID '(' parametros ')'
-        |   ID '('')'
+            ID '(' parametros ')' {ConfigurationParams.ReversePolishStructure.add($1.sval);}
+        |   ID '('')' {ConfigurationParams.ReversePolishStructure.add($1.sval);}
 ;
 parametros:
-            ID
-        |   NUMERIC_CONST 
+            ID {ConfigurationParams.ReversePolishStructure.add($1.sval);}
+        |   NUMERIC_CONST {ConfigurationParams.ReversePolishStructure.add($1.sval);}
         |   '-' NUMERIC_CONST {
                                     String lexema = $2.sval;
+                                    ConfigurationParams.ReversePolishStructure.add("-"+lexema);
                                     if (ConfigurationParams.symbolTable.contains("-"+lexema)){
                                         ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
                                         ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
@@ -136,11 +150,11 @@ parametros:
 /* ----- OTRAS ----- */
 /* IMPRESION */
 impresion : 
-            PRINT '(' STRING_CONST ')' ';'
+            PRINT '(' STRING_CONST ')' ';'{ConfigurationParams.ReversePolishStructure.add(Arrays.asList($3.sval, "print"))}
 ;
 /* ITERACION */
 iteracion: 
-            WHILE '(' condicion ')' DO bloque_ejecutables
+            WHILE '(' condicion ')' DO bloque_ejecutables 
         |   WHILE '(' condicion ')' bloque_ejecutables {ConfigurationParams.mainView.getSemanticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 /* SELECCION */
@@ -153,12 +167,12 @@ condicion:
             expresion comparador expresion
 ;
 comparador:
-            GREATER_EQUAL
-        |   LESS_EQUAL
-        |   NOT_EQUAL
-        |   '>'
-        |   '<'
-        |   '='
+            GREATER_EQUAL {ConfigurationParams.ReversePolishStructure.add(">=")} 
+        |   LESS_EQUAL {ConfigurationParams.ReversePolishStructure.add("<=")} 
+        |   NOT_EQUAL {ConfigurationParams.ReversePolishStructure.add("<>")} 
+        |   '>' {ConfigurationParams.ReversePolishStructure.add(">")}
+        |   '<' {ConfigurationParams.ReversePolishStructure.add("<")}
+        |   '=' {ConfigurationParams.ReversePolishStructure.add("=")}
 ;
 bloque_ejecutables:
         BEGIN sentencias_ejecutables END        
