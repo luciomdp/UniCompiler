@@ -1,4 +1,4 @@
 Paso 1: armar la gramática en el archivo calc.y
 Paso 2: pararse en la carpeta Byacc
-        cd .\Compilador\src\semanticalanalyzer\Byacc\  
+        cd .\Compilador\src\sintacticalanalyzer\Byacc\  
 Paso 3: ejecutar el comando: .\yacc -J -v calc.y
