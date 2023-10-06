@@ -31,13 +31,13 @@ public class SymbolTable {
 
     public void insert(String lexeme, SymbolTableItem tokenType) {
         symbolTable.put(lexeme, tokenType);
-        ConfigurationParams.updateView();
+        ConfigurationParams.updateSymbolTableView();
     }
 
     public void addEntryCount(String lexeme) {
         SymbolTableItem item = symbolTable.get(lexeme);
         item.setItemEntryCount(item.getItemEntryCount()+1);
-        ConfigurationParams.updateView();
+        ConfigurationParams.updateSymbolTableView();
     }
 
     public SymbolTableItem lookup(String lexeme) {
