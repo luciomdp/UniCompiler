@@ -24,76 +24,80 @@
   17                       | seleccion
   18                       | error ';'
 
-  19  declaracion : tipo variables ';'
-  20              | tipo FUN ID '(' tipo ID ')' bloque_funciones
-  21              | tipo FUN ID '(' ')' bloque_funciones
+  19  declaracion : declaracion_variables ';'
+  20              | tipo inicio_funcion ID '(' tipo ID ')' bloque_funciones
+  21              | tipo inicio_funcion ID '(' ')' bloque_funciones
 
-  22  declaracion_variables : tipo variables ';'
+  22  inicio_funcion : FUN
 
-  23  bloque_funciones : BEGIN sentencias retorno END
+  23  declaracion_variables : tipo variables ';'
 
-  24  tipo : INTEGER
-  25       | ULONGINT
+  24  bloque_funciones : BEGIN sentencias retorno END
 
-  26  variables : variables ',' variable
-  27            | variable
+  25  tipo : INTEGER
+  26       | ULONGINT
 
-  28  variable : ID
+  27  variables : variables ',' variable
+  28            | variable
 
-  29  asignacion : ID ASIGNACION expresion ';'
+  29  variable : ID
 
-  30  expresion : termino
-  31            | expresion '+' termino
-  32            | expresion '-' termino
+  30  asignacion : ID ASIGNACION expresion ';'
 
-  33  termino : factor
-  34          | termino '*' factor
-  35          | termino '/' factor
+  31  expresion : termino
+  32            | expresion '+' termino
+  33            | expresion '-' termino
 
-  36  factor : ID
-  37         | NUMERIC_CONST
-  38         | invocacion
-  39         | '-' NUMERIC_CONST
-  40         | ITOUL '(' expresion ')'
+  34  termino : factor
+  35          | termino '*' factor
+  36          | termino '/' factor
 
-  41  invocacion : ID '(' parametros ')'
-  42             | ID '(' ')'
+  37  factor : ID
+  38         | NUMERIC_CONST
+  39         | invocacion
+  40         | '-' NUMERIC_CONST
+  41         | ITOUL '(' expresion ')'
 
-  43  parametros : ID
-  44             | NUMERIC_CONST
-  45             | '-' NUMERIC_CONST
+  42  invocacion : ID '(' parametros ')'
+  43             | ID '(' ')'
 
-  46  impresion : PRINT '(' STRING_CONST ')' ';'
+  44  parametros : ID
+  45             | NUMERIC_CONST
+  46             | '-' NUMERIC_CONST
 
-  47  iteracion : inicio_while '(' condicion_while ')' DO bloque_ejecutables_while
-  48            | inicio_while '(' condicion_while ')' bloque_ejecutables_while
+  47  impresion : PRINT '(' STRING_CONST ')' ';'
 
-  49  seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF
-  50            | IF '(' condicion_if ')' THEN bloque_ejecutables_if END_IF
+  48  iteracion : inicio_while '(' condicion_while ')' DO bloque_ejecutables_while
+  49            | inicio_while '(' condicion_while ')' bloque_ejecutables_while
 
-  51  inicio_while : WHILE
+  50  seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF
+  51            | inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if END_IF
 
-  52  bloque_ejecutables_if : BEGIN sentencias_ejecutables END
+  52  inicio_if : IF
 
-  53  bloque_ejecutables_else : BEGIN sentencias_ejecutables END
+  53  inicio_while : WHILE
 
-  54  bloque_ejecutables_while : BEGIN sentencias_ejecutables END
+  54  bloque_ejecutables_if : BEGIN sentencias_ejecutables END
 
-  55  condicion_if : expresion GREATER_EQUAL expresion
-  56               | expresion LESS_EQUAL expresion
-  57               | expresion NOT_EQUAL expresion
-  58               | expresion '>' expresion
-  59               | expresion '<' expresion
-  60               | expresion '=' expresion
+  55  bloque_ejecutables_else : BEGIN sentencias_ejecutables END
 
-  61  condicion_while : expresion GREATER_EQUAL expresion
-  62                  | expresion LESS_EQUAL expresion
-  63                  | expresion NOT_EQUAL expresion
-  64                  | expresion '>' expresion
-  65                  | expresion '<' expresion
-  66                  | expresion '=' expresion
+  56  bloque_ejecutables_while : BEGIN sentencias_ejecutables END
 
-  67  retorno : RETURN '(' expresion ')' ';'
+  57  condicion_if : expresion GREATER_EQUAL expresion
+  58               | expresion LESS_EQUAL expresion
+  59               | expresion NOT_EQUAL expresion
+  60               | expresion '>' expresion
+  61               | expresion '<' expresion
+  62               | expresion '=' expresion
+
+  63  condicion_while : expresion GREATER_EQUAL expresion
+  64                  | expresion LESS_EQUAL expresion
+  65                  | expresion NOT_EQUAL expresion
+  66                  | expresion '>' expresion
+  67                  | expresion '<' expresion
+  68                  | expresion '=' expresion
+
+  69  retorno : RETURN '(' expresion ')' ';'
 
 state 0
 	$accept : . programa $end  (0)
@@ -143,55 +147,55 @@ state 4
 	impresion  goto 16
 	iteracion  goto 17
 	seleccion  goto 18
-	tipo  goto 19
-	inicio_while  goto 20
+	declaracion_variables  goto 19
+	tipo  goto 20
+	inicio_while  goto 21
+	inicio_if  goto 22
 
 
 state 5
 	sentencia : error . ';'  (10)
 
-	';'  shift 21
+	';'  shift 23
 	.  error
 
 
 state 6
-	asignacion : ID . ASIGNACION expresion ';'  (29)
+	asignacion : ID . ASIGNACION expresion ';'  (30)
 
-	ASIGNACION  shift 22
+	ASIGNACION  shift 24
 	.  error
 
 
 state 7
-	seleccion : IF . '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (49)
-	seleccion : IF . '(' condicion_if ')' THEN bloque_ejecutables_if END_IF  (50)
+	inicio_if : IF .  (52)
 
-	'('  shift 23
-	.  error
+	.  reduce 52
 
 
 state 8
-	impresion : PRINT . '(' STRING_CONST ')' ';'  (46)
+	impresion : PRINT . '(' STRING_CONST ')' ';'  (47)
 
-	'('  shift 24
+	'('  shift 25
 	.  error
 
 
 state 9
-	inicio_while : WHILE .  (51)
+	inicio_while : WHILE .  (53)
 
-	.  reduce 51
+	.  reduce 53
 
 
 state 10
-	tipo : INTEGER .  (24)
+	tipo : INTEGER .  (25)
 
-	.  reduce 24
+	.  reduce 25
 
 
 state 11
-	tipo : ULONGINT .  (25)
+	tipo : ULONGINT .  (26)
 
-	.  reduce 25
+	.  reduce 26
 
 
 state 12
@@ -201,21 +205,23 @@ state 12
 	error  shift 5
 	ID  shift 6
 	IF  shift 7
-	END  shift 25
+	END  shift 26
 	PRINT  shift 8
 	WHILE  shift 9
 	INTEGER  shift 10
 	ULONGINT  shift 11
 	.  error
 
-	sentencia  goto 26
+	sentencia  goto 27
 	declaracion  goto 14
 	asignacion  goto 15
 	impresion  goto 16
 	iteracion  goto 17
 	seleccion  goto 18
-	tipo  goto 19
-	inicio_while  goto 20
+	declaracion_variables  goto 19
+	tipo  goto 20
+	inicio_while  goto 21
+	inicio_if  goto 22
 
 
 state 13
@@ -255,667 +261,215 @@ state 18
 
 
 state 19
-	declaracion : tipo . variables ';'  (19)
-	declaracion : tipo . FUN ID '(' tipo ID ')' bloque_funciones  (20)
-	declaracion : tipo . FUN ID '(' ')' bloque_funciones  (21)
+	declaracion : declaracion_variables . ';'  (19)
 
-	ID  shift 27
-	FUN  shift 28
+	';'  shift 28
 	.  error
-
-	variables  goto 29
-	variable  goto 30
 
 
 state 20
-	iteracion : inicio_while . '(' condicion_while ')' DO bloque_ejecutables_while  (47)
-	iteracion : inicio_while . '(' condicion_while ')' bloque_ejecutables_while  (48)
+	declaracion : tipo . inicio_funcion ID '(' tipo ID ')' bloque_funciones  (20)
+	declaracion : tipo . inicio_funcion ID '(' ')' bloque_funciones  (21)
+	declaracion_variables : tipo . variables ';'  (23)
 
-	'('  shift 31
+	ID  shift 29
+	FUN  shift 30
 	.  error
+
+	inicio_funcion  goto 31
+	variables  goto 32
+	variable  goto 33
 
 
 state 21
+	iteracion : inicio_while . '(' condicion_while ')' DO bloque_ejecutables_while  (48)
+	iteracion : inicio_while . '(' condicion_while ')' bloque_ejecutables_while  (49)
+
+	'('  shift 34
+	.  error
+
+
+state 22
+	seleccion : inicio_if . '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (50)
+	seleccion : inicio_if . '(' condicion_if ')' THEN bloque_ejecutables_if END_IF  (51)
+
+	'('  shift 35
+	.  error
+
+
+state 23
 	sentencia : error ';' .  (10)
 
 	.  reduce 10
 
 
-state 22
-	asignacion : ID ASIGNACION . expresion ';'  (29)
+state 24
+	asignacion : ID ASIGNACION . expresion ';'  (30)
 
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 36
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 23
-	seleccion : IF '(' . condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (49)
-	seleccion : IF '(' . condicion_if ')' THEN bloque_ejecutables_if END_IF  (50)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
 	.  error
 
 	expresion  goto 40
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-	condicion_if  goto 41
-
-
-state 24
-	impresion : PRINT '(' . STRING_CONST ')' ';'  (46)
-
-	STRING_CONST  shift 42
-	.  error
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
 
 
 state 25
+	impresion : PRINT '(' . STRING_CONST ')' ';'  (47)
+
+	STRING_CONST  shift 44
+	.  error
+
+
+state 26
 	bloque : ID BEGIN sentencias END .  (2)
 
 	.  reduce 2
 
 
-state 26
+state 27
 	sentencias : sentencias sentencia .  (3)
 
 	.  reduce 3
 
 
-state 27
-	variable : ID .  (28)
-
-	.  reduce 28
-
-
 state 28
-	declaracion : tipo FUN . ID '(' tipo ID ')' bloque_funciones  (20)
-	declaracion : tipo FUN . ID '(' ')' bloque_funciones  (21)
-
-	ID  shift 43
-	.  error
-
-
-state 29
-	declaracion : tipo variables . ';'  (19)
-	variables : variables . ',' variable  (26)
-
-	';'  shift 44
-	','  shift 45
-	.  error
-
-
-state 30
-	variables : variable .  (27)
-
-	.  reduce 27
-
-
-state 31
-	iteracion : inicio_while '(' . condicion_while ')' DO bloque_ejecutables_while  (47)
-	iteracion : inicio_while '(' . condicion_while ')' bloque_ejecutables_while  (48)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 46
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-	condicion_while  goto 47
-
-
-state 32
-	factor : ID .  (36)
-	invocacion : ID . '(' parametros ')'  (41)
-	invocacion : ID . '(' ')'  (42)
-
-	'('  shift 48
-	GREATER_EQUAL  reduce 36
-	LESS_EQUAL  reduce 36
-	NOT_EQUAL  reduce 36
-	';'  reduce 36
-	')'  reduce 36
-	'+'  reduce 36
-	'-'  reduce 36
-	'*'  reduce 36
-	'/'  reduce 36
-	'>'  reduce 36
-	'<'  reduce 36
-	'='  reduce 36
-
-
-state 33
-	factor : NUMERIC_CONST .  (37)
-
-	.  reduce 37
-
-
-state 34
-	factor : ITOUL . '(' expresion ')'  (40)
-
-	'('  shift 49
-	.  error
-
-
-state 35
-	factor : '-' . NUMERIC_CONST  (39)
-
-	NUMERIC_CONST  shift 50
-	.  error
-
-
-state 36
-	asignacion : ID ASIGNACION expresion . ';'  (29)
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-
-	';'  shift 51
-	'+'  shift 52
-	'-'  shift 53
-	.  error
-
-
-state 37
-	expresion : termino .  (30)
-	termino : termino . '*' factor  (34)
-	termino : termino . '/' factor  (35)
-
-	'*'  shift 54
-	'/'  shift 55
-	GREATER_EQUAL  reduce 30
-	LESS_EQUAL  reduce 30
-	NOT_EQUAL  reduce 30
-	';'  reduce 30
-	')'  reduce 30
-	'+'  reduce 30
-	'-'  reduce 30
-	'>'  reduce 30
-	'<'  reduce 30
-	'='  reduce 30
-
-
-state 38
-	termino : factor .  (33)
-
-	.  reduce 33
-
-
-state 39
-	factor : invocacion .  (38)
-
-	.  reduce 38
-
-
-state 40
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_if : expresion . GREATER_EQUAL expresion  (55)
-	condicion_if : expresion . LESS_EQUAL expresion  (56)
-	condicion_if : expresion . NOT_EQUAL expresion  (57)
-	condicion_if : expresion . '>' expresion  (58)
-	condicion_if : expresion . '<' expresion  (59)
-	condicion_if : expresion . '=' expresion  (60)
-
-	GREATER_EQUAL  shift 56
-	LESS_EQUAL  shift 57
-	NOT_EQUAL  shift 58
-	'+'  shift 52
-	'-'  shift 53
-	'>'  shift 59
-	'<'  shift 60
-	'='  shift 61
-	.  error
-
-
-state 41
-	seleccion : IF '(' condicion_if . ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (49)
-	seleccion : IF '(' condicion_if . ')' THEN bloque_ejecutables_if END_IF  (50)
-
-	')'  shift 62
-	.  error
-
-
-state 42
-	impresion : PRINT '(' STRING_CONST . ')' ';'  (46)
-
-	')'  shift 63
-	.  error
-
-
-state 43
-	declaracion : tipo FUN ID . '(' tipo ID ')' bloque_funciones  (20)
-	declaracion : tipo FUN ID . '(' ')' bloque_funciones  (21)
-
-	'('  shift 64
-	.  error
-
-
-state 44
-	declaracion : tipo variables ';' .  (19)
+	declaracion : declaracion_variables ';' .  (19)
 
 	.  reduce 19
 
 
-state 45
-	variables : variables ',' . variable  (26)
-
-	ID  shift 27
-	.  error
-
-	variable  goto 65
-
-
-state 46
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_while : expresion . GREATER_EQUAL expresion  (61)
-	condicion_while : expresion . LESS_EQUAL expresion  (62)
-	condicion_while : expresion . NOT_EQUAL expresion  (63)
-	condicion_while : expresion . '>' expresion  (64)
-	condicion_while : expresion . '<' expresion  (65)
-	condicion_while : expresion . '=' expresion  (66)
-
-	GREATER_EQUAL  shift 66
-	LESS_EQUAL  shift 67
-	NOT_EQUAL  shift 68
-	'+'  shift 52
-	'-'  shift 53
-	'>'  shift 69
-	'<'  shift 70
-	'='  shift 71
-	.  error
-
-
-state 47
-	iteracion : inicio_while '(' condicion_while . ')' DO bloque_ejecutables_while  (47)
-	iteracion : inicio_while '(' condicion_while . ')' bloque_ejecutables_while  (48)
-
-	')'  shift 72
-	.  error
-
-
-state 48
-	invocacion : ID '(' . parametros ')'  (41)
-	invocacion : ID '(' . ')'  (42)
-
-	ID  shift 73
-	NUMERIC_CONST  shift 74
-	')'  shift 75
-	'-'  shift 76
-	.  error
-
-	parametros  goto 77
-
-
-state 49
-	factor : ITOUL '(' . expresion ')'  (40)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 78
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 50
-	factor : '-' NUMERIC_CONST .  (39)
-
-	.  reduce 39
-
-
-state 51
-	asignacion : ID ASIGNACION expresion ';' .  (29)
+state 29
+	variable : ID .  (29)
 
 	.  reduce 29
 
 
-state 52
-	expresion : expresion '+' . termino  (31)
+state 30
+	inicio_funcion : FUN .  (22)
 
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	termino  goto 79
-	factor  goto 38
-	invocacion  goto 39
+	.  reduce 22
 
 
-state 53
-	expresion : expresion '-' . termino  (32)
+state 31
+	declaracion : tipo inicio_funcion . ID '(' tipo ID ')' bloque_funciones  (20)
+	declaracion : tipo inicio_funcion . ID '(' ')' bloque_funciones  (21)
 
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	termino  goto 80
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 54
-	termino : termino '*' . factor  (34)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	factor  goto 81
-	invocacion  goto 39
-
-
-state 55
-	termino : termino '/' . factor  (35)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	factor  goto 82
-	invocacion  goto 39
-
-
-state 56
-	condicion_if : expresion GREATER_EQUAL . expresion  (55)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 83
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 57
-	condicion_if : expresion LESS_EQUAL . expresion  (56)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 84
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 58
-	condicion_if : expresion NOT_EQUAL . expresion  (57)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 85
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 59
-	condicion_if : expresion '>' . expresion  (58)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 86
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 60
-	condicion_if : expresion '<' . expresion  (59)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 87
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 61
-	condicion_if : expresion '=' . expresion  (60)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 88
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 62
-	seleccion : IF '(' condicion_if ')' . THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (49)
-	seleccion : IF '(' condicion_if ')' . THEN bloque_ejecutables_if END_IF  (50)
-
-	THEN  shift 89
+	ID  shift 45
 	.  error
 
 
-state 63
-	impresion : PRINT '(' STRING_CONST ')' . ';'  (46)
+state 32
+	declaracion_variables : tipo variables . ';'  (23)
+	variables : variables . ',' variable  (27)
 
-	';'  shift 90
+	';'  shift 46
+	','  shift 47
 	.  error
 
 
-state 64
-	declaracion : tipo FUN ID '(' . tipo ID ')' bloque_funciones  (20)
-	declaracion : tipo FUN ID '(' . ')' bloque_funciones  (21)
+state 33
+	variables : variable .  (28)
 
-	INTEGER  shift 10
-	ULONGINT  shift 11
-	')'  shift 91
+	.  reduce 28
+
+
+state 34
+	iteracion : inicio_while '(' . condicion_while ')' DO bloque_ejecutables_while  (48)
+	iteracion : inicio_while '(' . condicion_while ')' bloque_ejecutables_while  (49)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
 	.  error
 
-	tipo  goto 92
+	expresion  goto 48
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+	condicion_while  goto 49
 
 
-state 65
-	variables : variables ',' variable .  (26)
+state 35
+	seleccion : inicio_if '(' . condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (50)
+	seleccion : inicio_if '(' . condicion_if ')' THEN bloque_ejecutables_if END_IF  (51)
 
-	.  reduce 26
-
-
-state 66
-	condicion_while : expresion GREATER_EQUAL . expresion  (61)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
 	.  error
 
-	expresion  goto 93
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
+	expresion  goto 50
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+	condicion_if  goto 51
 
 
-state 67
-	condicion_while : expresion LESS_EQUAL . expresion  (62)
+state 36
+	factor : ID .  (37)
+	invocacion : ID . '(' parametros ')'  (42)
+	invocacion : ID . '(' ')'  (43)
 
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 94
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 68
-	condicion_while : expresion NOT_EQUAL . expresion  (63)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 95
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
+	'('  shift 52
+	GREATER_EQUAL  reduce 37
+	LESS_EQUAL  reduce 37
+	NOT_EQUAL  reduce 37
+	';'  reduce 37
+	')'  reduce 37
+	'+'  reduce 37
+	'-'  reduce 37
+	'*'  reduce 37
+	'/'  reduce 37
+	'>'  reduce 37
+	'<'  reduce 37
+	'='  reduce 37
 
 
-state 69
-	condicion_while : expresion '>' . expresion  (64)
+state 37
+	factor : NUMERIC_CONST .  (38)
 
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 96
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
+	.  reduce 38
 
 
-state 70
-	condicion_while : expresion '<' . expresion  (65)
+state 38
+	factor : ITOUL . '(' expresion ')'  (41)
 
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 97
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 71
-	condicion_while : expresion '=' . expresion  (66)
-
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
-	.  error
-
-	expresion  goto 98
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
-
-
-state 72
-	iteracion : inicio_while '(' condicion_while ')' . DO bloque_ejecutables_while  (47)
-	iteracion : inicio_while '(' condicion_while ')' . bloque_ejecutables_while  (48)
-
-	BEGIN  shift 99
-	DO  shift 100
-	.  error
-
-	bloque_ejecutables_while  goto 101
-
-
-state 73
-	parametros : ID .  (43)
-
-	.  reduce 43
-
-
-state 74
-	parametros : NUMERIC_CONST .  (44)
-
-	.  reduce 44
-
-
-state 75
-	invocacion : ID '(' ')' .  (42)
-
-	.  reduce 42
-
-
-state 76
-	parametros : '-' . NUMERIC_CONST  (45)
-
-	NUMERIC_CONST  shift 102
+	'('  shift 53
 	.  error
 
 
-state 77
-	invocacion : ID '(' parametros . ')'  (41)
+state 39
+	factor : '-' . NUMERIC_CONST  (40)
 
-	')'  shift 103
+	NUMERIC_CONST  shift 54
 	.  error
 
 
-state 78
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	factor : ITOUL '(' expresion . ')'  (40)
+state 40
+	asignacion : ID ASIGNACION expresion . ';'  (30)
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
 
-	')'  shift 104
-	'+'  shift 52
-	'-'  shift 53
+	';'  shift 55
+	'+'  shift 56
+	'-'  shift 57
 	.  error
 
 
-state 79
-	expresion : expresion '+' termino .  (31)
-	termino : termino . '*' factor  (34)
-	termino : termino . '/' factor  (35)
+state 41
+	expresion : termino .  (31)
+	termino : termino . '*' factor  (35)
+	termino : termino . '/' factor  (36)
 
-	'*'  shift 54
-	'/'  shift 55
+	'*'  shift 58
+	'/'  shift 59
 	GREATER_EQUAL  reduce 31
 	LESS_EQUAL  reduce 31
 	NOT_EQUAL  reduce 31
@@ -928,13 +482,474 @@ state 79
 	'='  reduce 31
 
 
-state 80
-	expresion : expresion '-' termino .  (32)
-	termino : termino . '*' factor  (34)
-	termino : termino . '/' factor  (35)
+state 42
+	termino : factor .  (34)
 
-	'*'  shift 54
-	'/'  shift 55
+	.  reduce 34
+
+
+state 43
+	factor : invocacion .  (39)
+
+	.  reduce 39
+
+
+state 44
+	impresion : PRINT '(' STRING_CONST . ')' ';'  (47)
+
+	')'  shift 60
+	.  error
+
+
+state 45
+	declaracion : tipo inicio_funcion ID . '(' tipo ID ')' bloque_funciones  (20)
+	declaracion : tipo inicio_funcion ID . '(' ')' bloque_funciones  (21)
+
+	'('  shift 61
+	.  error
+
+
+state 46
+	declaracion_variables : tipo variables ';' .  (23)
+
+	.  reduce 23
+
+
+state 47
+	variables : variables ',' . variable  (27)
+
+	ID  shift 29
+	.  error
+
+	variable  goto 62
+
+
+state 48
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_while : expresion . GREATER_EQUAL expresion  (63)
+	condicion_while : expresion . LESS_EQUAL expresion  (64)
+	condicion_while : expresion . NOT_EQUAL expresion  (65)
+	condicion_while : expresion . '>' expresion  (66)
+	condicion_while : expresion . '<' expresion  (67)
+	condicion_while : expresion . '=' expresion  (68)
+
+	GREATER_EQUAL  shift 63
+	LESS_EQUAL  shift 64
+	NOT_EQUAL  shift 65
+	'+'  shift 56
+	'-'  shift 57
+	'>'  shift 66
+	'<'  shift 67
+	'='  shift 68
+	.  error
+
+
+state 49
+	iteracion : inicio_while '(' condicion_while . ')' DO bloque_ejecutables_while  (48)
+	iteracion : inicio_while '(' condicion_while . ')' bloque_ejecutables_while  (49)
+
+	')'  shift 69
+	.  error
+
+
+state 50
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_if : expresion . GREATER_EQUAL expresion  (57)
+	condicion_if : expresion . LESS_EQUAL expresion  (58)
+	condicion_if : expresion . NOT_EQUAL expresion  (59)
+	condicion_if : expresion . '>' expresion  (60)
+	condicion_if : expresion . '<' expresion  (61)
+	condicion_if : expresion . '=' expresion  (62)
+
+	GREATER_EQUAL  shift 70
+	LESS_EQUAL  shift 71
+	NOT_EQUAL  shift 72
+	'+'  shift 56
+	'-'  shift 57
+	'>'  shift 73
+	'<'  shift 74
+	'='  shift 75
+	.  error
+
+
+state 51
+	seleccion : inicio_if '(' condicion_if . ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (50)
+	seleccion : inicio_if '(' condicion_if . ')' THEN bloque_ejecutables_if END_IF  (51)
+
+	')'  shift 76
+	.  error
+
+
+state 52
+	invocacion : ID '(' . parametros ')'  (42)
+	invocacion : ID '(' . ')'  (43)
+
+	ID  shift 77
+	NUMERIC_CONST  shift 78
+	')'  shift 79
+	'-'  shift 80
+	.  error
+
+	parametros  goto 81
+
+
+state 53
+	factor : ITOUL '(' . expresion ')'  (41)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 82
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 54
+	factor : '-' NUMERIC_CONST .  (40)
+
+	.  reduce 40
+
+
+state 55
+	asignacion : ID ASIGNACION expresion ';' .  (30)
+
+	.  reduce 30
+
+
+state 56
+	expresion : expresion '+' . termino  (32)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	termino  goto 83
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 57
+	expresion : expresion '-' . termino  (33)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	termino  goto 84
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 58
+	termino : termino '*' . factor  (35)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	factor  goto 85
+	invocacion  goto 43
+
+
+state 59
+	termino : termino '/' . factor  (36)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	factor  goto 86
+	invocacion  goto 43
+
+
+state 60
+	impresion : PRINT '(' STRING_CONST ')' . ';'  (47)
+
+	';'  shift 87
+	.  error
+
+
+state 61
+	declaracion : tipo inicio_funcion ID '(' . tipo ID ')' bloque_funciones  (20)
+	declaracion : tipo inicio_funcion ID '(' . ')' bloque_funciones  (21)
+
+	INTEGER  shift 10
+	ULONGINT  shift 11
+	')'  shift 88
+	.  error
+
+	tipo  goto 89
+
+
+state 62
+	variables : variables ',' variable .  (27)
+
+	.  reduce 27
+
+
+state 63
+	condicion_while : expresion GREATER_EQUAL . expresion  (63)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 90
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 64
+	condicion_while : expresion LESS_EQUAL . expresion  (64)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 91
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 65
+	condicion_while : expresion NOT_EQUAL . expresion  (65)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 92
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 66
+	condicion_while : expresion '>' . expresion  (66)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 93
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 67
+	condicion_while : expresion '<' . expresion  (67)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 94
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 68
+	condicion_while : expresion '=' . expresion  (68)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 95
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 69
+	iteracion : inicio_while '(' condicion_while ')' . DO bloque_ejecutables_while  (48)
+	iteracion : inicio_while '(' condicion_while ')' . bloque_ejecutables_while  (49)
+
+	BEGIN  shift 96
+	DO  shift 97
+	.  error
+
+	bloque_ejecutables_while  goto 98
+
+
+state 70
+	condicion_if : expresion GREATER_EQUAL . expresion  (57)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 99
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 71
+	condicion_if : expresion LESS_EQUAL . expresion  (58)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 100
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 72
+	condicion_if : expresion NOT_EQUAL . expresion  (59)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 101
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 73
+	condicion_if : expresion '>' . expresion  (60)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 102
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 74
+	condicion_if : expresion '<' . expresion  (61)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 103
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 75
+	condicion_if : expresion '=' . expresion  (62)
+
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
+	.  error
+
+	expresion  goto 104
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
+
+
+state 76
+	seleccion : inicio_if '(' condicion_if ')' . THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (50)
+	seleccion : inicio_if '(' condicion_if ')' . THEN bloque_ejecutables_if END_IF  (51)
+
+	THEN  shift 105
+	.  error
+
+
+state 77
+	parametros : ID .  (44)
+
+	.  reduce 44
+
+
+state 78
+	parametros : NUMERIC_CONST .  (45)
+
+	.  reduce 45
+
+
+state 79
+	invocacion : ID '(' ')' .  (43)
+
+	.  reduce 43
+
+
+state 80
+	parametros : '-' . NUMERIC_CONST  (46)
+
+	NUMERIC_CONST  shift 106
+	.  error
+
+
+state 81
+	invocacion : ID '(' parametros . ')'  (42)
+
+	')'  shift 107
+	.  error
+
+
+state 82
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	factor : ITOUL '(' expresion . ')'  (41)
+
+	')'  shift 108
+	'+'  shift 56
+	'-'  shift 57
+	.  error
+
+
+state 83
+	expresion : expresion '+' termino .  (32)
+	termino : termino . '*' factor  (35)
+	termino : termino . '/' factor  (36)
+
+	'*'  shift 58
+	'/'  shift 59
 	GREATER_EQUAL  reduce 32
 	LESS_EQUAL  reduce 32
 	NOT_EQUAL  reduce 32
@@ -947,260 +962,248 @@ state 80
 	'='  reduce 32
 
 
-state 81
-	termino : termino '*' factor .  (34)
+state 84
+	expresion : expresion '-' termino .  (33)
+	termino : termino . '*' factor  (35)
+	termino : termino . '/' factor  (36)
 
-	.  reduce 34
+	'*'  shift 58
+	'/'  shift 59
+	GREATER_EQUAL  reduce 33
+	LESS_EQUAL  reduce 33
+	NOT_EQUAL  reduce 33
+	';'  reduce 33
+	')'  reduce 33
+	'+'  reduce 33
+	'-'  reduce 33
+	'>'  reduce 33
+	'<'  reduce 33
+	'='  reduce 33
 
 
-state 82
-	termino : termino '/' factor .  (35)
+state 85
+	termino : termino '*' factor .  (35)
 
 	.  reduce 35
 
 
-state 83
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_if : expresion GREATER_EQUAL expresion .  (55)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 55
-
-
-state 84
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_if : expresion LESS_EQUAL expresion .  (56)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 56
-
-
-state 85
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_if : expresion NOT_EQUAL expresion .  (57)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 57
-
-
 state 86
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_if : expresion '>' expresion .  (58)
+	termino : termino '/' factor .  (36)
 
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 58
+	.  reduce 36
 
 
 state 87
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_if : expresion '<' expresion .  (59)
+	impresion : PRINT '(' STRING_CONST ')' ';' .  (47)
 
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 59
+	.  reduce 47
 
 
 state 88
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_if : expresion '=' expresion .  (60)
+	declaracion : tipo inicio_funcion ID '(' ')' . bloque_funciones  (21)
 
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 60
+	BEGIN  shift 109
+	.  error
+
+	bloque_funciones  goto 110
 
 
 state 89
-	seleccion : IF '(' condicion_if ')' THEN . bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (49)
-	seleccion : IF '(' condicion_if ')' THEN . bloque_ejecutables_if END_IF  (50)
+	declaracion : tipo inicio_funcion ID '(' tipo . ID ')' bloque_funciones  (20)
 
-	BEGIN  shift 105
+	ID  shift 111
 	.  error
-
-	bloque_ejecutables_if  goto 106
 
 
 state 90
-	impresion : PRINT '(' STRING_CONST ')' ';' .  (46)
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_while : expresion GREATER_EQUAL expresion .  (63)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 63
+
+
+state 91
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_while : expresion LESS_EQUAL expresion .  (64)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 64
+
+
+state 92
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_while : expresion NOT_EQUAL expresion .  (65)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 65
+
+
+state 93
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_while : expresion '>' expresion .  (66)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 66
+
+
+state 94
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_while : expresion '<' expresion .  (67)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 67
+
+
+state 95
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_while : expresion '=' expresion .  (68)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 68
+
+
+state 96
+	bloque_ejecutables_while : BEGIN . sentencias_ejecutables END  (56)
+
+	error  shift 112
+	ID  shift 6
+	IF  shift 7
+	PRINT  shift 8
+	WHILE  shift 9
+	INTEGER  shift 10
+	ULONGINT  shift 11
+	.  error
+
+	asignacion  goto 113
+	impresion  goto 114
+	iteracion  goto 115
+	seleccion  goto 116
+	sentencias_ejecutables  goto 117
+	sentencia_ejecutable  goto 118
+	declaracion_variables  goto 119
+	tipo  goto 120
+	inicio_while  goto 21
+	inicio_if  goto 22
+
+
+state 97
+	iteracion : inicio_while '(' condicion_while ')' DO . bloque_ejecutables_while  (48)
+
+	BEGIN  shift 96
+	.  error
+
+	bloque_ejecutables_while  goto 121
+
+
+state 98
+	iteracion : inicio_while '(' condicion_while ')' bloque_ejecutables_while .  (49)
+
+	.  reduce 49
+
+
+state 99
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_if : expresion GREATER_EQUAL expresion .  (57)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 57
+
+
+state 100
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_if : expresion LESS_EQUAL expresion .  (58)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 58
+
+
+state 101
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_if : expresion NOT_EQUAL expresion .  (59)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 59
+
+
+state 102
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_if : expresion '>' expresion .  (60)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 60
+
+
+state 103
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_if : expresion '<' expresion .  (61)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 61
+
+
+state 104
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	condicion_if : expresion '=' expresion .  (62)
+
+	'+'  shift 56
+	'-'  shift 57
+	')'  reduce 62
+
+
+state 105
+	seleccion : inicio_if '(' condicion_if ')' THEN . bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF  (50)
+	seleccion : inicio_if '(' condicion_if ')' THEN . bloque_ejecutables_if END_IF  (51)
+
+	BEGIN  shift 122
+	.  error
+
+	bloque_ejecutables_if  goto 123
+
+
+state 106
+	parametros : '-' NUMERIC_CONST .  (46)
 
 	.  reduce 46
 
 
-state 91
-	declaracion : tipo FUN ID '(' ')' . bloque_funciones  (21)
+state 107
+	invocacion : ID '(' parametros ')' .  (42)
 
-	BEGIN  shift 107
-	.  error
-
-	bloque_funciones  goto 108
+	.  reduce 42
 
 
-state 92
-	declaracion : tipo FUN ID '(' tipo . ID ')' bloque_funciones  (20)
-
-	ID  shift 109
-	.  error
-
-
-state 93
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_while : expresion GREATER_EQUAL expresion .  (61)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 61
-
-
-state 94
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_while : expresion LESS_EQUAL expresion .  (62)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 62
-
-
-state 95
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_while : expresion NOT_EQUAL expresion .  (63)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 63
-
-
-state 96
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_while : expresion '>' expresion .  (64)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 64
-
-
-state 97
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_while : expresion '<' expresion .  (65)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 65
-
-
-state 98
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	condicion_while : expresion '=' expresion .  (66)
-
-	'+'  shift 52
-	'-'  shift 53
-	')'  reduce 66
-
-
-state 99
-	bloque_ejecutables_while : BEGIN . sentencias_ejecutables END  (54)
-
-	error  shift 110
-	ID  shift 6
-	IF  shift 7
-	PRINT  shift 8
-	WHILE  shift 9
-	INTEGER  shift 10
-	ULONGINT  shift 11
-	.  error
-
-	asignacion  goto 111
-	impresion  goto 112
-	iteracion  goto 113
-	seleccion  goto 114
-	sentencias_ejecutables  goto 115
-	sentencia_ejecutable  goto 116
-	declaracion_variables  goto 117
-	tipo  goto 118
-	inicio_while  goto 20
-
-
-state 100
-	iteracion : inicio_while '(' condicion_while ')' DO . bloque_ejecutables_while  (47)
-
-	BEGIN  shift 99
-	.  error
-
-	bloque_ejecutables_while  goto 119
-
-
-state 101
-	iteracion : inicio_while '(' condicion_while ')' bloque_ejecutables_while .  (48)
-
-	.  reduce 48
-
-
-state 102
-	parametros : '-' NUMERIC_CONST .  (45)
-
-	.  reduce 45
-
-
-state 103
-	invocacion : ID '(' parametros ')' .  (41)
+state 108
+	factor : ITOUL '(' expresion ')' .  (41)
 
 	.  reduce 41
 
 
-state 104
-	factor : ITOUL '(' expresion ')' .  (40)
-
-	.  reduce 40
-
-
-state 105
-	bloque_ejecutables_if : BEGIN . sentencias_ejecutables END  (52)
-
-	error  shift 110
-	ID  shift 6
-	IF  shift 7
-	PRINT  shift 8
-	WHILE  shift 9
-	INTEGER  shift 10
-	ULONGINT  shift 11
-	.  error
-
-	asignacion  goto 111
-	impresion  goto 112
-	iteracion  goto 113
-	seleccion  goto 114
-	sentencias_ejecutables  goto 120
-	sentencia_ejecutable  goto 116
-	declaracion_variables  goto 117
-	tipo  goto 118
-	inicio_while  goto 20
-
-
-state 106
-	seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_if . ELSE bloque_ejecutables_else END_IF  (49)
-	seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_if . END_IF  (50)
-
-	ELSE  shift 121
-	END_IF  shift 122
-	.  error
-
-
-state 107
-	bloque_funciones : BEGIN . sentencias retorno END  (23)
+state 109
+	bloque_funciones : BEGIN . sentencias retorno END  (24)
 
 	error  shift 5
 	ID  shift 6
@@ -1211,155 +1214,152 @@ state 107
 	ULONGINT  shift 11
 	.  error
 
-	sentencias  goto 123
+	sentencias  goto 124
 	sentencia  goto 13
 	declaracion  goto 14
 	asignacion  goto 15
 	impresion  goto 16
 	iteracion  goto 17
 	seleccion  goto 18
-	tipo  goto 19
-	inicio_while  goto 20
+	declaracion_variables  goto 19
+	tipo  goto 20
+	inicio_while  goto 21
+	inicio_if  goto 22
 
 
-state 108
-	declaracion : tipo FUN ID '(' ')' bloque_funciones .  (21)
+state 110
+	declaracion : tipo inicio_funcion ID '(' ')' bloque_funciones .  (21)
 
 	.  reduce 21
 
 
-state 109
-	declaracion : tipo FUN ID '(' tipo ID . ')' bloque_funciones  (20)
+state 111
+	declaracion : tipo inicio_funcion ID '(' tipo ID . ')' bloque_funciones  (20)
 
-	')'  shift 124
+	')'  shift 125
 	.  error
 
 
-state 110
+state 112
 	sentencia_ejecutable : error . ';'  (18)
 
-	';'  shift 125
+	';'  shift 126
 	.  error
 
 
-state 111
+state 113
 	sentencia_ejecutable : asignacion .  (14)
 
 	.  reduce 14
 
 
-state 112
+state 114
 	sentencia_ejecutable : impresion .  (15)
 
 	.  reduce 15
 
 
-state 113
+state 115
 	sentencia_ejecutable : iteracion .  (16)
 
 	.  reduce 16
 
 
-state 114
+state 116
 	sentencia_ejecutable : seleccion .  (17)
 
 	.  reduce 17
 
 
-state 115
+state 117
 	sentencias_ejecutables : sentencias_ejecutables . sentencia_ejecutable  (11)
-	bloque_ejecutables_while : BEGIN sentencias_ejecutables . END  (54)
+	bloque_ejecutables_while : BEGIN sentencias_ejecutables . END  (56)
 
-	error  shift 110
+	error  shift 112
 	ID  shift 6
 	IF  shift 7
-	END  shift 126
+	END  shift 127
 	PRINT  shift 8
 	WHILE  shift 9
 	INTEGER  shift 10
 	ULONGINT  shift 11
 	.  error
 
-	asignacion  goto 111
-	impresion  goto 112
-	iteracion  goto 113
-	seleccion  goto 114
-	sentencia_ejecutable  goto 127
-	declaracion_variables  goto 117
-	tipo  goto 118
-	inicio_while  goto 20
+	asignacion  goto 113
+	impresion  goto 114
+	iteracion  goto 115
+	seleccion  goto 116
+	sentencia_ejecutable  goto 128
+	declaracion_variables  goto 119
+	tipo  goto 120
+	inicio_while  goto 21
+	inicio_if  goto 22
 
 
-state 116
+state 118
 	sentencias_ejecutables : sentencia_ejecutable .  (12)
 
 	.  reduce 12
 
 
-state 117
+state 119
 	sentencia_ejecutable : declaracion_variables .  (13)
 
 	.  reduce 13
 
 
-state 118
-	declaracion_variables : tipo . variables ';'  (22)
+state 120
+	declaracion_variables : tipo . variables ';'  (23)
 
-	ID  shift 27
+	ID  shift 29
 	.  error
 
-	variables  goto 128
-	variable  goto 30
+	variables  goto 32
+	variable  goto 33
 
 
-state 119
-	iteracion : inicio_while '(' condicion_while ')' DO bloque_ejecutables_while .  (47)
+state 121
+	iteracion : inicio_while '(' condicion_while ')' DO bloque_ejecutables_while .  (48)
 
-	.  reduce 47
+	.  reduce 48
 
 
-state 120
-	sentencias_ejecutables : sentencias_ejecutables . sentencia_ejecutable  (11)
-	bloque_ejecutables_if : BEGIN sentencias_ejecutables . END  (52)
+state 122
+	bloque_ejecutables_if : BEGIN . sentencias_ejecutables END  (54)
 
-	error  shift 110
+	error  shift 112
 	ID  shift 6
 	IF  shift 7
-	END  shift 129
 	PRINT  shift 8
 	WHILE  shift 9
 	INTEGER  shift 10
 	ULONGINT  shift 11
 	.  error
 
-	asignacion  goto 111
-	impresion  goto 112
-	iteracion  goto 113
-	seleccion  goto 114
-	sentencia_ejecutable  goto 127
-	declaracion_variables  goto 117
-	tipo  goto 118
-	inicio_while  goto 20
-
-
-state 121
-	seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_if ELSE . bloque_ejecutables_else END_IF  (49)
-
-	BEGIN  shift 130
-	.  error
-
-	bloque_ejecutables_else  goto 131
-
-
-state 122
-	seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_if END_IF .  (50)
-
-	.  reduce 50
+	asignacion  goto 113
+	impresion  goto 114
+	iteracion  goto 115
+	seleccion  goto 116
+	sentencias_ejecutables  goto 129
+	sentencia_ejecutable  goto 118
+	declaracion_variables  goto 119
+	tipo  goto 120
+	inicio_while  goto 21
+	inicio_if  goto 22
 
 
 state 123
+	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if . ELSE bloque_ejecutables_else END_IF  (50)
+	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if . END_IF  (51)
+
+	ELSE  shift 130
+	END_IF  shift 131
+	.  error
+
+
+state 124
 	sentencias : sentencias . sentencia  (3)
-	bloque_funciones : BEGIN sentencias . retorno END  (23)
+	bloque_funciones : BEGIN sentencias . retorno END  (24)
 
 	error  shift 5
 	ID  shift 6
@@ -1371,195 +1371,224 @@ state 123
 	ULONGINT  shift 11
 	.  error
 
-	sentencia  goto 26
+	sentencia  goto 27
 	declaracion  goto 14
 	asignacion  goto 15
 	impresion  goto 16
 	iteracion  goto 17
 	seleccion  goto 18
-	tipo  goto 19
+	declaracion_variables  goto 19
+	tipo  goto 20
 	retorno  goto 133
-	inicio_while  goto 20
+	inicio_while  goto 21
+	inicio_if  goto 22
 
 
-state 124
-	declaracion : tipo FUN ID '(' tipo ID ')' . bloque_funciones  (20)
+state 125
+	declaracion : tipo inicio_funcion ID '(' tipo ID ')' . bloque_funciones  (20)
 
-	BEGIN  shift 107
+	BEGIN  shift 109
 	.  error
 
 	bloque_funciones  goto 134
 
 
-state 125
+state 126
 	sentencia_ejecutable : error ';' .  (18)
 
 	.  reduce 18
 
 
-state 126
-	bloque_ejecutables_while : BEGIN sentencias_ejecutables END .  (54)
-
-	.  reduce 54
-
-
 state 127
+	bloque_ejecutables_while : BEGIN sentencias_ejecutables END .  (56)
+
+	.  reduce 56
+
+
+state 128
 	sentencias_ejecutables : sentencias_ejecutables sentencia_ejecutable .  (11)
 
 	.  reduce 11
 
 
-state 128
-	declaracion_variables : tipo variables . ';'  (22)
-	variables : variables . ',' variable  (26)
-
-	';'  shift 135
-	','  shift 45
-	.  error
-
-
 state 129
-	bloque_ejecutables_if : BEGIN sentencias_ejecutables END .  (52)
+	sentencias_ejecutables : sentencias_ejecutables . sentencia_ejecutable  (11)
+	bloque_ejecutables_if : BEGIN sentencias_ejecutables . END  (54)
 
-	.  reduce 52
-
-
-state 130
-	bloque_ejecutables_else : BEGIN . sentencias_ejecutables END  (53)
-
-	error  shift 110
+	error  shift 112
 	ID  shift 6
 	IF  shift 7
+	END  shift 135
 	PRINT  shift 8
 	WHILE  shift 9
 	INTEGER  shift 10
 	ULONGINT  shift 11
 	.  error
 
-	asignacion  goto 111
-	impresion  goto 112
-	iteracion  goto 113
-	seleccion  goto 114
-	sentencias_ejecutables  goto 136
-	sentencia_ejecutable  goto 116
-	declaracion_variables  goto 117
-	tipo  goto 118
-	inicio_while  goto 20
+	asignacion  goto 113
+	impresion  goto 114
+	iteracion  goto 115
+	seleccion  goto 116
+	sentencia_ejecutable  goto 128
+	declaracion_variables  goto 119
+	tipo  goto 120
+	inicio_while  goto 21
+	inicio_if  goto 22
+
+
+state 130
+	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if ELSE . bloque_ejecutables_else END_IF  (50)
+
+	BEGIN  shift 136
+	.  error
+
+	bloque_ejecutables_else  goto 137
 
 
 state 131
-	seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else . END_IF  (49)
+	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if END_IF .  (51)
 
-	END_IF  shift 137
-	.  error
+	.  reduce 51
 
 
 state 132
-	retorno : RETURN . '(' expresion ')' ';'  (67)
+	retorno : RETURN . '(' expresion ')' ';'  (69)
 
 	'('  shift 138
 	.  error
 
 
 state 133
-	bloque_funciones : BEGIN sentencias retorno . END  (23)
+	bloque_funciones : BEGIN sentencias retorno . END  (24)
 
 	END  shift 139
 	.  error
 
 
 state 134
-	declaracion : tipo FUN ID '(' tipo ID ')' bloque_funciones .  (20)
+	declaracion : tipo inicio_funcion ID '(' tipo ID ')' bloque_funciones .  (20)
 
 	.  reduce 20
 
 
 state 135
-	declaracion_variables : tipo variables ';' .  (22)
+	bloque_ejecutables_if : BEGIN sentencias_ejecutables END .  (54)
 
-	.  reduce 22
+	.  reduce 54
 
 
 state 136
-	sentencias_ejecutables : sentencias_ejecutables . sentencia_ejecutable  (11)
-	bloque_ejecutables_else : BEGIN sentencias_ejecutables . END  (53)
+	bloque_ejecutables_else : BEGIN . sentencias_ejecutables END  (55)
 
-	error  shift 110
+	error  shift 112
 	ID  shift 6
 	IF  shift 7
-	END  shift 140
 	PRINT  shift 8
 	WHILE  shift 9
 	INTEGER  shift 10
 	ULONGINT  shift 11
 	.  error
 
-	asignacion  goto 111
-	impresion  goto 112
-	iteracion  goto 113
-	seleccion  goto 114
-	sentencia_ejecutable  goto 127
-	declaracion_variables  goto 117
-	tipo  goto 118
-	inicio_while  goto 20
+	asignacion  goto 113
+	impresion  goto 114
+	iteracion  goto 115
+	seleccion  goto 116
+	sentencias_ejecutables  goto 140
+	sentencia_ejecutable  goto 118
+	declaracion_variables  goto 119
+	tipo  goto 120
+	inicio_while  goto 21
+	inicio_if  goto 22
 
 
 state 137
-	seleccion : IF '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF .  (49)
+	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else . END_IF  (50)
 
-	.  reduce 49
+	END_IF  shift 141
+	.  error
 
 
 state 138
-	retorno : RETURN '(' . expresion ')' ';'  (67)
+	retorno : RETURN '(' . expresion ')' ';'  (69)
 
-	ID  shift 32
-	NUMERIC_CONST  shift 33
-	ITOUL  shift 34
-	'-'  shift 35
+	ID  shift 36
+	NUMERIC_CONST  shift 37
+	ITOUL  shift 38
+	'-'  shift 39
 	.  error
 
-	expresion  goto 141
-	termino  goto 37
-	factor  goto 38
-	invocacion  goto 39
+	expresion  goto 142
+	termino  goto 41
+	factor  goto 42
+	invocacion  goto 43
 
 
 state 139
-	bloque_funciones : BEGIN sentencias retorno END .  (23)
+	bloque_funciones : BEGIN sentencias retorno END .  (24)
 
-	.  reduce 23
+	.  reduce 24
 
 
 state 140
-	bloque_ejecutables_else : BEGIN sentencias_ejecutables END .  (53)
+	sentencias_ejecutables : sentencias_ejecutables . sentencia_ejecutable  (11)
+	bloque_ejecutables_else : BEGIN sentencias_ejecutables . END  (55)
 
-	.  reduce 53
+	error  shift 112
+	ID  shift 6
+	IF  shift 7
+	END  shift 143
+	PRINT  shift 8
+	WHILE  shift 9
+	INTEGER  shift 10
+	ULONGINT  shift 11
+	.  error
+
+	asignacion  goto 113
+	impresion  goto 114
+	iteracion  goto 115
+	seleccion  goto 116
+	sentencia_ejecutable  goto 128
+	declaracion_variables  goto 119
+	tipo  goto 120
+	inicio_while  goto 21
+	inicio_if  goto 22
 
 
 state 141
-	expresion : expresion . '+' termino  (31)
-	expresion : expresion . '-' termino  (32)
-	retorno : RETURN '(' expresion . ')' ';'  (67)
+	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF .  (50)
 
-	')'  shift 142
-	'+'  shift 52
-	'-'  shift 53
-	.  error
+	.  reduce 50
 
 
 state 142
-	retorno : RETURN '(' expresion ')' . ';'  (67)
+	expresion : expresion . '+' termino  (32)
+	expresion : expresion . '-' termino  (33)
+	retorno : RETURN '(' expresion . ')' ';'  (69)
 
-	';'  shift 143
+	')'  shift 144
+	'+'  shift 56
+	'-'  shift 57
 	.  error
 
 
 state 143
-	retorno : RETURN '(' expresion ')' ';' .  (67)
+	bloque_ejecutables_else : BEGIN sentencias_ejecutables END .  (55)
 
-	.  reduce 67
+	.  reduce 55
 
 
-34 terminals, 29 nonterminals
-68 grammar rules, 144 states
+state 144
+	retorno : RETURN '(' expresion ')' . ';'  (69)
+
+	';'  shift 145
+	.  error
+
+
+state 145
+	retorno : RETURN '(' expresion ')' ';' .  (69)
+
+	.  reduce 69
+
+
+34 terminals, 31 nonterminals
+70 grammar rules, 146 states

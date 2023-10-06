@@ -36,8 +36,8 @@ sentencia :
             declaracion
         |   asignacion {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   impresion {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   iteracion {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   seleccion {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   iteracion 
+        |   seleccion
         |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia \n");}
 ;
 sentencias_ejecutables : 
@@ -48,26 +48,29 @@ sentencia_ejecutable :
             declaracion_variables {ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   asignacion {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   impresion {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   iteracion {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   seleccion {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   iteracion 
+        |   seleccion 
         |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia ejecutable\n");}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
-            tipo variables ';' {ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   tipo FUN ID '(' tipo ID ')' bloque_funciones {
+            declaracion_variables ';' 
+        |   tipo inicio_funcion ID '(' tipo ID ')' bloque_funciones {
                                                             ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                                                             ConfigurationParams.reversePolishStructure.add("fun");
                                                             ConfigurationParams.reversePolishStructure.add($3.sval);
                                                             ConfigurationParams.reversePolishStructure.add($6.sval);
                                                         }
-        |   tipo FUN ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSintacticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+        |   tipo inicio_funcion ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSintacticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                                                             ConfigurationParams.reversePolishStructure.add("fun");
                                                             ConfigurationParams.reversePolishStructure.add($3.sval);                                                       
                                                   }
 ;
+inicio_funcion:
+            FUN {ConfigurationParams.mainView.getSintacticViewer().appendData("declaración de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+;
 declaracion_variables :   
-            tipo variables ';'
+            tipo variables ';'{ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 bloque_funciones :   
             BEGIN sentencias retorno END
@@ -158,11 +161,17 @@ iteracion:
         |   inicio_while '(' condicion_while ')' bloque_ejecutables_while {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 seleccion: 
-            IF '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF
-        |   IF '(' condicion_if ')' THEN bloque_ejecutables_if END_IF
+            inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF
+        |   inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if END_IF
+;
+inicio_if:
+         IF {
+                ConfigurationParams.mainView.getSintacticViewer().appendData("if linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+            }
 ;
 inicio_while:
         WHILE {
+                ConfigurationParams.mainView.getSintacticViewer().appendData("while linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
             }
 ;
@@ -179,15 +188,14 @@ bloque_ejecutables_if:
 bloque_ejecutables_else:
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                //completar paso incompleto
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(), jumpPosition);
                                             }      
 ;
 bloque_ejecutables_while:
     BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                Integer jumpPosition2 = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
+                                                Integer jumpPosition2 = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.add(jumpPosition2);
                                                 ConfigurationParams.reversePolishStructure.add("JUMP"); 
                                             } 
@@ -272,7 +280,7 @@ condicion_while:
 
 /* -----------------------------------------------------------------------------RETORNO -----------------------------------------------------------------------------*/
 retorno: 
-            RETURN '(' expresion ')' ';'
+            RETURN '(' expresion ')' ';' {ConfigurationParams.mainView.getSintacticViewer().appendData("return linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 
 /* --------------- CODIGO --------------- */
