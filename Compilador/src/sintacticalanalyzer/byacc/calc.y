@@ -32,16 +32,12 @@ sentencias :
             sentencias sentencia
         |   sentencia
 ;
-sentencia :  
-            declaracion
-        |   asignacion {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   impresion {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   iteracion 
-        |   seleccion
-        |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia \n");}
-;
 sentencias_ejecutables : 
             sentencias_ejecutables sentencia_ejecutable
+        |   sentencia_ejecutable
+;
+sentencia :  
+            declaracion_funcion
         |   sentencia_ejecutable
 ;
 sentencia_ejecutable :  
@@ -53,9 +49,8 @@ sentencia_ejecutable :
         |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia ejecutable\n");}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
-declaracion :   
-            declaracion_variables ';' 
-        |   tipo inicio_funcion ID '(' tipo ID ')' bloque_funciones {
+declaracion_funcion :   
+        tipo inicio_funcion ID '(' tipo ID ')' bloque_funciones {
                                                             ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                                                             ConfigurationParams.reversePolishStructure.add("fun");
                                                             ConfigurationParams.reversePolishStructure.add($3.sval);
