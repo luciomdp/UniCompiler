@@ -20,19 +20,19 @@ public class MainView  extends JFrame{
 
     private JTabbedPane tab;
     private TokenViewer panelTokenViewer; 
-    private SemanticViewer semanticViewer;
+    private SintacticViewer sintacticViewer;
     private ReversePolishViewer reversePolishViewer;
     private SymbolTableViewer symbolTableViewer;
     
     public MainView() {
         tab = new JTabbedPane(JTabbedPane.TOP);
         panelTokenViewer = new TokenViewer();   
-        semanticViewer = new SemanticViewer();
+        sintacticViewer = new SintacticViewer();
         reversePolishViewer = new ReversePolishViewer();
         symbolTableViewer = new SymbolTableViewer();
        
         tab.addTab("Visualizador de Tokens", generateIcon("Compilador/src/images/1_token.png"), panelTokenViewer, null);
-        tab.addTab("Visualizador sintáctico", generateIcon("Compilador/src/images/2_sintactico.png"), semanticViewer, null);
+        tab.addTab("Visualizador sintáctico", generateIcon("Compilador/src/images/2_sintactico.png"), sintacticViewer, null);
         tab.addTab("Polaca inversa", generateIcon("Compilador/src/images/3_polacainversa.png"), reversePolishViewer, null);
         tab.addTab("Tabla de símbolos", generateIcon("Compilador/src/images/4_tablasimbolo.png"), symbolTableViewer, null);
 
@@ -69,12 +69,12 @@ public class MainView  extends JFrame{
         this.panelTokenViewer = panelTokenViewer;
     }
 
-    public SemanticViewer getSemanticViewer() {
-        return semanticViewer;
+    public SintacticViewer getSintacticViewer() {
+        return sintacticViewer;
     }
 
-    public void setSemanticViewer(SemanticViewer semanticViewer) {
-        this.semanticViewer = semanticViewer;
+    public void setSintacticViewer(SintacticViewer sintacticViewer) {
+        this.sintacticViewer = sintacticViewer;
     }
 
     public SymbolTableViewer getSymbolTableViewer() {

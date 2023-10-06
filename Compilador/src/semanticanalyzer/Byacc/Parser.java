@@ -421,7 +421,7 @@ public int yylex() {
     return token;
 }
 public void yyerror(String s) {
-    ConfigurationParams.mainView.getSemanticViewer().appendError(s + ", en la línea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+    ConfigurationParams.mainView.getSintacticViewer().appendError(s + ", en la línea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
 }
 //#line 355 "Parser.java"
 //###############################################################
@@ -579,63 +579,63 @@ boolean doaction;
 //########## USER-SUPPLIED ACTIONS ##########
 case 2:
 //#line 25 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");}
 break;
 case 6:
 //#line 33 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 7:
 //#line 34 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 8:
 //#line 35 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 9:
 //#line 36 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 10:
 //#line 37 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia \n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia \n");}
 break;
 case 13:
 //#line 44 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 14:
 //#line 45 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 15:
 //#line 46 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 16:
 //#line 47 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 17:
 //#line 48 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 18:
 //#line 49 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia ejecutable\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia ejecutable\n");}
 break;
 case 19:
 //#line 53 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 20:
 //#line 54 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 21:
 //#line 55 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 39:
 //#line 96 "calc.y"
@@ -673,11 +673,11 @@ case 45:
 break;
 case 47:
 //#line 143 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendData("CICLO WHILE linea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("CICLO WHILE linea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 48:
 //#line 144 "calc.y"
-{ConfigurationParams.mainView.getSemanticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 //#line 606 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
