@@ -1,9 +1,14 @@
 
 /* --------------- DECLARACION --------------- */
 %{
-import objects.*;
-import objects.enums.*;
-import java.util.*;
+import lexicalanalyzer.*;
+import objects.ConfigurationParams;
+import objects.SymbolTableItem;
+import objects.enums.EDataType;
+import objects.enums.ETokenType;
+import objects.ReversePolishStructure;
+import components.*;
+import java.util.Arrays;
 %}
 
 %token ID NUMERIC_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT
@@ -157,7 +162,7 @@ iteracion:
         |   inicio_while '(' condicion_while ')' bloque_ejecutables_while {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 seleccion: 
-            inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else ELSE bloque_ejecutables_else END_IF
+            inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_con_else ELSE bloque_ejecutables_else END_IF
         |   inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else END_IF
 ;
 inicio_if:
