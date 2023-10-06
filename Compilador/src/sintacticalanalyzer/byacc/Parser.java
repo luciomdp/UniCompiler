@@ -19,14 +19,9 @@ package sintacticalanalyzer.byacc;
 
 
 //#line 4 "calc.y"
-import lexicalanalyzer.*;
-import objects.ConfigurationParams;
-import objects.SymbolTableItem;
-import objects.enums.EDataType;
-import objects.enums.ETokenType;
-import objects.ReversePolishStructure;
-import components.*;
-import java.util.Arrays;
+import objects.*;
+import objects.enums.*;
+import java.util.*;
 //#line 26 "Parser.java"
 
 
