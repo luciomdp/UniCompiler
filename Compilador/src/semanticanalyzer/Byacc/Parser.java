@@ -652,7 +652,7 @@ case 21:
 break;
 case 22:
 //#line 70 "calc.y"
-{ConfigurationParams.mainView.getSintacticViewer().appendData("función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+{ConfigurationParams.mainView.getSintacticViewer().appendData("declaración de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 23:
 //#line 73 "calc.y"
@@ -698,6 +698,10 @@ break;
 case 38:
 //#line 110 "calc.y"
 {ConfigurationParams.reversePolishStructure.add(val_peek(0).sval);}
+break;
+case 39:
+//#line 111 "calc.y"
+{ConfigurationParams.mainView.getSintacticViewer().appendData("invocación función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 40:
 //#line 112 "calc.y"
@@ -916,7 +920,7 @@ case 69:
 //#line 283 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("return linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
-//#line 843 "Parser.java"
+//#line 847 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

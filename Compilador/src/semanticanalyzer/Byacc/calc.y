@@ -108,7 +108,7 @@ termino :
 factor :    
             ID  {ConfigurationParams.reversePolishStructure.add($1.sval);}
         |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}
-        |   invocacion
+        |   invocacion {ConfigurationParams.mainView.getSintacticViewer().appendData("invocación función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   '-' NUMERIC_CONST {
                                     String lexema = $2.sval;
                                     ConfigurationParams.reversePolishStructure.add("-"+lexema);
