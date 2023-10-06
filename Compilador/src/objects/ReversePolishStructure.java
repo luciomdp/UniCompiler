@@ -23,7 +23,6 @@ public class ReversePolishStructure {
         ConfigurationParams.updateReversePolishView();
     }
     public void addInPosition (Integer value, Integer position) {
-        reversePolishList.add(value.toString());
         reversePolishList.set(position, value.toString());
     }    
     public void add (Integer value) {

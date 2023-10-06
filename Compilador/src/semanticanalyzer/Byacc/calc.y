@@ -165,14 +165,18 @@ bloque_ejecutables_if:
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 //completar paso incompleto
-                                                ConfigurationParams.reversePolishStructure.addInPosition(jumpPosition, ConfigurationParams.reversePolishStructure.getNextIndex()+2);
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JUMP"); 
                                             }   
 ;
 bloque_ejecutables_else:
-        BEGIN sentencias_ejecutables END    
+        BEGIN sentencias_ejecutables END {
+                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
+                                                //completar paso incompleto
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(), jumpPosition);
+                                            }      
 ;
 bloque_ejecutables_while:
     BEGIN sentencias_ejecutables END

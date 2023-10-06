@@ -424,7 +424,7 @@ final static String yyrule[] = {
 "retorno : RETURN '(' expresion ')' ';'",
 };
 
-//#line 234 "calc.y"
+//#line 238 "calc.y"
 
 public static void main(String[] args) throws Exception {
     ConfigurationParams globalParams = new ConfigurationParams(false);
@@ -777,14 +777,22 @@ case 51:
 {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 /*completar paso incompleto*/
-                                                ConfigurationParams.reversePolishStructure.addInPosition(jumpPosition, ConfigurationParams.reversePolishStructure.getNextIndex()+2);
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JUMP"); 
                                             }
 break;
+case 52:
+//#line 175 "calc.y"
+{
+                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
+                                                /*completar paso incompleto*/
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(), jumpPosition);
+                                            }
+break;
 case 54:
-//#line 181 "calc.y"
+//#line 185 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add(">="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
@@ -793,7 +801,7 @@ case 54:
                                             }
 break;
 case 55:
-//#line 187 "calc.y"
+//#line 191 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
@@ -802,7 +810,7 @@ case 55:
                                             }
 break;
 case 56:
-//#line 193 "calc.y"
+//#line 197 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<>"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
@@ -811,7 +819,7 @@ case 56:
                                             }
 break;
 case 57:
-//#line 199 "calc.y"
+//#line 203 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add(">"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
@@ -820,7 +828,7 @@ case 57:
                                             }
 break;
 case 58:
-//#line 205 "calc.y"
+//#line 209 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
@@ -829,7 +837,7 @@ case 58:
                                             }
 break;
 case 59:
-//#line 211 "calc.y"
+//#line 215 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
@@ -838,30 +846,30 @@ case 59:
                                             }
 break;
 case 60:
-//#line 219 "calc.y"
+//#line 223 "calc.y"
 {ConfigurationParams.reversePolishStructure.add(">=");}
 break;
 case 61:
-//#line 220 "calc.y"
+//#line 224 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("<=");}
 break;
 case 62:
-//#line 221 "calc.y"
+//#line 225 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("<>");}
 break;
 case 63:
-//#line 222 "calc.y"
+//#line 226 "calc.y"
 {ConfigurationParams.reversePolishStructure.add(">");}
 break;
 case 64:
-//#line 223 "calc.y"
+//#line 227 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("<");}
 break;
 case 65:
-//#line 224 "calc.y"
+//#line 228 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("=");}
 break;
-//#line 788 "Parser.java"
+//#line 796 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
