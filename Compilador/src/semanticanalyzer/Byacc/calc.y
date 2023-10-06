@@ -154,12 +154,17 @@ impresion :
 ;
 /* -------------------------------------------------------------------- ITERACION Y SELECCIÓN ------------------------------------------------------------------------*/
 iteracion: 
-            WHILE '(' condicion_while ')' DO bloque_ejecutables_while 
-        |   WHILE '(' condicion_while ')' bloque_ejecutables_while {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+            inicio_while '(' condicion_while ')' DO bloque_ejecutables_while 
+        |   inicio_while '(' condicion_while ')' bloque_ejecutables_while {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 seleccion: 
             IF '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF
         |   IF '(' condicion_if ')' THEN bloque_ejecutables_if END_IF
+;
+inicio_while:
+        WHILE {
+                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+            }
 ;
 bloque_ejecutables_if:
         BEGIN sentencias_ejecutables END {
@@ -179,7 +184,14 @@ bloque_ejecutables_else:
                                             }      
 ;
 bloque_ejecutables_while:
-    BEGIN sentencias_ejecutables END
+    BEGIN sentencias_ejecutables END {
+                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
+                                                Integer jumpPosition2 = ConfigurationParams.reversePolishStructure.popElementFromStack();
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
+                                                ConfigurationParams.reversePolishStructure.add(jumpPosition2);
+                                                ConfigurationParams.reversePolishStructure.add("JUMP"); 
+                                            } 
+    
 ;
 condicion_if:
             expresion GREATER_EQUAL expresion {
@@ -220,12 +232,42 @@ condicion_if:
                                             }
 ;
 condicion_while:
-            expresion GREATER_EQUAL expresion {ConfigurationParams.reversePolishStructure.add(">=");} 
-        |   expresion LESS_EQUAL expresion {ConfigurationParams.reversePolishStructure.add("<=");} 
-        |   expresion NOT_EQUAL expresion {ConfigurationParams.reversePolishStructure.add("<>");} 
-        |   expresion '>' expresion {ConfigurationParams.reversePolishStructure.add(">");}
-        |   expresion '<' expresion {ConfigurationParams.reversePolishStructure.add("<");}
-        |   expresion '=' expresion {ConfigurationParams.reversePolishStructure.add("=");}
+            expresion GREATER_EQUAL expresion {
+                                                ConfigurationParams.reversePolishStructure.add(">="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
+                                            } 
+        |   expresion LESS_EQUAL expresion {
+                                                ConfigurationParams.reversePolishStructure.add("<="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
+                                            } 
+        |   expresion NOT_EQUAL expresion {
+                                                ConfigurationParams.reversePolishStructure.add("<>"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
+                                            }
+        |   expresion '>' expresion {
+                                                ConfigurationParams.reversePolishStructure.add(">"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
+                                            }
+        |   expresion '<' expresion {
+                                                ConfigurationParams.reversePolishStructure.add("<"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
+                                            }
+        |   expresion '=' expresion {
+                                                ConfigurationParams.reversePolishStructure.add("="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
+                                            }
 ;
 
 /* -----------------------------------------------------------------------------RETORNO -----------------------------------------------------------------------------*/
