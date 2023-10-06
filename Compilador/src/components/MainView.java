@@ -84,5 +84,15 @@ public class MainView  extends JFrame{
     public void setSymbolTableViewer(SymbolTableViewer symbolTableViewer) {
         this.symbolTableViewer = symbolTableViewer;
     }
+
+    public ReversePolishViewer getReversePolishViewer() {
+        return reversePolishViewer;
+    }
+
+    public void setReversePolishViewer(ReversePolishViewer reversePolishViewer) {
+        this.reversePolishViewer = reversePolishViewer;
+    }
+
+    
     
 }

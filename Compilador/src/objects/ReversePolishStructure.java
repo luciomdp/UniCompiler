@@ -20,6 +20,7 @@ public class ReversePolishStructure {
 
     public void add (String value) {
         reversePolishList.add(value);
+        ConfigurationParams.updateReversePolishView();
     }
     public void addInPosition (Integer value, Integer position) {
         reversePolishList.add(value.toString());
@@ -27,6 +28,7 @@ public class ReversePolishStructure {
     }    
     public void add (Integer value) {
         reversePolishList.add(value.toString());
+        ConfigurationParams.updateReversePolishView();
     }
 
     public void add(List<Object> values) {
