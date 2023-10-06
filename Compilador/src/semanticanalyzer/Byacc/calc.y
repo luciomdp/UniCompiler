@@ -22,37 +22,37 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            ID BEGIN sentencias END {ConfigurationParams.mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");}
+            ID BEGIN sentencias END {ConfigurationParams.mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");}
 ;
 sentencias : 
             sentencias sentencia
         |   sentencia
 ;
 sentencia :  
-            declaracion {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion\n");}
-        |   asignacion {ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion\n");}
-        |   impresion {ConfigurationParams.mainView.getSemanticViewer().appendData("impresion\n");}
-        |   iteracion {ConfigurationParams.mainView.getSemanticViewer().appendData("iteracion\n");}
-        |   seleccion {ConfigurationParams.mainView.getSemanticViewer().appendData("seleccion\n");}
-        |   error ';'   {ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia\n");}
+            declaracion
+        |   asignacion {ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   impresion {ConfigurationParams.mainView.getSemanticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   iteracion {ConfigurationParams.mainView.getSemanticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   seleccion {ConfigurationParams.mainView.getSemanticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   error ';'   {ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia \n");}
 ;
 sentencias_ejecutables : 
             sentencias_ejecutables sentencia_ejecutable
         |   sentencia_ejecutable
 ;
 sentencia_ejecutable :  
-            declaracion_variables {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion variables\n");}
-        |   asignacion {ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion\n");}
-        |   impresion {ConfigurationParams.mainView.getSemanticViewer().appendData("impresion\n");}
-        |   iteracion {ConfigurationParams.mainView.getSemanticViewer().appendData("iteracion\n");}
-        |   seleccion {ConfigurationParams.mainView.getSemanticViewer().appendData("seleccion\n");}
+            declaracion_variables {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   asignacion {ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   impresion {ConfigurationParams.mainView.getSemanticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   iteracion {ConfigurationParams.mainView.getSemanticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   seleccion {ConfigurationParams.mainView.getSemanticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   error ';'   {ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia ejecutable\n");}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
-            tipo variables ';'
-        |   tipo FUN ID '(' tipo ID ')' bloque_funciones
-        |   tipo FUN ID '('  ')' bloque_funciones
+            tipo variables ';' {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   tipo FUN ID '(' tipo ID ')' bloque_funciones {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   tipo FUN ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSemanticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 declaracion_variables :   
             tipo variables ';'
@@ -87,7 +87,7 @@ termino :
             factor
         |   termino '*' factor 
         |   termino '/' factor 
-    ;
+;
 
 factor :    
             ID  
@@ -141,7 +141,7 @@ impresion :
 /* ITERACION */
 iteracion: 
             WHILE '(' condicion ')' DO bloque_ejecutables
-        |   WHILE '(' condicion ')' bloque_ejecutables {ConfigurationParams.mainView.getSemanticViewer().appendError("Error: te olvidaste el DO\n");}
+        |   WHILE '(' condicion ')' bloque_ejecutables {ConfigurationParams.mainView.getSemanticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 /* SELECCION */
 seleccion: 
