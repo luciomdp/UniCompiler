@@ -89,8 +89,9 @@ variable :
 /* ----- SENTENCIAS EJECUTABLES ----- */
 /* ASIGNACION */
 asignacion : 
-            ID ASIGNACION expresion ';' {ConfigurationParams.reversePolishStructure.add(":=");
-                                        ConfigurationParams.reversePolishStructure.add($1.sval);}
+            ID ASIGNACION expresion ';' {   ConfigurationParams.reversePolishStructure.add($1.sval);
+                                            ConfigurationParams.reversePolishStructure.add(":=");
+                                        }
 ;
 
 expresion : 
@@ -161,8 +162,8 @@ iteracion:
         |   inicio_while '(' condicion_while ')' bloque_ejecutables_while {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 seleccion: 
-            inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF
-        |   inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if END_IF
+            inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else ELSE bloque_ejecutables_else END_IF
+        |   inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else END_IF
 ;
 inicio_if:
          IF {
@@ -175,14 +176,19 @@ inicio_while:
                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
             }
 ;
-bloque_ejecutables_if:
+bloque_ejecutables_if_con_else:
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                //completar paso incompleto
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JUMP"); 
+                                            }   
+;
+bloque_ejecutables_if_sin_else:
+        BEGIN sentencias_ejecutables END {
+                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(), jumpPosition);
                                             }   
 ;
 bloque_ejecutables_else:
