@@ -44,24 +44,53 @@ public class ReversePolishStructure {
         return reversePolishList.size();
     }
 
-    public List<String[][]> generateDataForMultipleTableInput() {
-        List<String[][]> tablesData = new ArrayList<>();
+    public List<ReversePolishDataTableElement> generateDataForMultipleTableInput() {
+        List<ReversePolishDataTableElement> tablesData = new ArrayList<>();
         for(int i = 0; i < Math.ceil(reversePolishList.size()/pageSize);i++) {
             tablesData.add(generateDataForTablePage(i));
         }
         return tablesData;
     }
 
-    public String[][] generateDataForTablePage (int page) {
+    public ReversePolishDataTableElement generateDataForTablePage (int page) {
 
-        String data[][] = new String[2][pageSize];
+        ReversePolishDataTableElement element = new ReversePolishDataTableElement();
         int x = 0;
-        for (int i = page*pageSize;i<page*pageSize+pageSize;i++){
-            data[x][0] = String.valueOf(i);
-            data[x][1] = reversePolishList.get(i);
+        for (int i = page*pageSize;i<page*pageSize+pageSize;i++){ 
+            element.addToHeader(x, String.valueOf(i));
+            element.addToRow(x, reversePolishList.get(i));
             x++;
         }
-        return data;
+        return element;
+    }
+    public class ReversePolishDataTableElement {
+        private String[] header;
+        private String[][] row;
+        public ReversePolishDataTableElement() {
+            header = new String[pageSize];
+            row = new String[pageSize][1];
+        }
+
+        public String[] getHeader() {
+            return header;
+        }
+        public void setHeader(String[] header) {
+            this.header = header;
+        }
+
+        public String[][] getRow() {
+            return row;
+        }
+
+        public void setRow(String[][] row) {
+            this.row = row;
+        }
+        public void addToHeader(int position,String value) {
+            header[position] = value;
+        }
+        public void addToRow(int position,String value) {
+            row[position][0] = value;
+        }
     }
     public Integer popElementFromStack(){
         return stack.pop();
