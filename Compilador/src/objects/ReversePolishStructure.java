@@ -17,9 +17,11 @@ public class ReversePolishStructure {
 
     public void add (String value) {
         reversePolishList.add(value);
+        ConfigurationParams.updateView();
     }
     public void add (Integer value) {
         reversePolishList.add(value.toString());
+        ConfigurationParams.updateView();
     }
 
     public void add(List<Object> values) {

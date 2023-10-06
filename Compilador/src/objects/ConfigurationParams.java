@@ -22,4 +22,9 @@ public class ConfigurationParams {
 
         mainView = new MainView();
     }
+
+    public static void updateView() {
+        mainView.getSymbolTableViewer().updateTable();
+        mainView.getReversePolishViewer().updateTable();
+    }
 }
