@@ -8,6 +8,7 @@ import objects.enums.EDataType;
 import objects.enums.ETokenType;
 import objects.ReversePolishStructure;
 import components.*;
+import java.util.Arrays;
 %}
 
 %token ID NUMERIC_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT
@@ -24,7 +25,7 @@ programa :
 
 bloque :   
             ID BEGIN sentencias END {ConfigurationParams.mainView.getSintacticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");
-                                                            ConfigurationParams.ReversePolishStructure.add($1.sval);
+                                                            ConfigurationParams.reversePolishStructure.add($1.sval);
                                     }
 ;
 sentencias : 
@@ -56,13 +57,13 @@ declaracion :
             tipo variables ';' {ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   tipo FUN ID '(' tipo ID ')' bloque_funciones {
                                                             ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                                                            ConfigurationParams.ReversePolishStructure.add("fun");
-                                                            ConfigurationParams.ReversePolishStructure.add($3.sval);
-                                                            ConfigurationParams.ReversePolishStructure.add($6.sval);
+                                                            ConfigurationParams.reversePolishStructure.add("fun");
+                                                            ConfigurationParams.reversePolishStructure.add($3.sval);
+                                                            ConfigurationParams.reversePolishStructure.add($6.sval);
                                                         }
         |   tipo FUN ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSintacticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                                                            ConfigurationParams.ReversePolishStructure.add("fun");
-                                                            ConfigurationParams.ReversePolishStructure.add($3.sval);                                                       
+                                                            ConfigurationParams.reversePolishStructure.add("fun");
+                                                            ConfigurationParams.reversePolishStructure.add($3.sval);                                                       
                                                   }
 ;
 declaracion_variables :   
@@ -72,10 +73,10 @@ bloque_funciones :
             BEGIN sentencias retorno END
 ;
 tipo :       
-            INTEGER  {ConfigurationParams.ReversePolishStructure.add("integer");}
-        |   ULONGINT {ConfigurationParams.ReversePolishStructure.add("ulongint");}
+            INTEGER  {ConfigurationParams.reversePolishStructure.add("integer");}
+        |   ULONGINT {ConfigurationParams.reversePolishStructure.add("ulongint");}
 variables : 
-            variables ',' variable {ConfigurationParams.ReversePolishStructure.add(",");}
+            variables ',' variable {ConfigurationParams.reversePolishStructure.add(",");}
         |   variable
 ;
 variable : 
@@ -85,29 +86,29 @@ variable :
 /* ----- SENTENCIAS EJECUTABLES ----- */
 /* ASIGNACION */
 asignacion : 
-            ID ASIGNACION expresion ';' {ConfigurationParams.ReversePolishStructure.add(":=");
-                                        ConfigurationParams.ReversePolishStructure.add($1.sval);}
+            ID ASIGNACION expresion ';' {ConfigurationParams.reversePolishStructure.add(":=");
+                                        ConfigurationParams.reversePolishStructure.add($1.sval);}
 ;
 
 expresion : 
             termino
-        |   expresion '+' termino {ConfigurationParams.ReversePolishStructure.add("+");}
-        |   expresion '-' termino {ConfigurationParams.ReversePolishStructure.add("-");}
+        |   expresion '+' termino {ConfigurationParams.reversePolishStructure.add("+");}
+        |   expresion '-' termino {ConfigurationParams.reversePolishStructure.add("-");}
 ;
 
 termino :   
             factor
-        |   termino '*' factor {ConfigurationParams.ReversePolishStructure.add("*");}
-        |   termino '/' factor {ConfigurationParams.ReversePolishStructure.add("/");}
+        |   termino '*' factor {ConfigurationParams.reversePolishStructure.add("*");}
+        |   termino '/' factor {ConfigurationParams.reversePolishStructure.add("/");}
 ;
 
 factor :    
-            ID  {ConfigurationParams.ReversePolishStructure.add($1.sval);}
-        |   NUMERIC_CONST {ConfigurationParams.ReversePolishStructure.add($1.sval);}
+            ID  {ConfigurationParams.reversePolishStructure.add($1.sval);}
+        |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}
         |   invocacion
         |   '-' NUMERIC_CONST {
                                     String lexema = $2.sval;
-                                    ConfigurationParams.ReversePolishStructure.add("-"+lexema);
+                                    ConfigurationParams.reversePolishStructure.add("-"+lexema);
                                     if (ConfigurationParams.symbolTable.contains("-"+lexema)){
                                         ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
                                         ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
@@ -120,19 +121,19 @@ factor :
                                     ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
                                     }
                                 }
-        |   ITOUL '(' expresion ')' {ConfigurationParams.ReversePolishStructure.add("itoul");}
+        |   ITOUL '(' expresion ')' {ConfigurationParams.reversePolishStructure.add("itoul");}
 ;
 
 invocacion: 
-            ID '(' parametros ')' {ConfigurationParams.ReversePolishStructure.add($1.sval);}
-        |   ID '('')' {ConfigurationParams.ReversePolishStructure.add($1.sval);}
+            ID '(' parametros ')' {ConfigurationParams.reversePolishStructure.add($1.sval);}
+        |   ID '('')' {ConfigurationParams.reversePolishStructure.add($1.sval);}
 ;
 parametros:
-            ID {ConfigurationParams.ReversePolishStructure.add($1.sval);}
-        |   NUMERIC_CONST {ConfigurationParams.ReversePolishStructure.add($1.sval);}
+            ID {ConfigurationParams.reversePolishStructure.add($1.sval);}
+        |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}
         |   '-' NUMERIC_CONST {
                                     String lexema = $2.sval;
-                                    ConfigurationParams.ReversePolishStructure.add("-"+lexema);
+                                    ConfigurationParams.reversePolishStructure.add("-"+lexema);
                                     if (ConfigurationParams.symbolTable.contains("-"+lexema)){
                                         ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
                                         ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
@@ -149,7 +150,7 @@ parametros:
 
 /* --------------------------------------------------------------------------IMPRESION -------------------------------------------------------------------------------*/
 impresion : 
-            PRINT '(' STRING_CONST ')' ';'{ConfigurationParams.ReversePolishStructure.add(Arrays.asList($3.sval, "print"))}
+            PRINT '(' STRING_CONST ')' ';'{ConfigurationParams.reversePolishStructure.add(Arrays.asList($3.sval, "print"));}
 ;
 /* -------------------------------------------------------------------- ITERACION Y SELECCIÓN ------------------------------------------------------------------------*/
 iteracion: 
@@ -162,12 +163,12 @@ seleccion:
 ;
 bloque_ejecutables_if:
         BEGIN sentencias_ejecutables END {
-                                                Integer jumpPosition = ConfigurationParams.ReversePolishStructure.popElementInStack();
+                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 //completar paso incompleto
-                                                ConfigurationParams.ReversePolishStructure.addInPosition(jumpPosition, ConfigurationParams.ReversePolishStructure.getNextIndex()+2);
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JUMP"); 
+                                                ConfigurationParams.reversePolishStructure.addInPosition(jumpPosition, ConfigurationParams.reversePolishStructure.getNextIndex()+2);
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JUMP"); 
                                             }   
 ;
 bloque_ejecutables_else:
@@ -178,49 +179,49 @@ bloque_ejecutables_while:
 ;
 condicion_if:
             expresion GREATER_EQUAL expresion {
-                                                ConfigurationParams.ReversePolishStructure.add(">="); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add(">="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             } 
         |   expresion LESS_EQUAL expresion {
-                                                ConfigurationParams.ReversePolishStructure.add("<="); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add("<="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion NOT_EQUAL expresion {
-                                                ConfigurationParams.ReversePolishStructure.add("<>"); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add("<>"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '>' expresion {
-                                                ConfigurationParams.ReversePolishStructure.add(">"); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add(">"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '<' expresion {
-                                                ConfigurationParams.ReversePolishStructure.add("<"); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add("<"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '=' expresion {
-                                                ConfigurationParams.ReversePolishStructure.add("="); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add("="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
 ;
 condicion_while:
-            expresion GREATER_EQUAL expresion {ConfigurationParams.ReversePolishStructure.add(">=")} 
-        |   expresion LESS_EQUAL expresion {ConfigurationParams.ReversePolishStructure.add("<=")} 
-        |   expresion NOT_EQUAL expresion {ConfigurationParams.ReversePolishStructure.add("<>")} 
-        |   expresion '>' expresion {ConfigurationParams.ReversePolishStructure.add(">")}
-        |   expresion '<' expresion {ConfigurationParams.ReversePolishStructure.add("<")}
-        |   expresion '=' expresion {ConfigurationParams.ReversePolishStructure.add("=")}
+            expresion GREATER_EQUAL expresion {ConfigurationParams.reversePolishStructure.add(">=");} 
+        |   expresion LESS_EQUAL expresion {ConfigurationParams.reversePolishStructure.add("<=");} 
+        |   expresion NOT_EQUAL expresion {ConfigurationParams.reversePolishStructure.add("<>");} 
+        |   expresion '>' expresion {ConfigurationParams.reversePolishStructure.add(">");}
+        |   expresion '<' expresion {ConfigurationParams.reversePolishStructure.add("<");}
+        |   expresion '=' expresion {ConfigurationParams.reversePolishStructure.add("=");}
 ;
 
 /* -----------------------------------------------------------------------------RETORNO -----------------------------------------------------------------------------*/
