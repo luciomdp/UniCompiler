@@ -24,7 +24,7 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            ID BEGIN sentencias END {ConfigurationParams.mainView.getSintacticViewer().appendData(""--------------------------- << Fin del análisis sintáctico >> ---------------------------");
+            ID BEGIN sentencias END {ConfigurationParams.mainView.getSintacticViewer().appendData("--------------------------- << Fin del análisis sintáctico >> ---------------------------");
                                                             ConfigurationParams.reversePolishStructure.add($1.sval);
                                     }
 ;

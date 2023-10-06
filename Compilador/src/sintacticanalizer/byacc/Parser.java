@@ -602,7 +602,7 @@ boolean doaction;
 //########## USER-SUPPLIED ACTIONS ##########
 case 2:
 //#line 27 "calc.y"
-{ConfigurationParams.mainView.getSintacticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");
+{ConfigurationParams.mainView.getSintacticViewer().appendData("--------------------------- << Fin del análisis sintáctico >> ---------------------------");
                                                             ConfigurationParams.reversePolishStructure.add(val_peek(3).sval);
                                     }
 break;
