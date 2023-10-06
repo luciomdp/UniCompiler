@@ -2,6 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class ReversePolishStructure {
 
@@ -10,14 +11,20 @@ public class ReversePolishStructure {
     public static final int pageSize = 40;
 
     private List<String> reversePolishList;
+    private Stack<Integer> stack;
 
     public ReversePolishStructure() {
         reversePolishList = new ArrayList<String>();
+        stack = new Stack<>();
     }
 
     public void add (String value) {
         reversePolishList.add(value);
     }
+    public void addInPosition (Integer value, Integer position) {
+        reversePolishList.add(value.toString());
+        reversePolishList.set(position, value.toString());
+    }    
     public void add (Integer value) {
         reversePolishList.add(value.toString());
     }
@@ -30,6 +37,9 @@ public class ReversePolishStructure {
             if(value instanceof Integer)
                 add((Integer)value);  
         });
+    }
+    public Integer getNextIndex() {    
+        return reversePolishList.size();
     }
 
     public List<String[][]> generateDataForMultipleTableInput() {
@@ -51,6 +61,13 @@ public class ReversePolishStructure {
         }
         return data;
     }
+    public Integer popElementFromStack(){
+        return stack.pop();
+    }
+    public void pushElementInStack(Integer value){
+        stack.push(value);
+    }
+
 }
 
 
