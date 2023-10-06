@@ -10,7 +10,7 @@ import javax.swing.border.LineBorder;
 import objects.ConfigurationParams;
 
 public class ReversePolishViewer extends JPanel{
-    private static final Color BACKGROUND_PANEL = new Color(139,202,255,255), BACKGROUND_COMPONENTS = new Color(217,237,255,255);
+    private static final Color BACKGROUND_PANEL = new Color(157,142,173,255), BACKGROUND_COMPONENTS = new Color(118,97,141,255);
 
     public ReversePolishViewer() {
         setLayout(new BorderLayout());
@@ -24,6 +24,7 @@ public class ReversePolishViewer extends JPanel{
         removeAll();
 
         JPanel verticalLayoutContainer = new JPanel();
+        verticalLayoutContainer.setBackground(BACKGROUND_COMPONENTS);
         verticalLayoutContainer.setLayout(new BoxLayout(verticalLayoutContainer, BoxLayout.Y_AXIS));
         
         ConfigurationParams.reversePolishStructure.generateDataForMultipleTableInput().forEach(tableData -> {

@@ -5,7 +5,7 @@ import objects.enums.ETokenType;
 
 public class TokenViewer extends AbstractPanelViewer {
 
-    private static final Color BACKGROUND_PANEL = new Color(38,62,86,255), BACKGROUND_COMPONENTS = new Color(48,78,108,255);
+    private static final Color BACKGROUND_PANEL = new Color(178,231,203,255), BACKGROUND_COMPONENTS = new Color(94,211,152,255);
 
     public TokenViewer() {
         super(BACKGROUND_PANEL,BACKGROUND_COMPONENTS);

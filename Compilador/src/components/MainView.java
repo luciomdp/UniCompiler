@@ -31,12 +31,12 @@ public class MainView  extends JFrame{
         reversePolishViewer = new ReversePolishViewer();
         symbolTableViewer = new SymbolTableViewer();
        
-        tab.addTab("Visualizador de Tokens", generateIcon("Compilador/src/images/token.png"), panelTokenViewer, null);
-        tab.addTab("Visualizador sintáctico", generateIcon("Compilador/src/images/semantica.png"), semanticViewer, null);
-        tab.addTab("Polaca inversa", generateIcon("Compilador/src/images/semantica.png"), reversePolishViewer, null);
-        tab.addTab("Tabla de símbolos", generateIcon("Compilador/src/images/tablasimbolo.png"), symbolTableViewer, null);
+        tab.addTab("Visualizador de Tokens", generateIcon("Compilador/src/images/1_token.png"), panelTokenViewer, null);
+        tab.addTab("Visualizador sintáctico", generateIcon("Compilador/src/images/2_sintactico.png"), semanticViewer, null);
+        tab.addTab("Polaca inversa", generateIcon("Compilador/src/images/3_polacainversa.png"), reversePolishViewer, null);
+        tab.addTab("Tabla de símbolos", generateIcon("Compilador/src/images/4_tablasimbolo.png"), symbolTableViewer, null);
 
-        this.setIconImage(new ImageIcon("Compilador/src/images/logo.png").getImage());
+        this.setIconImage(new ImageIcon("Compilador/src/images/logo.png").getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH));
 		setTitle("FasTALC (FASTA Language Compiler)");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
