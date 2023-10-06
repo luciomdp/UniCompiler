@@ -23,7 +23,7 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            ID BEGIN sentencias END {ConfigurationParams.mainView.getSemanticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");
+            ID BEGIN sentencias END {ConfigurationParams.mainView.getSintacticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");
                                                             ConfigurationParams.ReversePolishStructure.add($1.sval);
                                     }
 ;
@@ -33,34 +33,34 @@ sentencias :
 ;
 sentencia :  
             declaracion
-        |   asignacion {ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   impresion {ConfigurationParams.mainView.getSemanticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   iteracion {ConfigurationParams.mainView.getSemanticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   seleccion {ConfigurationParams.mainView.getSemanticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   error ';'   {ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia \n");}
+        |   asignacion {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   impresion {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   iteracion {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   seleccion {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia \n");}
 ;
 sentencias_ejecutables : 
             sentencias_ejecutables sentencia_ejecutable
         |   sentencia_ejecutable
 ;
 sentencia_ejecutable :  
-            declaracion_variables {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   asignacion {ConfigurationParams.mainView.getSemanticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   impresion {ConfigurationParams.mainView.getSemanticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   iteracion {ConfigurationParams.mainView.getSemanticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   seleccion {ConfigurationParams.mainView.getSemanticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   error ';'   {ConfigurationParams.mainView.getSemanticViewer().appendError("Error de sentencia ejecutable\n");}
+            declaracion_variables {ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   asignacion {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   impresion {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   iteracion {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   seleccion {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia ejecutable\n");}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion :   
-            tipo variables ';' {ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+            tipo variables ';' {ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   tipo FUN ID '(' tipo ID ')' bloque_funciones {
-                                                            ConfigurationParams.mainView.getSemanticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                                                            ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                                                             ConfigurationParams.ReversePolishStructure.add("fun");
                                                             ConfigurationParams.ReversePolishStructure.add($3.sval);
                                                             ConfigurationParams.ReversePolishStructure.add($6.sval);
                                                         }
-        |   tipo FUN ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSemanticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+        |   tipo FUN ID '('  ')' bloque_funciones {ConfigurationParams.mainView.getSintacticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                                                             ConfigurationParams.ReversePolishStructure.add("fun");
                                                             ConfigurationParams.ReversePolishStructure.add($3.sval);                                                       
                                                   }
@@ -72,10 +72,10 @@ bloque_funciones :
             BEGIN sentencias retorno END
 ;
 tipo :       
-            INTEGER  {ConfigurationParams.ReversePolishStructure.add("integer");
-        |   ULONGINT {ConfigurationParams.ReversePolishStructure.add("ulongint");
+            INTEGER  {ConfigurationParams.ReversePolishStructure.add("integer");}
+        |   ULONGINT {ConfigurationParams.ReversePolishStructure.add("ulongint");}
 variables : 
-            variables ',' variable {ConfigurationParams.ReversePolishStructure.add(",");
+            variables ',' variable {ConfigurationParams.ReversePolishStructure.add(",");}
         |   variable
 ;
 variable : 
@@ -147,37 +147,83 @@ parametros:
                                 }
 ;
 
-/* ----- OTRAS ----- */
-/* IMPRESION */
+/* --------------------------------------------------------------------------IMPRESION -------------------------------------------------------------------------------*/
 impresion : 
             PRINT '(' STRING_CONST ')' ';'{ConfigurationParams.ReversePolishStructure.add(Arrays.asList($3.sval, "print"))}
 ;
-/* ITERACION */
+/* -------------------------------------------------------------------- ITERACION Y SELECCIÓN ------------------------------------------------------------------------*/
 iteracion: 
-            WHILE '(' condicion ')' DO bloque_ejecutables 
-        |   WHILE '(' condicion ')' bloque_ejecutables {ConfigurationParams.mainView.getSemanticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+            WHILE '(' condicion_while ')' DO bloque_ejecutables_while 
+        |   WHILE '(' condicion_while ')' bloque_ejecutables_while {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
-/* SELECCION */
 seleccion: 
-            IF '(' condicion ')' THEN bloque_ejecutables ELSE bloque END_IF
-        |   IF '(' condicion ')' THEN bloque_ejecutables END_IF
+            IF '(' condicion_if ')' THEN bloque_ejecutables_if ELSE bloque_ejecutables_else END_IF
+        |   IF '(' condicion_if ')' THEN bloque_ejecutables_if END_IF
+;
+bloque_ejecutables_if:
+        BEGIN sentencias_ejecutables END {
+                                                Integer jumpPosition = ConfigurationParams.ReversePolishStructure.popElementInStack();
+                                                //completar paso incompleto
+                                                ConfigurationParams.ReversePolishStructure.addInPosition(jumpPosition, ConfigurationParams.ReversePolishStructure.getNextIndex()+2);
+                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
+                                                ConfigurationParams.ReversePolishStructure.add(null); 
+                                                ConfigurationParams.ReversePolishStructure.add("JUMP"); 
+                                            }   
+;
+bloque_ejecutables_else:
+        BEGIN sentencias_ejecutables END    
+;
+bloque_ejecutables_while:
+    BEGIN sentencias_ejecutables END
+;
+condicion_if:
+            expresion GREATER_EQUAL expresion {
+                                                ConfigurationParams.ReversePolishStructure.add(">="); 
+                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
+                                                ConfigurationParams.ReversePolishStructure.add(null); 
+                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                            } 
+        |   expresion LESS_EQUAL expresion {
+                                                ConfigurationParams.ReversePolishStructure.add("<="); 
+                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
+                                                ConfigurationParams.ReversePolishStructure.add(null); 
+                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                            }
+        |   expresion NOT_EQUAL expresion {
+                                                ConfigurationParams.ReversePolishStructure.add("<>"); 
+                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
+                                                ConfigurationParams.ReversePolishStructure.add(null); 
+                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                            }
+        |   expresion '>' expresion {
+                                                ConfigurationParams.ReversePolishStructure.add(">"); 
+                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
+                                                ConfigurationParams.ReversePolishStructure.add(null); 
+                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                            }
+        |   expresion '<' expresion {
+                                                ConfigurationParams.ReversePolishStructure.add("<"); 
+                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
+                                                ConfigurationParams.ReversePolishStructure.add(null); 
+                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                            }
+        |   expresion '=' expresion {
+                                                ConfigurationParams.ReversePolishStructure.add("="); 
+                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
+                                                ConfigurationParams.ReversePolishStructure.add(null); 
+                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                            }
+;
+condicion_while:
+            expresion GREATER_EQUAL expresion {ConfigurationParams.ReversePolishStructure.add(">=")} 
+        |   expresion LESS_EQUAL expresion {ConfigurationParams.ReversePolishStructure.add("<=")} 
+        |   expresion NOT_EQUAL expresion {ConfigurationParams.ReversePolishStructure.add("<>")} 
+        |   expresion '>' expresion {ConfigurationParams.ReversePolishStructure.add(">")}
+        |   expresion '<' expresion {ConfigurationParams.ReversePolishStructure.add("<")}
+        |   expresion '=' expresion {ConfigurationParams.ReversePolishStructure.add("=")}
 ;
 
-condicion:
-            expresion comparador expresion
-;
-comparador:
-            GREATER_EQUAL {ConfigurationParams.ReversePolishStructure.add(">=")} 
-        |   LESS_EQUAL {ConfigurationParams.ReversePolishStructure.add("<=")} 
-        |   NOT_EQUAL {ConfigurationParams.ReversePolishStructure.add("<>")} 
-        |   '>' {ConfigurationParams.ReversePolishStructure.add(">")}
-        |   '<' {ConfigurationParams.ReversePolishStructure.add("<")}
-        |   '=' {ConfigurationParams.ReversePolishStructure.add("=")}
-;
-bloque_ejecutables:
-        BEGIN sentencias_ejecutables END        
-;
-/* RETORNO */
+/* -----------------------------------------------------------------------------RETORNO -----------------------------------------------------------------------------*/
 retorno: 
             RETURN '(' expresion ')' ';'
 ;
@@ -200,5 +246,5 @@ public int yylex() {
     return token;
 }
 public void yyerror(String s) {
-    ConfigurationParams.mainView.getSemanticViewer().appendError(s + ", en la línea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+    ConfigurationParams.mainView.getSintacticViewer().appendError(s + ", en la línea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
 }
