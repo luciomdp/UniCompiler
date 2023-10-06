@@ -182,26 +182,26 @@ impresion :
             PRINT '(' STRING_CONST ')' ';'{ConfigurationParams.reversePolishStructure.add(Arrays.asList($3.sval, "print"));}
 ;
 /* -------------------------------------------------------------------- ITERACION Y SELECCIÓN ------------------------------------------------------------------------*/
-iteracion: 
+iteracion : 
             inicio_while '(' condicion_while ')' DO bloque_ejecutables_while 
         |   inicio_while '(' condicion_while ')' bloque_ejecutables_while {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
-seleccion: 
+seleccion : 
             inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_con_else ELSE bloque_ejecutables_else END_IF
         |   inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else END_IF
 ;
-inicio_if:
+inicio_if :
          IF {
                 ConfigurationParams.mainView.getSintacticViewer().appendData("if linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
             }
 ;
-inicio_while:
+inicio_while :
         WHILE {
                 ConfigurationParams.mainView.getSintacticViewer().appendData("while linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
             }
 ;
-bloque_ejecutables_if_con_else:
+bloque_ejecutables_if_con_else :
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
@@ -210,19 +210,19 @@ bloque_ejecutables_if_con_else:
                                                 ConfigurationParams.reversePolishStructure.add("JUMP"); 
                                             }   
 ;
-bloque_ejecutables_if_sin_else:
+bloque_ejecutables_if_sin_else :
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(), jumpPosition);
                                             }   
 ;
-bloque_ejecutables_else:
+bloque_ejecutables_else :
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(), jumpPosition);
                                             }      
 ;
-bloque_ejecutables_while:
+bloque_ejecutables_while :
     BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
@@ -232,7 +232,7 @@ bloque_ejecutables_while:
                                             } 
     
 ;
-condicion_if:
+condicion_if :
             expresion GREATER_EQUAL expresion {
                                                 ConfigurationParams.reversePolishStructure.add(">="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
@@ -270,7 +270,7 @@ condicion_if:
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
 ;
-condicion_while:
+condicion_while :
             expresion GREATER_EQUAL expresion {
                                                 ConfigurationParams.reversePolishStructure.add(">="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
@@ -310,7 +310,7 @@ condicion_while:
 ;
 
 /* -----------------------------------------------------------------------------RETORNO -----------------------------------------------------------------------------*/
-retorno: 
+retorno : 
             RETURN '(' expresion ')' ';' {ConfigurationParams.mainView.getSintacticViewer().appendData("return linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 ;
 

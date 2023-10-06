@@ -20,21 +20,22 @@ public class ReversePolishStructure {
     }
 
     public void generateNewReversePolish(String id) {
-        if(!reversePolishList.containsKey(id))
+        if(!reversePolishList.containsKey(id)){
             reversePolishList.put(id, new ArrayList<String>());
+        }
     }
 
     public void add (String value) {
         reversePolishList.get(ConfigurationParams.getCurrentScope()).add(value);
-        ConfigurationParams.updateReversePolishView(value,getNextIndex()-1);
+        ConfigurationParams.updateReversePolishView(ConfigurationParams.getCurrentScope(),value,getNextIndex()-1);
     }
     public void addInPosition (Integer value, Integer position) {
         reversePolishList.get(ConfigurationParams.getCurrentScope()).set(position, value.toString());
-        ConfigurationParams.updateReversePolishView(value.toString(),position);
+        ConfigurationParams.updateReversePolishView(ConfigurationParams.getCurrentScope(),value.toString(),position);
     }    
     public void add (Integer value) {
         reversePolishList.get(ConfigurationParams.getCurrentScope()).add(value.toString());
-        ConfigurationParams.updateReversePolishView(value.toString(),getNextIndex()-1);
+        ConfigurationParams.updateReversePolishView(ConfigurationParams.getCurrentScope(),value.toString(),getNextIndex()-1);
     }
 
     public void add(List<Object> values) {

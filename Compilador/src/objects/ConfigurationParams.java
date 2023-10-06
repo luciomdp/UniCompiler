@@ -28,13 +28,14 @@ public class ConfigurationParams {
     public static void updateSymbolTableView() {
         mainView.getSymbolTableViewer().updateTable();
     }
-    public static void updateReversePolishView(String newVal,int index) {
-        mainView.getReversePolishViewer().updateTable(newVal,index);
+    public static void updateReversePolishView(String reversePolish,String newVal,int index) {
+        mainView.getReversePolishViewer().updateTable(reversePolish,newVal,index);
     }
     public static void addScope(String newScope) {
         currentScope.append(".");
         currentScope.append(newScope);
         reversePolishStructure.generateNewReversePolish(newScope);
+        mainView.getReversePolishViewer().addNewStructure(newScope);
     }
     public static void removeScope() {
         if (currentScope.lastIndexOf(".") != -1) 
