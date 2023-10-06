@@ -71,9 +71,7 @@ cabecera_funcion :
             }
 ;
 token_fun :
-            FUN {
-                ConfigurationParams.mainView.getSintacticViewer().appendData("declaración de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-            }
+            FUN
 ;
 inicio_funcion :   
             BEGIN
@@ -98,7 +96,19 @@ variables :
         |   variable
 ;
 variable : 
-            ID
+            ID {
+                // Debo primero verificar que no sea existente, de serlo arrojar un error. 
+                String id = $1.sval;
+                String newId = ConfigurationParams.getCurrentScope()+id;
+                if (ConfigurationParams.symbolTable.contains(id)){
+                    // esto implica que ya se insertó en la tabla de símbolos
+                    SymbolTableItem sti = ConfigurationParams.symbolTable.lookup(id);
+                    ConfigurationParams.symbolTable.remove(id);
+                }
+
+                
+                
+            }
 ;
 
 /* ----- SENTENCIAS EJECUTABLES ----- */

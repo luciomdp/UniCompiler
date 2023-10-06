@@ -44,4 +44,20 @@ public class ConfigurationParams {
     public static String getCurrentScope() {
         return (currentScope.lastIndexOf(".") != -1) ? currentScope.substring(currentScope.lastIndexOf(".") + 1) : currentScope.toString();
     }
+
+    public static String renameLexemaWithScope (String id){
+        if (symbolTable.contains(id)){
+            // agregar scope al id
+            SymbolTableItem sti = symbolTable.lookup(id);
+            symbolTable.remove(id);
+            symbolTable.insert(id+"."+ConfigurationParams.getCurrentScope(), sti);
+            return "";
+        }
+        else if (symbolTable.contains(id+"."+ConfigurationParams.getCurrentScope())){
+            // ya existe, lanzar error de declaración
+            return "ERROR: la variable "+id+" ya fue declarada en el scope "+ getCurrentScope();
+        }
+        return "";
+            
+    }
 }
