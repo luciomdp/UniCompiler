@@ -7,11 +7,8 @@ begin
 		begin
 			a := 5454;
 		end
-		else
-		begin
-			a := 5454;
-		end
 		end_if	
+		d := 54678;
 	end		
 
 	integer fun funcion ()

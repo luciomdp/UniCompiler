@@ -37,16 +37,12 @@ sentencias :
             sentencias sentencia
         |   sentencia
 ;
-sentencia :  
-            declaracion
-        |   asignacion {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   impresion {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   iteracion 
-        |   seleccion
-        |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia \n");}
-;
 sentencias_ejecutables : 
             sentencias_ejecutables sentencia_ejecutable
+        |   sentencia_ejecutable
+;
+sentencia :  
+            declaracion_funcion
         |   sentencia_ejecutable
 ;
 sentencia_ejecutable :  
@@ -58,9 +54,8 @@ sentencia_ejecutable :
         |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia ejecutable\n");}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
-declaracion :   
-            declaracion_variables ';' 
-        |   cabecera_funcion inicio_funcion cuerpo_funcion fin_funcion
+declaracion_funcion :   
+        cabecera_funcion inicio_funcion cuerpo_funcion fin_funcion
         |   cabecera_funcion_parametro inicio_funcion cuerpo_funcion fin_funcion 
 ;
 cabecera_funcion_parametro : 
