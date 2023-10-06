@@ -18,7 +18,8 @@ public class ConfigurationParams {
         }
         symbolTable = new SymbolTable();    
         lexicalAnalizer = new LexicalAnalizer();
-        mainView = new MainView();
         reversePolishStructure = new ReversePolishStructure();
+
+        mainView = new MainView();
     }
 }

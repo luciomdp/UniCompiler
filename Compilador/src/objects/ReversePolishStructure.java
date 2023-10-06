@@ -7,7 +7,7 @@ public class ReversePolishStructure {
 
     //Para agregar un elemento a la lista, tendremos que hacer o ConfigurationParams.ReversePolishStructure.add(value)
     //Para agregar varios elementos a la lista, tendremos que hacer o ConfigurationParams.ReversePolishStructure.add(Arrays.asList(values[]))
-    private final int pageSize = 40;
+    public static final int pageSize = 40;
 
     private List<String> reversePolishList;
 

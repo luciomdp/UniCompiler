@@ -21,16 +21,19 @@ public class MainView  extends JFrame{
     private JTabbedPane tab;
     private TokenViewer panelTokenViewer; 
     private SemanticViewer semanticViewer;
+    private ReversePolishViewer reversePolishViewer;
     private SymbolTableViewer symbolTableViewer;
     
     public MainView() {
         tab = new JTabbedPane(JTabbedPane.TOP);
         panelTokenViewer = new TokenViewer();   
         semanticViewer = new SemanticViewer();
+        reversePolishViewer = new ReversePolishViewer();
         symbolTableViewer = new SymbolTableViewer();
        
         tab.addTab("Visualizador de Tokens", generateIcon("Compilador/src/images/token.png"), panelTokenViewer, null);
-        tab.addTab("Visualizador semántico", generateIcon("Compilador/src/images/semantica.png"), semanticViewer, null);
+        tab.addTab("Visualizador sintáctico", generateIcon("Compilador/src/images/semantica.png"), semanticViewer, null);
+        tab.addTab("Polaca inversa", generateIcon("Compilador/src/images/semantica.png"), reversePolishViewer, null);
         tab.addTab("Tabla de símbolos", generateIcon("Compilador/src/images/tablasimbolo.png"), symbolTableViewer, null);
 
         this.setIconImage(new ImageIcon("Compilador/src/images/logo.png").getImage());
