@@ -23,6 +23,9 @@ import objects.SymbolTableItem;
 import objects.enums.EDataType;
 import objects.enums.ETokenType;
 import objects.ReversePolishStructure;
+
+import java.util.Arrays;
+
 import components.*;
 //#line 25 "Parser.java"
 
@@ -597,121 +600,70 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 2:
-//#line 26 "calc.y"
-{ConfigurationParams.mainView.getSintacticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");
-                                                            ConfigurationParams.ReversePolishStructure.add(val_peek(3).sval);
-                                    }
+//#line 25 "calc.y"
+{ConfigurationParams.mainView.getSintacticViewer().appendData("------------------------------ << Fin del análisis sintáctico >> ------------------------------");}
 break;
 case 6:
-//#line 36 "calc.y"
+//#line 33 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 7:
-//#line 37 "calc.y"
+//#line 34 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 8:
-//#line 38 "calc.y"
+//#line 35 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 9:
-//#line 39 "calc.y"
+//#line 36 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 10:
-//#line 40 "calc.y"
+//#line 37 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia \n");}
 break;
 case 13:
-//#line 47 "calc.y"
+//#line 44 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 14:
-//#line 48 "calc.y"
+//#line 45 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 15:
-//#line 49 "calc.y"
+//#line 46 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 16:
-//#line 50 "calc.y"
+//#line 47 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de iteracion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 17:
-//#line 51 "calc.y"
+//#line 48 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("fin de seleccion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 18:
-//#line 52 "calc.y"
+//#line 49 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia ejecutable\n");}
 break;
 case 19:
-//#line 56 "calc.y"
+//#line 53 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 20:
-//#line 57 "calc.y"
-{
-                                                            ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                                                            ConfigurationParams.ReversePolishStructure.add("fun");
-                                                            ConfigurationParams.ReversePolishStructure.add(val_peek(5).sval);
-                                                            ConfigurationParams.ReversePolishStructure.add(val_peek(2).sval);
-                                                        }
+//#line 54 "calc.y"
+{ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 21:
-//#line 63 "calc.y"
-{ConfigurationParams.mainView.getSintacticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                                                            ConfigurationParams.ReversePolishStructure.add("fun");
-                                                            ConfigurationParams.ReversePolishStructure.add(val_peek(3).sval);                                                       
-                                                  }
-break;
-case 24:
-//#line 75 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("integer");}
-break;
-case 25:
-//#line 76 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("ulongint");}
-break;
-case 26:
-//#line 78 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(",");}
-break;
-case 29:
-//#line 88 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(":=");
-                                        ConfigurationParams.ReversePolishStructure.add(val_peek(3).sval);}
-break;
-case 31:
-//#line 94 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("+");}
-break;
-case 32:
-//#line 95 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("-");}
-break;
-case 34:
-//#line 100 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("*");}
-break;
-case 35:
-//#line 101 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("/");}
-break;
-case 36:
-//#line 105 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(val_peek(0).sval);}
-break;
-case 37:
-//#line 106 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(val_peek(0).sval);}
+//#line 55 "calc.y"
+{ConfigurationParams.mainView.getSintacticViewer().appendData("fin declaracion de función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 39:
 //#line 108 "calc.y"
 {
                                     String lexema = val_peek(0).sval;
-                                    ConfigurationParams.ReversePolishStructure.add("-"+lexema);
+                                    ConfigurationParams.reversePolishStructure.add("-"+lexema);
                                     if (ConfigurationParams.symbolTable.contains("-"+lexema)){
                                         ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
                                         ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
@@ -727,29 +679,29 @@ case 39:
 break;
 case 40:
 //#line 123 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("itoul");}
+{ConfigurationParams.reversePolishStructure.add("itoul");}
 break;
 case 41:
 //#line 127 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(val_peek(3).sval);}
+{ConfigurationParams.reversePolishStructure.add(val_peek(3).sval);}
 break;
 case 42:
 //#line 128 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(val_peek(2).sval);}
+{ConfigurationParams.reversePolishStructure.add(val_peek(2).sval);}
 break;
 case 43:
 //#line 131 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(val_peek(0).sval);}
+{ConfigurationParams.reversePolishStructure.add(val_peek(0).sval);}
 break;
 case 44:
 //#line 132 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(val_peek(0).sval);}
+{ConfigurationParams.reversePolishStructure.add(val_peek(0).sval);}
 break;
 case 45:
 //#line 133 "calc.y"
 {
                                     String lexema = val_peek(0).sval;
-                                    ConfigurationParams.ReversePolishStructure.add("-"+lexema);
+                                    ConfigurationParams.reversePolishStructure.add("-"+lexema);
                                     if (ConfigurationParams.symbolTable.contains("-"+lexema)){
                                         ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
                                         ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
@@ -763,102 +715,102 @@ case 45:
                                     }
                                 }
 break;
-case 46:
-//#line 152 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(Arrays.asList(val_peek(2).sval, "print"))}
+case 47:
+//#line 143 "calc.y"
+{ConfigurationParams.mainView.getSintacticViewer().appendData("CICLO WHILE linea"+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 48:
-//#line 157 "calc.y"
+//#line 144 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 51:
 //#line 164 "calc.y"
 {
-                                                Integer jumpPosition = ConfigurationParams.ReversePolishStructure.popElementInStack();
+                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 /*completar paso incompleto*/
-                                                ConfigurationParams.ReversePolishStructure.addInPosition(jumpPosition, ConfigurationParams.ReversePolishStructure.getNextIndex()+2);
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JUMP"); 
+                                                ConfigurationParams.reversePolishStructure.addInPosition(jumpPosition, ConfigurationParams.reversePolishStructure.getNextIndex()+2);
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JUMP"); 
                                             }
 break;
 case 54:
 //#line 180 "calc.y"
 {
-                                                ConfigurationParams.ReversePolishStructure.add(">="); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add(">="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
 break;
 case 55:
 //#line 186 "calc.y"
 {
-                                                ConfigurationParams.ReversePolishStructure.add("<="); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add("<="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
 break;
 case 56:
 //#line 192 "calc.y"
 {
-                                                ConfigurationParams.ReversePolishStructure.add("<>"); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add("<>"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
 break;
 case 57:
 //#line 198 "calc.y"
 {
-                                                ConfigurationParams.ReversePolishStructure.add(">"); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add(">"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
 break;
 case 58:
 //#line 204 "calc.y"
 {
-                                                ConfigurationParams.ReversePolishStructure.add("<"); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add("<"); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
 break;
 case 59:
 //#line 210 "calc.y"
 {
-                                                ConfigurationParams.ReversePolishStructure.add("="); 
-                                                ConfigurationParams.ReversePolishStructure.pushElementInStack(ConfigurationParams.ReversePolishStructure.getNextIndex());
-                                                ConfigurationParams.ReversePolishStructure.add(null); 
-                                                ConfigurationParams.ReversePolishStructure.add("JNE"); 
+                                                ConfigurationParams.reversePolishStructure.add("="); 
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.add(""); 
+                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
 break;
 case 60:
 //#line 218 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(">=")}
+ConfigurationParams.reversePolishStructure.add(">=");
 break;
 case 61:
 //#line 219 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("<=")}
+ConfigurationParams.reversePolishStructure.add("<=");
 break;
 case 62:
 //#line 220 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("<>")}
+ConfigurationParams.reversePolishStructure.add("<>");
 break;
 case 63:
 //#line 221 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add(">")}
+ConfigurationParams.reversePolishStructure.add(">");
 break;
 case 64:
 //#line 222 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("<")}
+ConfigurationParams.reversePolishStructure.add("<");
 break;
 case 65:
 //#line 223 "calc.y"
-{ConfigurationParams.ReversePolishStructure.add("=")}
+ConfigurationParams.reversePolishStructure.add("=");
 break;
 //#line 787 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
