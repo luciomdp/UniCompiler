@@ -33,6 +33,8 @@ public class SymbolTableViewer extends JPanel{
         symbolTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         symbolTable.setBackground(BACKGROUND_COMPONENTS);
         add(new JScrollPane(symbolTable), BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 
 }

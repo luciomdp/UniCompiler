@@ -7,6 +7,6 @@ public class SintacticViewer extends AbstractPanelViewer {
 
     public SintacticViewer() {
         super(BACKGROUND_PANEL,BACKGROUND_COMPONENTS);
-        appendData("--------------------------- << Comienzo del análisis semántico >> ---------------------------\n");
+        appendData("--------------------------- << Comienzo del análisis sintáctico >> ---------------------------\n");
     }
 }

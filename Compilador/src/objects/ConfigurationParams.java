@@ -26,7 +26,7 @@ public class ConfigurationParams {
     public static void updateSymbolTableView() {
         mainView.getSymbolTableViewer().updateTable();
     }
-    public static void updateReversePolishView() {
-        mainView.getReversePolishViewer().updateTable();
+    public static void updateReversePolishView(String newVal,int index) {
+        mainView.getReversePolishViewer().updateTable(newVal,index);
     }
 }
