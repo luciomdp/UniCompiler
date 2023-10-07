@@ -1,5 +1,7 @@
 package objects;
 
+import java.util.Arrays;
+
 import components.MainView;
 import lexicalanalyzer.LexicalAnalizer;
 
@@ -42,23 +44,41 @@ public class ConfigurationParams {
            currentScope.setLength(currentScope.lastIndexOf("."));
     }
 
-    public static String getCurrentScope() {
-        return (currentScope.lastIndexOf(".") != -1) ? currentScope.substring(currentScope.lastIndexOf(".") + 1) : currentScope.toString();
+    public static String getFullCurrentScope() {
+        return currentScope.toString();
     }
 
-    public static String renameLexemaWithScope (String id){
-        if (symbolTable.contains(id)){
-            // agregar scope al id
-            SymbolTableItem sti = symbolTable.lookup(id);
-            symbolTable.remove(id);
-            symbolTable.insert(id+"."+ConfigurationParams.getCurrentScope(), sti);
-            return "";
-        }
-        else if (symbolTable.contains(id+"."+ConfigurationParams.getCurrentScope())){
-            // ya existe, lanzar error de declaración
-            return "ERROR: la variable "+id+" ya fue declarada en el scope "+ getCurrentScope();
-        }
-        return "";
-            
+    public static String getCurrentScope() {
+        int index = currentScope.toString().lastIndexOf('.');
+        return currentScope.toString().substring(index + 1);
     }
+
+
+    public static boolean renameLexemaWithScope (String id){
+        // agregar scope al id
+        SymbolTableItem sti = symbolTable.lookup(id);
+        symbolTable.remove(id);
+        String newId = id+ConfigurationParams.getFullCurrentScope();
+        if (symbolTable.contains(newId))
+            return false;
+        symbolTable.insert(id+ConfigurationParams.getFullCurrentScope(), sti);
+        return true;
+    }
+    public static boolean checkIfLexemaIsDeclared (String id){
+        String idWithScope = id+getFullCurrentScope();
+        String[] wordsInId = idWithScope.split("\\.");
+        for (int i=wordsInId.length; i > 1 ; i--){
+            if (symbolTable.contains(idWithScope)){
+                symbolTable.addEntryCount(idWithScope);
+                symbolTable.remove(id);
+                return true;
+            }
+            int index = idWithScope.indexOf("."+wordsInId[i-1]);
+            idWithScope = idWithScope.substring(0, index);
+        }
+        return false;
+    }
+
+
+
 }

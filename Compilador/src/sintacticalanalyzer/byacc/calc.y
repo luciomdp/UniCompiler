@@ -46,7 +46,7 @@ sentencia :
         |   sentencia_ejecutable
 ;
 sentencia_ejecutable :  
-            declaracion_variables {ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+            declaracion_variables
         |   asignacion {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   impresion {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   iteracion 
@@ -85,29 +85,24 @@ fin_funcion :
             }
 ;
 declaracion_variables :   
-            tipo variables ';'{ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+            tipo variables ';'{
+                                ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                            }
 ;
 
 tipo :       
-            INTEGER  {ConfigurationParams.reversePolishStructure.add("integer");}
-        |   ULONGINT {ConfigurationParams.reversePolishStructure.add("ulongint");}
+            INTEGER  
+        |   ULONGINT 
 variables : 
-            variables ',' variable {ConfigurationParams.reversePolishStructure.add(",");}
+            variables ',' variable
         |   variable
 ;
 variable : 
             ID {
                 // Debo primero verificar que no sea existente, de serlo arrojar un error. 
                 String id = $1.sval;
-                String newId = ConfigurationParams.getCurrentScope()+id;
-                if (ConfigurationParams.symbolTable.contains(id)){
-                    // esto implica que ya se insertó en la tabla de símbolos
-                    SymbolTableItem sti = ConfigurationParams.symbolTable.lookup(id);
-                    ConfigurationParams.symbolTable.remove(id);
-                }
-
-                
-                
+                if (!ConfigurationParams.renameLexemaWithScope(id))
+                    ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' ya fue declarada previamente en este ámbito \n");
             }
 ;
 
@@ -116,6 +111,9 @@ variable :
 asignacion : 
             ID ASIGNACION expresion ';' {   ConfigurationParams.reversePolishStructure.add($1.sval);
                                             ConfigurationParams.reversePolishStructure.add(":=");
+                                            String id = $1.sval;
+                                            if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                                                ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
                                         }
 ;
 
@@ -132,7 +130,12 @@ termino :
 ;
 
 factor :    
-            ID  {ConfigurationParams.reversePolishStructure.add($1.sval);}
+            ID  {
+                    String id = $1.sval;
+                    ConfigurationParams.reversePolishStructure.add(id);
+                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                        ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
+                }
         |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}
         |   invocacion {ConfigurationParams.mainView.getSintacticViewer().appendData("invocación función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
         |   '-' NUMERIC_CONST {
@@ -158,7 +161,12 @@ invocacion:
         |   ID '('')' {ConfigurationParams.reversePolishStructure.add($1.sval);}
 ;
 parametros:
-            ID {ConfigurationParams.reversePolishStructure.add($1.sval);}
+            ID {
+                    String id = $1.sval;
+                    ConfigurationParams.reversePolishStructure.add(id);
+                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                        ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
+                }
         |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}
         |   '-' NUMERIC_CONST {
                                     String lexema = $2.sval;
@@ -198,14 +206,14 @@ inicio_if :
 inicio_while :
         WHILE {
                 ConfigurationParams.mainView.getSintacticViewer().appendData("while linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
             }
 ;
 bloque_ejecutables_if_con_else :
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JUMP"); 
                                             }   
@@ -213,19 +221,19 @@ bloque_ejecutables_if_con_else :
 bloque_ejecutables_if_sin_else :
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(), jumpPosition);
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()), jumpPosition);
                                             }   
 ;
 bloque_ejecutables_else :
         BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(), jumpPosition);
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()), jumpPosition);
                                             }      
 ;
 bloque_ejecutables_while :
     BEGIN sentencias_ejecutables END {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex()+2, jumpPosition);
+                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
                                                 Integer jumpPosition2 = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.add(jumpPosition2);
                                                 ConfigurationParams.reversePolishStructure.add("JUMP"); 
@@ -235,37 +243,37 @@ bloque_ejecutables_while :
 condicion_if :
             expresion GREATER_EQUAL expresion {
                                                 ConfigurationParams.reversePolishStructure.add(">="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             } 
         |   expresion LESS_EQUAL expresion {
                                                 ConfigurationParams.reversePolishStructure.add("<="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion NOT_EQUAL expresion {
                                                 ConfigurationParams.reversePolishStructure.add("<>"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '>' expresion {
                                                 ConfigurationParams.reversePolishStructure.add(">"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '<' expresion {
                                                 ConfigurationParams.reversePolishStructure.add("<"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '=' expresion {
                                                 ConfigurationParams.reversePolishStructure.add("="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
@@ -273,37 +281,37 @@ condicion_if :
 condicion_while :
             expresion GREATER_EQUAL expresion {
                                                 ConfigurationParams.reversePolishStructure.add(">="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             } 
         |   expresion LESS_EQUAL expresion {
                                                 ConfigurationParams.reversePolishStructure.add("<="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             } 
         |   expresion NOT_EQUAL expresion {
                                                 ConfigurationParams.reversePolishStructure.add("<>"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '>' expresion {
                                                 ConfigurationParams.reversePolishStructure.add(">"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '<' expresion {
                                                 ConfigurationParams.reversePolishStructure.add("<"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }
         |   expresion '=' expresion {
                                                 ConfigurationParams.reversePolishStructure.add("="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex());
+                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
                                                 ConfigurationParams.reversePolishStructure.add(""); 
                                                 ConfigurationParams.reversePolishStructure.add("JNE"); 
                                             }

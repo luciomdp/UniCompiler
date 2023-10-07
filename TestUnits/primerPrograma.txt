@@ -1,20 +1,29 @@
 programa1
 begin
-	while (a <> b) do 
+	a := 200;
+	integer a;
+	integer b;
+	b := 3;
+	integer fun funcion1 ()
 	begin
-		d := 54678;	
-		if (a > b) then
-		begin
-			a := 5454;
-		end
-		end_if	
-		d := 54678;
-	end		
-
-	integer fun funcion ()
-	begin
-		j :=d;
-		j := funcion();
+		integer a;
+		a:=1;
+		integer z;
 		return (59);
 	end
+	integer a;
+	z := 2121;
+	if (a <= b) then
+	begin
+		d := -54678;
+		while (a <> c) do 
+		begin
+			if (a <= b) then
+			begin
+				d := -54678;
+			end
+			end_if		
+		end
+	end
+	end_if
 end

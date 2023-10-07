@@ -27,7 +27,7 @@ public class ReversePolishStructure {
 
     public void add (String value) {
         reversePolishList.get(ConfigurationParams.getCurrentScope()).add(value);
-        ConfigurationParams.updateReversePolishView(ConfigurationParams.getCurrentScope(),value,getNextIndex()-1);
+        ConfigurationParams.updateReversePolishView(ConfigurationParams.getCurrentScope(),value,getNextIndex(ConfigurationParams.getCurrentScope())-1);
     }
     public void addInPosition (Integer value, Integer position) {
         reversePolishList.get(ConfigurationParams.getCurrentScope()).set(position, value.toString());
@@ -35,7 +35,7 @@ public class ReversePolishStructure {
     }    
     public void add (Integer value) {
         reversePolishList.get(ConfigurationParams.getCurrentScope()).add(value.toString());
-        ConfigurationParams.updateReversePolishView(ConfigurationParams.getCurrentScope(),value.toString(),getNextIndex()-1);
+        ConfigurationParams.updateReversePolishView(ConfigurationParams.getCurrentScope(),value.toString(),getNextIndex(ConfigurationParams.getCurrentScope())-1);
     }
 
     public void add(List<Object> values) {
@@ -47,8 +47,8 @@ public class ReversePolishStructure {
                 add((Integer)value);  
         });
     }
-    public Integer getNextIndex() {    
-        return reversePolishList.size();
+    public Integer getNextIndex(String scope) {    
+        return reversePolishList.get(scope).size();
     }
 
     public Integer popElementFromStack(){
