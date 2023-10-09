@@ -89,6 +89,7 @@ public class ReversePolishPanel extends JPanel{
         for (Double i = currentPage * pageSize; i < currentPage * pageSize + pageSize; i++) {
             tableHeader.getColumnModel().getColumn(x).setHeaderValue(i.intValue());
             tableHeader.getColumnModel().getColumn(x).setCellRenderer(tableRenderer);
+            tableHeader.getColumnModel().getColumn(x).setPreferredWidth(300/pageSize.intValue());
             x++;
         }
         tableHeader.setBackground(BACKGROUND_HEADER);
