@@ -55,8 +55,11 @@ public enum ETokenType {
     public int getValue() {
         return value;
     }
+    public String getDescription() {
+        return description;
+    }
 
-    public static String getDescription(int value) {
+    public static String getDescriptionForValue(int value) {
        return valueToTokenMap.get(value).description;
     }
 

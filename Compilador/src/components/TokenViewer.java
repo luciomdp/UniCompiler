@@ -16,9 +16,9 @@ public class TokenViewer extends AbstractPanelViewer {
     public void printToken(int tokenValue) {
         if (tokenValue != ETokenType.IGNORE.getValue()){
             if(ETokenType.getLexemeTokenTypes().contains(Long.valueOf(tokenValue)))
-                appendData("[ "+ConfigurationParams.lexicalAnalizer.getLexema()+ " , "+ (ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() + " "):"") + ETokenType.getDescription(tokenValue) + " ]\n");
+                appendData("[ "+ConfigurationParams.lexicalAnalizer.getLexema()+ " , "+ (ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() + " "):"") + ETokenType.getDescriptionForValue(tokenValue) + " ]\n");
             else
-                appendData((ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() +" \"" + ETokenType.getDescription(tokenValue) + "\""):ETokenType.getDescription(tokenValue)) + "\n");
+                appendData((ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() +" \"" + ETokenType.getDescriptionForValue(tokenValue) + "\""):ETokenType.getDescriptionForValue(tokenValue)) + "\n");
         }
         appendWarning(ConfigurationParams.lexicalAnalizer.getWarningMessage()!=""?ConfigurationParams.lexicalAnalizer.getWarningMessage()+"\n":"");
         appendError(ConfigurationParams.lexicalAnalizer.getErrorMessage()!=""?ConfigurationParams.lexicalAnalizer.getErrorMessage()+"\n":"");
