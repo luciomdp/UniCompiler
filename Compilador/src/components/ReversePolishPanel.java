@@ -28,7 +28,7 @@ public class ReversePolishPanel extends JPanel{
 
     private static final Color BACKGROUND_BORDER = new Color(216,210,222,255),BACKGROUND_PANEL = new Color(157,142,173,255), BACKGROUND_COMPONENTS = new Color(118,97,141,255), BACKGROUND_HEADER = new Color(241,171,192,255);
     public static final Double pageSize = Double.valueOf(9);
-    public static Double currentPage = Double.valueOf(0);
+    public Double currentPage = Double.valueOf(0);
 
     private List<JTable> tables;
     
