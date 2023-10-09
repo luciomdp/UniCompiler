@@ -11,6 +11,7 @@ import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -24,48 +25,40 @@ import javax.swing.table.JTableHeader;
 import objects.ConfigurationParams;
 
 public class ReversePolishPanel extends JPanel{
-    private static final Color BACKGROUND_BORDER = new Color(216,210,222,255),BACKGROUND_PANEL = new Color(157,142,173,255), BACKGROUND_COMPONENTS = new Color(118,97,141,255), BACKGROUND_HEADER = new Color(241,171,192,255);
 
+    private static final Color BACKGROUND_BORDER = new Color(216,210,222,255),BACKGROUND_PANEL = new Color(157,142,173,255), BACKGROUND_COMPONENTS = new Color(118,97,141,255), BACKGROUND_HEADER = new Color(241,171,192,255);
     public static final Double pageSize = Double.valueOf(9);
     public static Double currentPage = Double.valueOf(0);
 
-    private JPanel verticalLayoutContainer;
     private List<JTable> tables;
     
 
     public ReversePolishPanel(String title) {
 
-        setLayout(new BorderLayout());
-
-        setBackground(BACKGROUND_BORDER);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(BACKGROUND_PANEL);
         setBorder(new LineBorder(BACKGROUND_BORDER, 5,true));
         setVisible(true);
-        verticalLayoutContainer = new JPanel();
-        verticalLayoutContainer.setBackground(BACKGROUND_PANEL);
-        verticalLayoutContainer.setLayout(new DynamicHeightLayoutManager());
 
         JLabel lblTitle = new JLabel("_______________________<< " + title + " >>_______________________");
         lblTitle.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setHorizontalAlignment(JLabel.CENTER);
 
-        verticalLayoutContainer.add(lblTitle, BorderLayout.CENTER);
-        verticalLayoutContainer.add(Box.createRigidArea(new Dimension(0, 10)));  
+        add(lblTitle, BorderLayout.CENTER);
+        add(Box.createRigidArea(new Dimension(0, 10)));  
         
         tables = new ArrayList<JTable>();
         tables.add(getNewTable());
-
-        add(verticalLayoutContainer,BorderLayout.CENTER);
-
     }
 
     public void updateTable(String newVal,int index) {
 
         if(createNewPage()){
-            verticalLayoutContainer.add(Box.createRigidArea(new Dimension(0, 15)));  
+            add(Box.createRigidArea(new Dimension(0, 15)));  
             tables.add(getNewTable());
-            verticalLayoutContainer.revalidate();
-            verticalLayoutContainer.repaint();
+            revalidate();
+            repaint();
         }
         tables.get(getTableForIndex(index)).setValueAt(newVal, 0, getTableIndex(index));
         revalidate();
@@ -105,11 +98,10 @@ public class ReversePolishPanel extends JPanel{
         newTable.setFillsViewportHeight(true);
         newTable.setEnabled(false);
         newTable.setVisible(true);
-        
         newTable.setBackground(BACKGROUND_COMPONENTS);
 
-        verticalLayoutContainer.add(tableHeader);
-        verticalLayoutContainer.add(newTable);   
+        add(tableHeader);
+        add(newTable);   
         return newTable;
     }
 
@@ -122,49 +114,4 @@ public class ReversePolishPanel extends JPanel{
         return false;
     }
 
-    class DynamicHeightLayoutManager implements LayoutManager {
-        private int totalHeight = 0;
-
-        @Override
-        public void addLayoutComponent(String name, Component comp) {
-            totalHeight += comp.getPreferredSize().height;
-        }
-
-        @Override
-        public Dimension preferredLayoutSize(Container parent) {
-            int maxWidth = 0;
-
-            for (Component c : parent.getComponents()) {
-                Dimension prefSize = c.getPreferredSize();
-                maxWidth = Math.max(maxWidth, prefSize.width);
-            }
-
-            return new Dimension(maxWidth, totalHeight);
-        }
-
-        @Override
-        public Dimension minimumLayoutSize(Container parent) {
-            return preferredLayoutSize(parent);
-        }
-
-        @Override
-        public void layoutContainer(Container parent) {
-            int y = 0;
-
-            for (Component c : parent.getComponents()) {
-                int width = parent.getWidth();
-                int height = c.getPreferredSize().height;
-
-                c.setBounds(0, y, width, height);
-
-                y += height;
-            }
-        }
-
-
-        @Override
-        public void removeLayoutComponent(Component comp) {
-            totalHeight -= comp.getPreferredSize().height;
-        }
-    }
 }

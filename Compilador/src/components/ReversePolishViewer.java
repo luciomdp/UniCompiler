@@ -3,6 +3,7 @@ package components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +30,10 @@ public class ReversePolishViewer extends JPanel{
         verticalLayoutContainer = new JPanel();
         verticalLayoutContainer.setBackground(BACKGROUND_PANEL);
         verticalLayoutContainer.setLayout(new BoxLayout(verticalLayoutContainer, BoxLayout.Y_AXIS));
+        verticalLayoutContainer.add(Box.createRigidArea(new Dimension(0, 10)));
         JScrollPane scroll = new JScrollPane();
         scroll.setViewportView(verticalLayoutContainer);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
         add(scroll, BorderLayout.CENTER);
     }
 
