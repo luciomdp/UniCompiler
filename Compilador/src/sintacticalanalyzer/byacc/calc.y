@@ -60,13 +60,30 @@ declaracion_funcion :
 ;
 cabecera_funcion_parametro : 
             tipo token_fun ID '(' tipo ID ')' {
-                ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función con parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                String id = $3.sval;
+                String param = $6.sval;
+                ConfigurationParams.reversePolishStructure.add(id);
+                if (!ConfigurationParams.renameFunctionWithScope(id, true))
+                    ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' ya fue declarada previamente en este ámbito \n");
+                else{
+                    ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función con parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                }
                 ConfigurationParams.addScope($3.sval);
+                ConfigurationParams.renameLexemaWithScope(param);
+            }
+            | error {
+                 {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: declaración de función inválida \n");}
             }
 ;
 cabecera_funcion : 
             tipo token_fun ID '(' ')' {
-                ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función sin parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                String id = $3.sval;
+                ConfigurationParams.reversePolishStructure.add(id);
+                if (!ConfigurationParams.renameFunctionWithScope(id, false))
+                    ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' ya fue declarada previamente en este ámbito \n");
+                else{
+                    ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función sin parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                }
                 ConfigurationParams.addScope($3.sval);
             }
 ;
@@ -157,10 +174,24 @@ factor :
 ;
 
 invocacion: 
-            ID '(' parametros ')' {ConfigurationParams.reversePolishStructure.add($1.sval);}
-        |   ID '('')' {ConfigurationParams.reversePolishStructure.add($1.sval);}
+            ID '(' parametros ')' {
+                    String id = $1.sval;
+                    ConfigurationParams.reversePolishStructure.add(id);
+                    if (!ConfigurationParams.checkIfFunctionIsDeclared(id, true))
+                        ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o no contiene parámetros \n");
+                }
+        |   ID '('')' {
+                    String id = $1.sval;
+                    ConfigurationParams.reversePolishStructure.add(id);
+                    if (!ConfigurationParams.checkIfFunctionIsDeclared(id, false))
+                        ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o contiene parámetros \n");
+                }
 ;
 parametros:
+            parametros ',' parametro {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: no puede haber mas de un parámetro en la invocación a una función \n");}
+        |   parametro
+;
+parametro:
             ID {
                     String id = $1.sval;
                     ConfigurationParams.reversePolishStructure.add(id);
