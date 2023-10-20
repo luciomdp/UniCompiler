@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 import objects.ConfigurationParams;
 
 public class SymbolTableViewer extends JPanel{
+    
     private static final Color BACKGROUND_PANEL = new Color(225,249,255,255), BACKGROUND_COMPONENTS = new Color(194,232,239,255), BACKGROUND_HEADER = new Color(44,221,221,255);
     private static final String header[] = { "Lexema", "Token", "Tipo de dato", "Uso", "Entradas"};
     private JTable symbolTable;
