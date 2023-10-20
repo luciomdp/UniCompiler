@@ -218,7 +218,7 @@ parametro:
 
 /* --------------------------------------------------------------------------IMPRESION -------------------------------------------------------------------------------*/
 impresion : 
-            PRINT '(' STRING_CONST ')' ';'{ConfigurationParams.reversePolishStructure.add(Arrays.asList($3.sval, "print"));}
+            PRINT '(' STRING_CONST ')' ';'{ConfigurationParams.reversePolishStructure.add($3.sval);}
 ;
 /* -------------------------------------------------------------------- ITERACION Y SELECCIÓN ------------------------------------------------------------------------*/
 iteracion : 

@@ -806,7 +806,7 @@ case 49:
 break;
 case 50:
 //#line 221 "calc.y"
-{ConfigurationParams.reversePolishStructure.add(Arrays.asList(val_peek(2).sval, "print"));}
+{ConfigurationParams.reversePolishStructure.add(val_peek(2).sval);}
 break;
 case 52:
 //#line 226 "calc.y"
