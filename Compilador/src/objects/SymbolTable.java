@@ -52,7 +52,7 @@ public class SymbolTable {
     }
 
     public String[][] generateDataForTable () {
-        String data[][] = new String[symbolTable.size()][4];
+        String data[][] = new String[symbolTable.size()][5];
         final int[] rowIndex = {0};
         symbolTable.entrySet().stream().forEach(entry -> {
             String key = entry.getKey();
@@ -60,7 +60,8 @@ public class SymbolTable {
             data[rowIndex[0]][0] = key;
             data[rowIndex[0]][1] = value.getTokenType()!=null?value.getTokenType().name():"-";
             data[rowIndex[0]][2] = value.getDataType()!=null?value.getDataType().name():"-";
-            data[rowIndex[0]][3] = String.valueOf(value.getItemEntryCount()!=null?value.getItemEntryCount():0); // Opcional si lo necesitas
+            data[rowIndex[0]][3] = value.getUse()!=null?value.getUse().name():"-";
+            data[rowIndex[0]][4] = String.valueOf(value.getItemEntryCount()!=null?value.getItemEntryCount():0); // Opcional si lo necesitas
             rowIndex[0]++;
         });
         return data;
