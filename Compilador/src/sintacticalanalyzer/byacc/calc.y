@@ -9,6 +9,7 @@ import objects.enums.ETokenType;
 import objects.ReversePolishStructure;
 import components.*;
 import java.util.Arrays;
+import objects.SemanticParserActions;
 %}
 
 %token ID NUMERIC_CONST STRING_CONST ASIGNACION GREATER_EQUAL LESS_EQUAL NOT_EQUAL IF THEN ELSE BEGIN END END_IF PRINT WHILE DO FUN RETURN ITOUL INTEGER ULONGINT
@@ -24,13 +25,11 @@ programa :
 /* -----  INICIO -----  */
 
 bloque :   
-            nombre_programa BEGIN sentencias END {
-                ConfigurationParams.mainView.getSintacticViewer().appendData("--------------------------- << Fin del análisis sintáctico >> ---------------------------");
-            }
+            nombre_programa BEGIN sentencias END {SemanticParserActions.ON_bloque1_End();}
 ;
 nombre_programa : 
             ID {
-                ConfigurationParams.addScope($1.sval);
+                SemanticParserActions.ON_nombre_programa1_End($1.sval);
             }
 ;
 sentencias : 
@@ -47,11 +46,11 @@ sentencia :
 ;
 sentencia_ejecutable :  
             declaracion_variables
-        |   asignacion {ConfigurationParams.mainView.getSintacticViewer().appendData("asignacion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
-        |   impresion {ConfigurationParams.mainView.getSintacticViewer().appendData("impresion linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   asignacion {SemanticParserActions.ON_sentencia_ejecutable2_End();}
+        |   impresion {SemanticParserActions.ON_sentencia_ejecutable3_End();}
         |   iteracion 
         |   seleccion 
-        |   error ';'   {ConfigurationParams.mainView.getSintacticViewer().appendError("Error de sentencia ejecutable\n");}
+        |   error   {SemanticParserActions.ON_sentencia_ejecutable6_End();}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */
 declaracion_funcion :   
@@ -59,30 +58,16 @@ declaracion_funcion :
         |   cabecera_funcion_parametro inicio_funcion cuerpo_funcion fin_funcion 
 ;
 cabecera_funcion_parametro : 
-            tipo token_fun ID '(' tipo ID ')' {
-                String id = $3.sval;
-                String param = $6.sval;
-                if (!ConfigurationParams.renameFunctionWithScope(id, true))
-                    ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' ya fue declarada previamente en este ámbito \n");
-                else{
-                    ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función con parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                }
-                ConfigurationParams.addScope($3.sval);
-                ConfigurationParams.renameLexemaWithScope(param);
+            tipo_funcion token_fun ID '(' tipo ID ')' {
+                SemanticParserActions.ON_cabecera_funcion_parametro1_End($3.sval, $6.sval);
             }
             | error {
-                 {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: declaración de función inválida \n");}
+                 SemanticParserActions.ON_cabecera_funcion_parametro2_End();
             }
 ;
 cabecera_funcion : 
-            tipo token_fun ID '(' ')' {
-                String id = $3.sval;
-                if (!ConfigurationParams.renameFunctionWithScope(id, false))
-                    ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' ya fue declarada previamente en este ámbito \n");
-                else{
-                    ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función sin parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                }
-                ConfigurationParams.addScope($3.sval);
+            tipo_funcion token_fun ID '(' ')' {
+                SemanticParserActions.ON_cabecera_funcion1_End($3.sval);
             }
 ;
 token_fun :
@@ -96,18 +81,23 @@ cuerpo_funcion :
 ;
 fin_funcion : 
             END {
-                ConfigurationParams.removeScope();
+                SemanticParserActions.ON_fin_funcion1_End();
             }
 ;
 declaracion_variables :   
             tipo variables ';'{
-                                ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+                                SemanticParserActions.ON_declaracion_variables1_End();
                             }
 ;
 
 tipo :       
-            INTEGER  
-        |   ULONGINT 
+            INTEGER {SemanticParserActions.ON_tipo1_End();} 
+        |   ULONGINT {SemanticParserActions.ON_tipo2_End();}
+;
+tipo_funcion :       
+            INTEGER {SemanticParserActions.ON_tipo_funcion1_End();} 
+        |   ULONGINT {SemanticParserActions.ON_tipo_funcion2_End();}
+;
 variables : 
             variables ',' variable
         |   variable
@@ -115,9 +105,7 @@ variables :
 variable : 
             ID {
                 // Debo primero verificar que no sea existente, de serlo arrojar un error. 
-                String id = $1.sval;
-                if (!ConfigurationParams.renameLexemaWithScope(id))
-                    ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' ya fue declarada previamente en este ámbito \n");
+                SemanticParserActions.ON_variable1_End($1.sval);
             }
 ;
 
@@ -125,225 +113,104 @@ variable :
 /* ASIGNACION */
 asignacion : 
             ID ASIGNACION expresion ';' { 
-                                            String id = $1.sval;
-                                            if (!ConfigurationParams.checkIfLexemaIsDeclared(id, ":="))
-                                                ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
+                                            SemanticParserActions.ON_asignacion1_End($1.sval);
                                         }
 ;
 
 expresion : 
             termino
-        |   expresion '+' termino {ConfigurationParams.reversePolishStructure.add("+");}
-        |   expresion '-' termino {ConfigurationParams.reversePolishStructure.add("-");}
+        |   expresion '+' termino {SemanticParserActions.ON_expresion2_End();}
+        |   expresion '-' termino {SemanticParserActions.ON_expresion3_End();}
 ;
 
 termino :   
             factor
-        |   termino '*' factor {ConfigurationParams.reversePolishStructure.add("*");}
-        |   termino '/' factor {ConfigurationParams.reversePolishStructure.add("/");}
+        |   termino '*' factor {SemanticParserActions.ON_termino2_End();}
+        |   termino '/' factor {SemanticParserActions.ON_termino3_End();}
 ;
 
 factor :    
             ID  {
-                    String id = $1.sval;
-                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id, null))
-                        ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
+                    SemanticParserActions.ON_factor1_End($1.sval);
                 }
-        |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}
-        |   invocacion {ConfigurationParams.mainView.getSintacticViewer().appendData("invocación función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   NUMERIC_CONST {SemanticParserActions.ON_factor2_End($1.sval);}
+        |   invocacion {SemanticParserActions.ON_factor3_End();}
         |   '-' NUMERIC_CONST {
-                                    String lexema = $2.sval;
-                                    ConfigurationParams.reversePolishStructure.add("-"+lexema);
-                                    if (ConfigurationParams.symbolTable.contains("-"+lexema)){
-                                        ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
-                                        ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
-                                    }
-                                    else if (ConfigurationParams.symbolTable.contains(lexema)){
-                                        if (ConfigurationParams.symbolTable.lookup(lexema).getItemEntryCount() == 1)
-                                            ConfigurationParams.symbolTable.remove(lexema);
-                                        else
-                                            ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();;
-                                    ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
-                                    }
+                                    SemanticParserActions.ON_factor4_End($2.sval);
                                 }
-        |   ITOUL '(' expresion ')' {ConfigurationParams.reversePolishStructure.add("itoul");}
+        |   ITOUL '(' expresion ')' {SemanticParserActions.ON_factor4_End();}
 ;
 
 invocacion: 
             ID '(' parametros ')' {
-                    String id = $1.sval;
-                    if (!ConfigurationParams.checkIfFunctionIsDeclared(id, true))
-                        ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o no contiene parámetros \n");
+                    SemanticParserActions.ON_invocacion1_End($1.sval);
                 }
         |   ID '('')' {
-                    String id = $1.sval;
-                    if (!ConfigurationParams.checkIfFunctionIsDeclared(id, false))
-                        ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o contiene parámetros \n");
+                    SemanticParserActions.ON_invocacion2_End($1.sval);
                 }
 ;
 parametros:
-            parametros ',' parametro {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: no puede haber mas de un parámetro en la invocación a una función \n");}
+            parametros ',' parametro {SemanticParserActions.ON_parametros1_End();}
         |   parametro
 ;
 parametro:
-            ID {
-                    String id = $1.sval;
-                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id, null))
-                        ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
-                }
-        |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}
-        |   '-' NUMERIC_CONST {
-                                    String lexema = $2.sval;
-                                    ConfigurationParams.reversePolishStructure.add("-"+lexema);
-                                    if (ConfigurationParams.symbolTable.contains("-"+lexema)){
-                                        ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
-                                        ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
-                                    }
-                                    else if (ConfigurationParams.symbolTable.contains(lexema)){
-                                        if (ConfigurationParams.symbolTable.lookup(lexema).getItemEntryCount() == 1)
-                                            ConfigurationParams.symbolTable.remove(lexema);
-                                        else
-                                            ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();;
-                                    ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
-                                    }
-                                }
+            ID {SemanticParserActions.ON_parametro1_End($1.sval);}
+        |   NUMERIC_CONST {SemanticParserActions.ON_parametro2_End($1.sval);}
+        |   '-' NUMERIC_CONST {SemanticParserActions.ON_parametro3_End($2.sval);}
 ;
 
 /* --------------------------------------------------------------------------IMPRESION -------------------------------------------------------------------------------*/
 impresion : 
-            PRINT '(' STRING_CONST ')' ';'{ConfigurationParams.reversePolishStructure.add($3.sval);}
+            PRINT '(' STRING_CONST ')' ';'{SemanticParserActions.ON_impresion1_End($3.sval);}
 ;
 /* -------------------------------------------------------------------- ITERACION Y SELECCIÓN ------------------------------------------------------------------------*/
 iteracion : 
             inicio_while '(' condicion_while ')' DO bloque_ejecutables_while 
-        |   inicio_while '(' condicion_while ')' bloque_ejecutables_while {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+        |   inicio_while '(' condicion_while ')' bloque_ejecutables_while {SemanticParserActions.ON_iteracion2_End();}
 ;
 seleccion : 
             inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_con_else ELSE bloque_ejecutables_else END_IF
         |   inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else END_IF
 ;
 inicio_if :
-         IF {
-                ConfigurationParams.mainView.getSintacticViewer().appendData("if linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-            }
+         IF {SemanticParserActions.ON_inicio_if1_End();}
 ;
 inicio_while :
-        WHILE {
-                ConfigurationParams.mainView.getSintacticViewer().appendData("while linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
-                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-            }
+        WHILE {SemanticParserActions.ON_inicio_while_End();}
 ;
 bloque_ejecutables_if_con_else :
-        BEGIN sentencias_ejecutables END {
-                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JUMP"); 
-                                            }   
+        BEGIN sentencias_ejecutables END {SemanticParserActions.ON_bloque_ejecutables_if_con_else1_End();}   
 ;
 bloque_ejecutables_if_sin_else :
-        BEGIN sentencias_ejecutables END {
-                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()), jumpPosition);
-                                            }   
+        BEGIN sentencias_ejecutables END {SemanticParserActions.ON_bloque_ejecutables_if_sin_else1_End();}   
 ;
 bloque_ejecutables_else :
-        BEGIN sentencias_ejecutables END {
-                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()), jumpPosition);
-                                            }      
+        BEGIN sentencias_ejecutables END {SemanticParserActions.ON_bloque_ejecutables_else1_End();}      
 ;
 bloque_ejecutables_while :
-    BEGIN sentencias_ejecutables END {
-                                                Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
-                                                Integer jumpPosition2 = ConfigurationParams.reversePolishStructure.popElementFromStack();
-                                                ConfigurationParams.reversePolishStructure.add(jumpPosition2);
-                                                ConfigurationParams.reversePolishStructure.add("JUMP"); 
-                                            } 
+    BEGIN sentencias_ejecutables END {SemanticParserActions.ON_bloque_ejecutables_while1_End();} 
     
 ;
 condicion_if :
-            expresion GREATER_EQUAL expresion {
-                                                ConfigurationParams.reversePolishStructure.add(">="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            } 
-        |   expresion LESS_EQUAL expresion {
-                                                ConfigurationParams.reversePolishStructure.add("<="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
-        |   expresion NOT_EQUAL expresion {
-                                                ConfigurationParams.reversePolishStructure.add("<>"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
-        |   expresion '>' expresion {
-                                                ConfigurationParams.reversePolishStructure.add(">"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
-        |   expresion '<' expresion {
-                                                ConfigurationParams.reversePolishStructure.add("<"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
-        |   expresion '=' expresion {
-                                                ConfigurationParams.reversePolishStructure.add("="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
+            expresion GREATER_EQUAL expresion {SemanticParserActions.ON_condicion_if1_End();} 
+        |   expresion LESS_EQUAL expresion {SemanticParserActions.ON_condicion_if2_End();}
+        |   expresion NOT_EQUAL expresion {SemanticParserActions.ON_condicion_if3_End();}
+        |   expresion '>' expresion {SemanticParserActions.ON_condicion_if4_End();}
+        |   expresion '<' expresion {SemanticParserActions.ON_condicion_if5_End();}
+        |   expresion '=' expresion {SemanticParserActions.ON_condicion_if6_End();}
 ;
 condicion_while :
-            expresion GREATER_EQUAL expresion {
-                                                ConfigurationParams.reversePolishStructure.add(">="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            } 
-        |   expresion LESS_EQUAL expresion {
-                                                ConfigurationParams.reversePolishStructure.add("<="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            } 
-        |   expresion NOT_EQUAL expresion {
-                                                ConfigurationParams.reversePolishStructure.add("<>"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
-        |   expresion '>' expresion {
-                                                ConfigurationParams.reversePolishStructure.add(">"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
-        |   expresion '<' expresion {
-                                                ConfigurationParams.reversePolishStructure.add("<"); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
-        |   expresion '=' expresion {
-                                                ConfigurationParams.reversePolishStructure.add("="); 
-                                                ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-                                                ConfigurationParams.reversePolishStructure.add(""); 
-                                                ConfigurationParams.reversePolishStructure.add("JNE"); 
-                                            }
+            expresion GREATER_EQUAL expresion {SemanticParserActions.ON_condicion_while1_End();} 
+        |   expresion LESS_EQUAL expresion {SemanticParserActions.ON_condicion_while2_End();} 
+        |   expresion NOT_EQUAL expresion {SemanticParserActions.ON_condicion_while3_End();}
+        |   expresion '>' expresion {SemanticParserActions.ON_condicion_while4_End();}
+        |   expresion '<' expresion {SemanticParserActions.ON_condicion_while5_End();}
+        |   expresion '=' expresion {SemanticParserActions.ON_condicion_while6_End();}
 ;
 
 /* -----------------------------------------------------------------------------RETORNO -----------------------------------------------------------------------------*/
 retorno : 
-            RETURN '(' expresion ')' ';' {ConfigurationParams.mainView.getSintacticViewer().appendData("return linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
+            RETURN '(' expresion ')' ';' {SemanticParserActions.ON_retorno1_End();}
 ;
 
 /* --------------- CODIGO --------------- */

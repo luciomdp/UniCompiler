@@ -3,7 +3,7 @@ begin
 	integer a;
 	integer b;
 	b := 3;
-	integer fun funcion2 (integer probando)
+	ulongint fun funcion2 (integer probando)
 	begin
 		integer a;
 		a:=1;

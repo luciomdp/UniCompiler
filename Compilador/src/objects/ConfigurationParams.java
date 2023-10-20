@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import components.MainView;
 import lexicalanalyzer.LexicalAnalizer;
+import objects.enums.EDataType;
 import objects.enums.EUse;
 
 public class ConfigurationParams {
@@ -14,7 +15,8 @@ public class ConfigurationParams {
     public static MainView mainView;
     public static SymbolTable symbolTable;
     public static ReversePolishStructure reversePolishStructure;
-
+    public static EDataType lastVariableDataType;
+    public static EDataType lastFunctionDataType;
     public static StringBuilder currentScope;
 
     public ConfigurationParams (Boolean production) {
@@ -61,6 +63,8 @@ public class ConfigurationParams {
     public static boolean renameLexemaWithScope (String id){
         // agregar scope al id
         SymbolTableItem sti = symbolTable.lookup(id);
+        sti.setDataType(ConfigurationParams.getLastDataType());
+        sti.setUse(EUse.VARIABLE);
         symbolTable.remove(id);
         String newId = id+ConfigurationParams.getFullCurrentScope();
         if (symbolTable.contains(newId))
@@ -75,10 +79,11 @@ public class ConfigurationParams {
     public static boolean renameFunctionWithScope (String id, boolean params){
         if (renameLexemaWithScope(id)){
             SymbolTableItem sti = symbolTable.lookup(id+ConfigurationParams.getFullCurrentScope());
+            sti.setDataType(ConfigurationParams.getLastFunctionDataType());
             if (params)
                 sti.setUse(EUse.FUNCTION_PARAM);
             else
-                sti.setUse(EUse.FUNCTION_PARAM);
+                sti.setUse(EUse.FUNCTION);
         }
         else return false;
 
@@ -110,5 +115,22 @@ public class ConfigurationParams {
         else return false;      
         return true;
     }
+
+    public static EDataType getLastDataType() {
+        return lastVariableDataType;
+    }
+
+    public static void setLastDataType(EDataType lastVariableDataType) {
+        ConfigurationParams.lastVariableDataType = lastVariableDataType;
+    }
+
+    public static EDataType getLastFunctionDataType() {
+        return lastFunctionDataType;
+    }
+
+    public static void setLastFunctionDataType(EDataType lastFunctionDataType) {
+        ConfigurationParams.lastFunctionDataType = lastFunctionDataType;
+    }
+    
 
 }
