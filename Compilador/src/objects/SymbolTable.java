@@ -65,5 +65,10 @@ public class SymbolTable {
         });
         return data;
     }
+
+    public Map<String, SymbolTableItem> getSymbolTable() {
+        return symbolTable;
+    }
+    
 }
 

@@ -2,11 +2,13 @@ package objects;
 
 import objects.enums.EDataType;
 import objects.enums.ETokenType;
+import objects.enums.EUse;
 
 public class SymbolTableItem {
     private ETokenType tokenType;
     private EDataType dataType;
     private Long itemEntryCount;
+    private EUse use;
 
     public SymbolTableItem(ETokenType tokenType, EDataType dataType) {
         this.tokenType = tokenType;
@@ -45,5 +47,12 @@ public class SymbolTableItem {
     public void addOneItemEntry() {
         this.itemEntryCount = itemEntryCount+1;
     }
+    public EUse getUse() {
+        return use;
+    }
+    public void setUse(EUse use) {
+        this.use = use;
+    }
+    
 
 }

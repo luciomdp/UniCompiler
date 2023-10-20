@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import components.MainView;
 import lexicalanalyzer.LexicalAnalizer;
+import objects.enums.EUse;
 
 public class ConfigurationParams {
 
@@ -53,7 +54,10 @@ public class ConfigurationParams {
         return currentScope.toString().substring(index + 1);
     }
 
+    /*
+     * Este método se llama cada vez que se declara una variable ya sea en el programa como en la cabecera de una función. Les agrega el scope completo. También arroja falso si ya existe la variable en ese scope.
 
+     */
     public static boolean renameLexemaWithScope (String id){
         // agregar scope al id
         SymbolTableItem sti = symbolTable.lookup(id);
@@ -62,6 +66,22 @@ public class ConfigurationParams {
         if (symbolTable.contains(newId))
             return false;
         symbolTable.insert(id+ConfigurationParams.getFullCurrentScope(), sti);
+        return true;
+    }
+    /*
+     * Cuando se declara una función se la renombra con el scope completo. Si ya existe devuelve false. Además, setea si es una función con o sin parámetros
+
+     */
+    public static boolean renameFunctionWithScope (String id, boolean params){
+        if (renameLexemaWithScope(id)){
+            SymbolTableItem sti = symbolTable.lookup(id+ConfigurationParams.getFullCurrentScope());
+            if (params)
+                sti.setUse(EUse.FUNCTION_PARAM);
+            else
+                sti.setUse(EUse.FUNCTION_PARAM);
+        }
+        else return false;
+
         return true;
     }
     public static boolean checkIfLexemaIsDeclared (String id){
@@ -78,7 +98,14 @@ public class ConfigurationParams {
         }
         return false;
     }
-
-
+    public static boolean checkIfFunctionIsDeclared (String id, boolean params){
+        if (checkIfLexemaIsDeclared(id)){
+            String idWithScope = id+getFullCurrentScope();
+            if ((symbolTable.lookup(idWithScope).getUse() == EUse.FUNCTION_PARAM && !params) ||(symbolTable.lookup(idWithScope).getUse() == EUse.FUNCTION && params))
+                return false;
+        }  
+        else return false;      
+        return true;
+    }
 
 }

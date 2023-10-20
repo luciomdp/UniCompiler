@@ -4,13 +4,15 @@ begin
 	integer a;
 	integer b;
 	b := 3;
-	integer fun funcion1 ()
+	integer fun funcion2 (integer probando)
 	begin
 		integer a;
 		a:=1;
 		integer z;
 		return (59);
 	end
+	a := funcion2(a);
+	a := 234;
 	integer a;
 	z := 2121;
 	if (a <= b) then
@@ -26,4 +28,11 @@ begin
 		end
 	end
 	end_if
+	integer fun funcion1 ()
+	begin
+		integer a;
+		a:=1;
+		integer z;
+		return (59);
+	end
 end
