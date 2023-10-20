@@ -84,8 +84,11 @@ public class ConfigurationParams {
 
         return true;
     }
-    public static boolean checkIfLexemaIsDeclared (String id){
+    public static boolean checkIfLexemaIsDeclared (String id, String operand){
         String idWithScope = id+getFullCurrentScope();
+        reversePolishStructure.add(idWithScope);
+        if (operand != null)
+            reversePolishStructure.add(operand);
         String[] wordsInId = idWithScope.split("\\.");
         for (int i=wordsInId.length; i > 1 ; i--){
             if (symbolTable.contains(idWithScope)){
@@ -99,7 +102,7 @@ public class ConfigurationParams {
         return false;
     }
     public static boolean checkIfFunctionIsDeclared (String id, boolean params){
-        if (checkIfLexemaIsDeclared(id)){
+        if (checkIfLexemaIsDeclared(id, null)){
             String idWithScope = id+getFullCurrentScope();
             if ((symbolTable.lookup(idWithScope).getUse() == EUse.FUNCTION_PARAM && !params) ||(symbolTable.lookup(idWithScope).getUse() == EUse.FUNCTION && params))
                 return false;

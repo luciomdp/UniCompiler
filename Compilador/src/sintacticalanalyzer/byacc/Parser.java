@@ -16,16 +16,10 @@
 
 
 
-//#line 4 "calc.y"
-import lexicalanalyzer.*;
 import objects.ConfigurationParams;
 import objects.SymbolTableItem;
 import objects.enums.EDataType;
 import objects.enums.ETokenType;
-import objects.ReversePolishStructure;
-import components.*;
-import java.util.Arrays;
-//#line 26 "Parser.java"
 
 
 
@@ -435,7 +429,7 @@ final static String yyrule[] = {
 "retorno : RETURN '(' expresion ')' ';'",
 };
 
-//#line 358 "calc.y"
+//#line 351 "calc.y"
 
 public static void main(String[] args) throws Exception {
     ConfigurationParams globalParams = new ConfigurationParams(false);
@@ -637,7 +631,6 @@ case 18:
 {
                 String id = val_peek(4).sval;
                 String param = val_peek(1).sval;
-                ConfigurationParams.reversePolishStructure.add(id);
                 if (!ConfigurationParams.renameFunctionWithScope(id, true))
                     ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' ya fue declarada previamente en este ámbito \n");
                 else{
@@ -648,16 +641,15 @@ case 18:
             }
 break;
 case 19:
-//#line 74 "calc.y"
+//#line 73 "calc.y"
 {
                  {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: declaración de función inválida \n");}
             }
 break;
 case 20:
-//#line 79 "calc.y"
+//#line 78 "calc.y"
 {
                 String id = val_peek(2).sval;
-                ConfigurationParams.reversePolishStructure.add(id);
                 if (!ConfigurationParams.renameFunctionWithScope(id, false))
                     ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' ya fue declarada previamente en este ámbito \n");
                 else{
@@ -667,19 +659,19 @@ case 20:
             }
 break;
 case 24:
-//#line 100 "calc.y"
+//#line 98 "calc.y"
 {
                 ConfigurationParams.removeScope();
             }
 break;
 case 25:
-//#line 105 "calc.y"
+//#line 103 "calc.y"
 {
                                 ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de variable linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                             }
 break;
 case 30:
-//#line 118 "calc.y"
+//#line 116 "calc.y"
 {
                 /* Debo primero verificar que no sea existente, de serlo arrojar un error. */
                 String id = val_peek(0).sval;
@@ -688,49 +680,47 @@ case 30:
             }
 break;
 case 31:
-//#line 129 "calc.y"
-{   ConfigurationParams.reversePolishStructure.add(val_peek(3).sval);
-                                            ConfigurationParams.reversePolishStructure.add(":=");
+//#line 127 "calc.y"
+{ 
                                             String id = val_peek(3).sval;
-                                            if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                                            if (!ConfigurationParams.checkIfLexemaIsDeclared(id, ":="))
                                                 ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
                                         }
 break;
 case 33:
-//#line 139 "calc.y"
+//#line 136 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("+");}
 break;
 case 34:
-//#line 140 "calc.y"
+//#line 137 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("-");}
 break;
 case 36:
-//#line 145 "calc.y"
+//#line 142 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("*");}
 break;
 case 37:
-//#line 146 "calc.y"
+//#line 143 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("/");}
 break;
 case 38:
-//#line 150 "calc.y"
+//#line 147 "calc.y"
 {
                     String id = val_peek(0).sval;
-                    ConfigurationParams.reversePolishStructure.add(id);
-                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id, null))
                         ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
                 }
 break;
 case 39:
-//#line 156 "calc.y"
+//#line 152 "calc.y"
 {ConfigurationParams.reversePolishStructure.add(val_peek(0).sval);}
 break;
 case 40:
-//#line 157 "calc.y"
+//#line 153 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("invocación función linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 41:
-//#line 158 "calc.y"
+//#line 154 "calc.y"
 {
                                     String lexema = val_peek(0).sval;
                                     ConfigurationParams.reversePolishStructure.add("-"+lexema);
@@ -748,46 +738,43 @@ case 41:
                                 }
 break;
 case 42:
-//#line 173 "calc.y"
+//#line 169 "calc.y"
 {ConfigurationParams.reversePolishStructure.add("itoul");}
 break;
 case 43:
-//#line 177 "calc.y"
+//#line 173 "calc.y"
 {
                     String id = val_peek(3).sval;
-                    ConfigurationParams.reversePolishStructure.add(id);
                     if (!ConfigurationParams.checkIfFunctionIsDeclared(id, true))
                         ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o no contiene parámetros \n");
                 }
 break;
 case 44:
-//#line 183 "calc.y"
+//#line 178 "calc.y"
 {
                     String id = val_peek(2).sval;
-                    ConfigurationParams.reversePolishStructure.add(id);
                     if (!ConfigurationParams.checkIfFunctionIsDeclared(id, false))
                         ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o contiene parámetros \n");
                 }
 break;
 case 45:
-//#line 191 "calc.y"
+//#line 185 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: no puede haber mas de un parámetro en la invocación a una función \n");}
 break;
 case 47:
-//#line 195 "calc.y"
+//#line 189 "calc.y"
 {
                     String id = val_peek(0).sval;
-                    ConfigurationParams.reversePolishStructure.add(id);
-                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id, null))
                         ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
                 }
 break;
 case 48:
-//#line 201 "calc.y"
+//#line 194 "calc.y"
 {ConfigurationParams.reversePolishStructure.add(val_peek(0).sval);}
 break;
 case 49:
-//#line 202 "calc.y"
+//#line 195 "calc.y"
 {
                                     String lexema = val_peek(0).sval;
                                     ConfigurationParams.reversePolishStructure.add("-"+lexema);
@@ -805,28 +792,28 @@ case 49:
                                 }
 break;
 case 50:
-//#line 221 "calc.y"
+//#line 214 "calc.y"
 {ConfigurationParams.reversePolishStructure.add(val_peek(2).sval);}
 break;
 case 52:
-//#line 226 "calc.y"
+//#line 219 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendError("Error: te olvidaste el DO linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
 case 55:
-//#line 233 "calc.y"
+//#line 226 "calc.y"
 {
                 ConfigurationParams.mainView.getSintacticViewer().appendData("if linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
             }
 break;
 case 56:
-//#line 238 "calc.y"
+//#line 231 "calc.y"
 {
                 ConfigurationParams.mainView.getSintacticViewer().appendData("while linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
             }
 break;
 case 57:
-//#line 244 "calc.y"
+//#line 237 "calc.y"
 {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
@@ -836,21 +823,21 @@ case 57:
                                             }
 break;
 case 58:
-//#line 253 "calc.y"
+//#line 246 "calc.y"
 {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()), jumpPosition);
                                             }
 break;
 case 59:
-//#line 259 "calc.y"
+//#line 252 "calc.y"
 {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()), jumpPosition);
                                             }
 break;
 case 60:
-//#line 265 "calc.y"
+//#line 258 "calc.y"
 {
                                                 Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
                                                 ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
@@ -860,7 +847,7 @@ case 60:
                                             }
 break;
 case 61:
-//#line 275 "calc.y"
+//#line 268 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add(">="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -869,7 +856,7 @@ case 61:
                                             }
 break;
 case 62:
-//#line 281 "calc.y"
+//#line 274 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -878,7 +865,7 @@ case 62:
                                             }
 break;
 case 63:
-//#line 287 "calc.y"
+//#line 280 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<>"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -887,7 +874,7 @@ case 63:
                                             }
 break;
 case 64:
-//#line 293 "calc.y"
+//#line 286 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add(">"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -896,7 +883,7 @@ case 64:
                                             }
 break;
 case 65:
-//#line 299 "calc.y"
+//#line 292 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -905,7 +892,7 @@ case 65:
                                             }
 break;
 case 66:
-//#line 305 "calc.y"
+//#line 298 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -914,7 +901,7 @@ case 66:
                                             }
 break;
 case 67:
-//#line 313 "calc.y"
+//#line 306 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add(">="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -923,7 +910,7 @@ case 67:
                                             }
 break;
 case 68:
-//#line 319 "calc.y"
+//#line 312 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -932,7 +919,7 @@ case 68:
                                             }
 break;
 case 69:
-//#line 325 "calc.y"
+//#line 318 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<>"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -941,7 +928,7 @@ case 69:
                                             }
 break;
 case 70:
-//#line 331 "calc.y"
+//#line 324 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add(">"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -950,7 +937,7 @@ case 70:
                                             }
 break;
 case 71:
-//#line 337 "calc.y"
+//#line 330 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("<"); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -959,7 +946,7 @@ case 71:
                                             }
 break;
 case 72:
-//#line 343 "calc.y"
+//#line 336 "calc.y"
 {
                                                 ConfigurationParams.reversePolishStructure.add("="); 
                                                 ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
@@ -968,10 +955,10 @@ case 72:
                                             }
 break;
 case 73:
-//#line 353 "calc.y"
+//#line 346 "calc.y"
 {ConfigurationParams.mainView.getSintacticViewer().appendData("return linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");}
 break;
-//#line 898 "Parser.java"
+//#line 891 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

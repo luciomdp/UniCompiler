@@ -62,7 +62,6 @@ cabecera_funcion_parametro :
             tipo token_fun ID '(' tipo ID ')' {
                 String id = $3.sval;
                 String param = $6.sval;
-                ConfigurationParams.reversePolishStructure.add(id);
                 if (!ConfigurationParams.renameFunctionWithScope(id, true))
                     ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' ya fue declarada previamente en este ámbito \n");
                 else{
@@ -78,7 +77,6 @@ cabecera_funcion_parametro :
 cabecera_funcion : 
             tipo token_fun ID '(' ')' {
                 String id = $3.sval;
-                ConfigurationParams.reversePolishStructure.add(id);
                 if (!ConfigurationParams.renameFunctionWithScope(id, false))
                     ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' ya fue declarada previamente en este ámbito \n");
                 else{
@@ -126,10 +124,9 @@ variable :
 /* ----- SENTENCIAS EJECUTABLES ----- */
 /* ASIGNACION */
 asignacion : 
-            ID ASIGNACION expresion ';' {   ConfigurationParams.reversePolishStructure.add($1.sval);
-                                            ConfigurationParams.reversePolishStructure.add(":=");
+            ID ASIGNACION expresion ';' { 
                                             String id = $1.sval;
-                                            if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                                            if (!ConfigurationParams.checkIfLexemaIsDeclared(id, ":="))
                                                 ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
                                         }
 ;
@@ -149,8 +146,7 @@ termino :
 factor :    
             ID  {
                     String id = $1.sval;
-                    ConfigurationParams.reversePolishStructure.add(id);
-                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id, null))
                         ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
                 }
         |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}
@@ -176,13 +172,11 @@ factor :
 invocacion: 
             ID '(' parametros ')' {
                     String id = $1.sval;
-                    ConfigurationParams.reversePolishStructure.add(id);
                     if (!ConfigurationParams.checkIfFunctionIsDeclared(id, true))
                         ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o no contiene parámetros \n");
                 }
         |   ID '('')' {
                     String id = $1.sval;
-                    ConfigurationParams.reversePolishStructure.add(id);
                     if (!ConfigurationParams.checkIfFunctionIsDeclared(id, false))
                         ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o contiene parámetros \n");
                 }
@@ -194,8 +188,7 @@ parametros:
 parametro:
             ID {
                     String id = $1.sval;
-                    ConfigurationParams.reversePolishStructure.add(id);
-                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id))
+                    if (!ConfigurationParams.checkIfLexemaIsDeclared(id, null))
                         ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
                 }
         |   NUMERIC_CONST {ConfigurationParams.reversePolishStructure.add($1.sval);}

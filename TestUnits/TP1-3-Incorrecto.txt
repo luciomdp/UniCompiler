@@ -1,5 +1,6 @@
 programa1
 begin
+	a := 200;
 	integer a;
 	integer b;
 	b := 3;
@@ -10,12 +11,14 @@ begin
 		integer z;
 		return (59);
 	end
-	a := funcion2(b);
+	a := funcion2();
+	a := 234;
+	integer a;
+	z := 2121;
 	if (a <= b) then
 	begin
-		integer d;
 		d := -54678;
-		while (a <> d) do 
+		while (a <> c) do 
 		begin
 			if (a <= b) then
 			begin
