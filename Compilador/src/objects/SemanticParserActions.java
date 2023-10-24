@@ -82,6 +82,8 @@ public class SemanticParserActions {
     //---------------------- << asignacion >> ----------------------
     // ID ASIGNACION expresion ';'
     public static void ON_asignacion1_End(String id) {
+        if (ConfigurationParams.checkIfIsFunction(id))
+            ConfigurationParams.mainView.getSintacticViewer().appendError("Error: "+ id + " es una función, no una variable. No puede asignarsele un valor \n");
         if (!ConfigurationParams.checkIfLexemaIsDeclared(id, ":="))
             ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
     }

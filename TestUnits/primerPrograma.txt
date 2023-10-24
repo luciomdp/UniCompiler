@@ -10,7 +10,7 @@ begin
 		integer z;
 		return (59);
 	end
-	a := funcion2(b);
+	funcion2 := funcion2(b);
 	if (a <= b) then
 	begin
 		integer d;

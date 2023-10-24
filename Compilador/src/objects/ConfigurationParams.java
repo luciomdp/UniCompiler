@@ -149,6 +149,14 @@ public class ConfigurationParams {
     public static void setLastFunctionDataType(EDataType lastFunctionDataType) {
         ConfigurationParams.lastFunctionDataType = lastFunctionDataType;
     }
+
+    public static boolean checkIfIsFunction(String id) {
+        id = id+"."+getCurrentScope();
+        if (symbolTable.contains(id) && (symbolTable.lookup(id).getUse() == EUse.FUNCTION_PARAM || symbolTable.lookup(id).getUse() == EUse.FUNCTION))
+            return true;
+        else
+            return false;
+    }
     
 
 }
