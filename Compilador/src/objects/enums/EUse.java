@@ -5,7 +5,8 @@ public enum EUse {
     FUNCTION_PARAM(2),
     VARIABLE(3),
     CONST(4),
-    RESERVED_WORD(5);
+    RESERVED_WORD(5), 
+    PARAMETER(6);
 
     private int value;
     private EUse(int value) {

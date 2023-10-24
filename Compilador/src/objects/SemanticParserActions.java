@@ -2,6 +2,7 @@ package objects;
 
 import objects.enums.EDataType;
 import objects.enums.ETokenType;
+import objects.enums.EUse;
 
 public class SemanticParserActions {
     
@@ -40,7 +41,7 @@ public class SemanticParserActions {
             ConfigurationParams.mainView.getSintacticViewer().appendData("declaracion de función con parametro linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
         }
         ConfigurationParams.addScope(id);
-        ConfigurationParams.renameLexemaWithScope(param);
+        ConfigurationParams.renameIdWithScopeAndSetDataType(param, true);
     }
 
     public static void ON_cabecera_funcion_parametro2_End() {
@@ -74,7 +75,7 @@ public class SemanticParserActions {
     // ID 
     public static void ON_variable1_End(String id) {
         // Debo primero verificar que no sea existente, de serlo arrojar un error. 
-        if (!ConfigurationParams.renameLexemaWithScope(id))
+        if (!ConfigurationParams.renameIdWithScopeAndSetDataType(id, false))
             ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' ya fue declarada previamente en este ámbito \n");
     }
 
@@ -113,6 +114,7 @@ public class SemanticParserActions {
     }
     // NUMERIC_CONST 
     public static void ON_factor2_End(String lexema) {
+        ConfigurationParams.symbolTable.lookup(lexema).setUse(EUse.CONST);
         ConfigurationParams.reversePolishStructure.add(lexema);
     }
     // invocacion  

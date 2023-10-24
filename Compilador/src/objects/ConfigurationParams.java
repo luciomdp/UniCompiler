@@ -37,39 +37,47 @@ public class ConfigurationParams {
         mainView.getReversePolishViewer().updateTable(reversePolish,newVal,index);
     }
     public static void addScope(String newScope) {
-        currentScope.append(".");
-        currentScope.append(newScope);
+        StringBuilder newCurrentScope = new StringBuilder(newScope);
+        if (!currentScope.isEmpty())
+            newCurrentScope.append(".");
+        newCurrentScope.append(currentScope);
+        currentScope = newCurrentScope; 
         reversePolishStructure.generateNewReversePolish(newScope);
         mainView.getReversePolishViewer().addNewStructure(newScope);
     }
     public static void removeScope() {
-        if (currentScope.lastIndexOf(".") != -1) 
-           currentScope.setLength(currentScope.lastIndexOf("."));
+        int index = currentScope.toString().indexOf('.');
+        if (currentScope.indexOf(".") != -1) 
+            currentScope = new StringBuilder(currentScope.toString().substring(index!=-1?index+1:currentScope.length()));
     }
 
     public static String getFullCurrentScope() {
-        return currentScope.toString();
+        return "."+currentScope.toString();
     }
 
     public static String getCurrentScope() {
-        int index = currentScope.toString().lastIndexOf('.');
-        return currentScope.toString().substring(index + 1);
+        int index = currentScope.toString().indexOf('.');
+        String a = currentScope.toString().substring(0,index!=-1?index:currentScope.length());
+        return a;
     }
 
     /*
      * Este método se llama cada vez que se declara una variable ya sea en el programa como en la cabecera de una función. Les agrega el scope completo. También arroja falso si ya existe la variable en ese scope.
 
      */
-    public static boolean renameLexemaWithScope (String id){
+    public static boolean renameIdWithScopeAndSetDataType (String id, boolean param){
         // agregar scope al id
         SymbolTableItem sti = symbolTable.lookup(id);
         sti.setDataType(ConfigurationParams.getLastDataType());
-        sti.setUse(EUse.VARIABLE);
-        symbolTable.remove(id);
         String newId = id+ConfigurationParams.getFullCurrentScope();
-        if (symbolTable.contains(newId))
+        if (symbolTable.contains(newId)) // ya existía antes?
             return false;
+        if (param)
+            sti.setUse(EUse.PARAMETER);
+        else
+            sti.setUse(EUse.VARIABLE);
         symbolTable.insert(id+ConfigurationParams.getFullCurrentScope(), sti);
+        symbolTable.remove(id);
         return true;
     }
     /*
@@ -77,16 +85,18 @@ public class ConfigurationParams {
 
      */
     public static boolean renameFunctionWithScope (String id, boolean params){
-        if (renameLexemaWithScope(id)){
-            SymbolTableItem sti = symbolTable.lookup(id+ConfigurationParams.getFullCurrentScope());
-            sti.setDataType(ConfigurationParams.getLastFunctionDataType());
-            if (params)
-                sti.setUse(EUse.FUNCTION_PARAM);
-            else
-                sti.setUse(EUse.FUNCTION);
-        }
-        else return false;
-
+        // agregar scope al id
+        String newId = id+ConfigurationParams.getFullCurrentScope();
+        SymbolTableItem sti = symbolTable.lookup(id);
+        sti.setDataType(ConfigurationParams.getLastFunctionDataType());
+        if (params)
+            sti.setUse(EUse.FUNCTION_PARAM);
+        else
+            sti.setUse(EUse.FUNCTION);
+        if (symbolTable.contains(newId)) // ya existía antes?
+            return false;
+        symbolTable.insert(id+ConfigurationParams.getFullCurrentScope(), sti);
+        symbolTable.remove(id);
         return true;
     }
     public static boolean checkIfLexemaIsDeclared (String id, String operand){
