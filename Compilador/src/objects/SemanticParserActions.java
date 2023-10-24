@@ -248,42 +248,42 @@ public class SemanticParserActions {
         ConfigurationParams.reversePolishStructure.add(">="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR"); 
+        ConfigurationParams.reversePolishStructure.add("BF"); 
     }
     // expresion LESS_EQUAL expresion
     public static void ON_condicion_if2_End() {
         ConfigurationParams.reversePolishStructure.add("<="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR"); 
+        ConfigurationParams.reversePolishStructure.add("BF"); 
     }
     // expresion NOT_EQUAL expresion
     public static void ON_condicion_if3_End() {
         ConfigurationParams.reversePolishStructure.add("<>"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR"); 
+        ConfigurationParams.reversePolishStructure.add("BF"); 
     }
     // expresion '>' expresion
     public static void ON_condicion_if4_End() {
         ConfigurationParams.reversePolishStructure.add(">"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR");
+        ConfigurationParams.reversePolishStructure.add("BF");
     }
     // expresion '<' expresion
     public static void ON_condicion_if5_End() {
         ConfigurationParams.reversePolishStructure.add("<"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR");
+        ConfigurationParams.reversePolishStructure.add("BF");
     }
     // expresion '=' expresion
     public static void ON_condicion_if6_End() {
         ConfigurationParams.reversePolishStructure.add("="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR");
+        ConfigurationParams.reversePolishStructure.add("BF");
     }
 
     //---------------------- << condicion_while  >> ----------------------
@@ -292,42 +292,42 @@ public class SemanticParserActions {
         ConfigurationParams.reversePolishStructure.add(">="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR"); 
+        ConfigurationParams.reversePolishStructure.add("BF"); 
     }
     // expresion LESS_EQUAL expresion
     public static void ON_condicion_while2_End() {
         ConfigurationParams.reversePolishStructure.add("<="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR"); 
+        ConfigurationParams.reversePolishStructure.add("BF"); 
     }
     // expresion NOT_EQUAL expresion
     public static void ON_condicion_while3_End() {
         ConfigurationParams.reversePolishStructure.add("<>"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR"); 
+        ConfigurationParams.reversePolishStructure.add("BF"); 
     }
     // expresion '>' expresion
     public static void ON_condicion_while4_End() {
         ConfigurationParams.reversePolishStructure.add(">"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR");
+        ConfigurationParams.reversePolishStructure.add("BF");
     }
     // expresion '<' expresion
     public static void ON_condicion_while5_End() {
         ConfigurationParams.reversePolishStructure.add("<"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR");
+        ConfigurationParams.reversePolishStructure.add("BF");
     }
     // expresion '=' expresion
     public static void ON_condicion_while6_End() {
         ConfigurationParams.reversePolishStructure.add("="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("BR");
+        ConfigurationParams.reversePolishStructure.add("BF");
     }
 
     //---------------------- << retorno  >> ----------------------
