@@ -142,13 +142,11 @@ public class SemanticParserActions {
     //---------------------- << invocacion >> ----------------------
     // ID '(' parametros ')' 
     public static void ON_invocacion1_End(String id) {
-        ConfigurationParams.reversePolishStructure.add(id);
         if (!ConfigurationParams.checkIfFunctionIsDeclared(id, true))
             ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o no contiene parámetros \n");
     }
     // ID '('')' 
     public static void ON_invocacion2_End(String id) {
-        ConfigurationParams.reversePolishStructure.add(id);
         if (!ConfigurationParams.checkIfFunctionIsDeclared(id, false))
             ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o contiene parámetros \n");
     }
@@ -162,7 +160,6 @@ public class SemanticParserActions {
     //---------------------- << parametro >> ----------------------
     // ID
     public static void ON_parametro1_End(String id) {
-        ConfigurationParams.reversePolishStructure.add(id);
         if (!ConfigurationParams.checkIfLexemaIsDeclared(id, null))
             ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la variable '"+ id + "' no fue declarada previamente en este ámbito \n");
     }
@@ -251,42 +248,42 @@ public class SemanticParserActions {
         ConfigurationParams.reversePolishStructure.add(">="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE"); 
+        ConfigurationParams.reversePolishStructure.add("BR"); 
     }
     // expresion LESS_EQUAL expresion
     public static void ON_condicion_if2_End() {
         ConfigurationParams.reversePolishStructure.add("<="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE"); 
+        ConfigurationParams.reversePolishStructure.add("BR"); 
     }
     // expresion NOT_EQUAL expresion
     public static void ON_condicion_if3_End() {
         ConfigurationParams.reversePolishStructure.add("<>"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE"); 
+        ConfigurationParams.reversePolishStructure.add("BR"); 
     }
     // expresion '>' expresion
     public static void ON_condicion_if4_End() {
         ConfigurationParams.reversePolishStructure.add(">"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE");
+        ConfigurationParams.reversePolishStructure.add("BR");
     }
     // expresion '<' expresion
     public static void ON_condicion_if5_End() {
         ConfigurationParams.reversePolishStructure.add("<"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE");
+        ConfigurationParams.reversePolishStructure.add("BR");
     }
     // expresion '=' expresion
     public static void ON_condicion_if6_End() {
         ConfigurationParams.reversePolishStructure.add("="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE");
+        ConfigurationParams.reversePolishStructure.add("BR");
     }
 
     //---------------------- << condicion_while  >> ----------------------
@@ -295,42 +292,42 @@ public class SemanticParserActions {
         ConfigurationParams.reversePolishStructure.add(">="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE"); 
+        ConfigurationParams.reversePolishStructure.add("BR"); 
     }
     // expresion LESS_EQUAL expresion
     public static void ON_condicion_while2_End() {
         ConfigurationParams.reversePolishStructure.add("<="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE"); 
+        ConfigurationParams.reversePolishStructure.add("BR"); 
     }
     // expresion NOT_EQUAL expresion
     public static void ON_condicion_while3_End() {
         ConfigurationParams.reversePolishStructure.add("<>"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE"); 
+        ConfigurationParams.reversePolishStructure.add("BR"); 
     }
     // expresion '>' expresion
     public static void ON_condicion_while4_End() {
         ConfigurationParams.reversePolishStructure.add(">"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE");
+        ConfigurationParams.reversePolishStructure.add("BR");
     }
     // expresion '<' expresion
     public static void ON_condicion_while5_End() {
         ConfigurationParams.reversePolishStructure.add("<"); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE");
+        ConfigurationParams.reversePolishStructure.add("BR");
     }
     // expresion '=' expresion
     public static void ON_condicion_while6_End() {
         ConfigurationParams.reversePolishStructure.add("="); 
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
-        ConfigurationParams.reversePolishStructure.add("JNE");
+        ConfigurationParams.reversePolishStructure.add("BR");
     }
 
     //---------------------- << retorno  >> ----------------------
