@@ -20,6 +20,12 @@ public class SymbolTableItem {
         this.dataType = dataType;
         this.itemEntryCount = itemEntryCount;
     }
+    public SymbolTableItem(ETokenType tokenType, EDataType dataType, EUse use) {
+        this.tokenType = tokenType;
+        this.dataType = dataType;
+        this.use = use;
+        itemEntryCount = 1L;
+    }
 
     public ETokenType getTokenType() {
         return tokenType;

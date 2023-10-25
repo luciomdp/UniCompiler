@@ -1,6 +1,7 @@
 package objects;
 
 import java.util.Arrays;
+import java.util.Map.Entry;
 
 import components.MainView;
 import lexicalanalyzer.LexicalAnalizer;
@@ -119,6 +120,7 @@ public class ConfigurationParams {
     public static boolean checkIfFunctionIsDeclared (String id, boolean params){
         String idWithScope = id+getFullCurrentScope();
         reversePolishStructure.add(idWithScope);
+        reversePolishStructure.add("CALL");
         String[] wordsInId = idWithScope.split("\\.");
         for (int i=wordsInId.length; i > 1 ; i--){
             if (symbolTable.contains(idWithScope)){
@@ -156,6 +158,13 @@ public class ConfigurationParams {
             return true;
         else
             return false;
+    }
+
+    public static String getParameterNameFromFunction (String functionName){
+        String functionNameWithScope = symbolTable.getSymbolTable().entrySet().stream().filter(k -> (k.getKey().startsWith(functionName) && k.getValue().getUse() == EUse.FUNCTION_PARAM)).findFirst().get().getKey();
+        Entry<String, SymbolTableItem> item = symbolTable.getSymbolTable().entrySet().stream().filter(k -> (k.getKey().endsWith(functionNameWithScope) && k.getValue().getUse() == EUse.PARAMETER)).findFirst().get();
+        String parameter = item == null? "": item.getKey();
+        return parameter;
     }
     
 

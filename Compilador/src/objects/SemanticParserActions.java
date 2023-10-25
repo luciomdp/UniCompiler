@@ -125,17 +125,18 @@ public class SemanticParserActions {
     }
     // '-' NUMERIC_CONST 
     public static void ON_factor4_End(String lexema) {
-        ConfigurationParams.reversePolishStructure.add("-"+lexema);
-        if (ConfigurationParams.symbolTable.contains("-"+lexema)){
-            ConfigurationParams.symbolTable.lookup("-"+lexema).addOneItemEntry();
+        String negativeLexema = "-"+lexema;
+        ConfigurationParams.reversePolishStructure.add(negativeLexema);
+        if (ConfigurationParams.symbolTable.contains(negativeLexema)){
+            ConfigurationParams.symbolTable.lookup(negativeLexema).addOneItemEntry();
             ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
         }
         else if (ConfigurationParams.symbolTable.contains(lexema)){
             if (ConfigurationParams.symbolTable.lookup(lexema).getItemEntryCount() == 1)
                 ConfigurationParams.symbolTable.remove(lexema);
             else
-                ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();;
-        ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+                ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
+        ConfigurationParams.symbolTable.insert(negativeLexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER, EUse.CONST));
         }
     }
     // ITOUL '(' expresion ')'
@@ -146,6 +147,8 @@ public class SemanticParserActions {
     //---------------------- << invocacion >> ----------------------
     // ID '(' parametros ')' 
     public static void ON_invocacion1_End(String id) {
+        ConfigurationParams.reversePolishStructure.add(ConfigurationParams.getParameterNameFromFunction(id));
+        ConfigurationParams.reversePolishStructure.add(":=");
         if (!ConfigurationParams.checkIfFunctionIsDeclared(id, true))
             ConfigurationParams.mainView.getSintacticViewer().appendError("Error: la función '"+ id + "' no fue declarada previamente en este ámbito o no contiene parámetros \n");
     }
