@@ -4,14 +4,14 @@ begin
 	integer a;
 	integer b;
 	b := 3;
-	integer fun funcion2 (integer probando)
+	integer fun funcion2 ()
 	begin
 		integer a;
 		a:=1;
 		integer z;
 		return (59);
 	end
-	a := funcion2();
+	a := funcion2(a, b, c);
 	a := 234;
 	integer a;
 	z := 2121;

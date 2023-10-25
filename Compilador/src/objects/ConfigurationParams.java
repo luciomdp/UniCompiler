@@ -2,6 +2,7 @@ package objects;
 
 import java.util.Arrays;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import components.MainView;
 import lexicalanalyzer.LexicalAnalizer;
@@ -161,9 +162,13 @@ public class ConfigurationParams {
     }
 
     public static String getParameterNameFromFunction (String functionName){
-        String functionNameWithScope = symbolTable.getSymbolTable().entrySet().stream().filter(k -> (k.getKey().startsWith(functionName) && k.getValue().getUse() == EUse.FUNCTION_PARAM)).findFirst().get().getKey();
-        Entry<String, SymbolTableItem> item = symbolTable.getSymbolTable().entrySet().stream().filter(k -> (k.getKey().endsWith(functionNameWithScope) && k.getValue().getUse() == EUse.PARAMETER)).findFirst().get();
-        String parameter = item == null? "": item.getKey();
+        Optional<Entry<String, SymbolTableItem>> function =symbolTable.getSymbolTable().entrySet().stream().filter(k -> (k.getKey().startsWith(functionName) && k.getValue().getUse() == EUse.FUNCTION_PARAM)).findFirst();
+        String parameter = "";
+        if (function.isPresent()){
+            String functionNameWithScope = function.get().getKey();
+            Entry<String, SymbolTableItem> item = symbolTable.getSymbolTable().entrySet().stream().filter(k -> (k.getKey().endsWith(functionNameWithScope) && k.getValue().getUse() == EUse.PARAMETER)).findFirst().get();
+            parameter = item == null? "-": item.getKey();
+        }
         return parameter;
     }
     
