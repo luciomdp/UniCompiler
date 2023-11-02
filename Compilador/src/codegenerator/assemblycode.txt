@@ -1,0 +1,8 @@
+MOV eax, _a.programa1
+ADD eax, _c.programa1
+MOV @var1, eax 
+
+MOV eax, _@var1
+ADD eax, _b.programa1
+MOV @var2, eax 
+

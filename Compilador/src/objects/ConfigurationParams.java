@@ -1,9 +1,8 @@
 package objects;
 
-import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.Optional;
-
+import codegenerator.GenerateCodeComponent;
 import components.MainView;
 import lexicalanalyzer.LexicalAnalizer;
 import objects.enums.EDataType;
@@ -20,6 +19,7 @@ public class ConfigurationParams {
     public static EDataType lastVariableDataType;
     public static EDataType lastFunctionDataType;
     public static StringBuilder currentScope;
+    public static GenerateCodeComponent generateCodeComponent;
 
     public ConfigurationParams (Boolean production) {
         if(production){
@@ -27,9 +27,11 @@ public class ConfigurationParams {
         }
         symbolTable = new SymbolTable();    
         lexicalAnalizer = new LexicalAnalizer();
+        generateCodeComponent = new GenerateCodeComponent();
         reversePolishStructure = new ReversePolishStructure();
         currentScope = new StringBuilder();
         mainView = new MainView();
+
     }
 
     public static void updateSymbolTableView() {

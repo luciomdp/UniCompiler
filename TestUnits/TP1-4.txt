@@ -1,0 +1,4 @@
+programa1
+begin
+	b := a+c;
+end
