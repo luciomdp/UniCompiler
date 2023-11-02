@@ -22,19 +22,24 @@ public class MainView  extends JFrame{
     private TokenViewer panelTokenViewer; 
     private SintacticViewer sintacticViewer;
     private ReversePolishViewer reversePolishViewer;
+    private FinalCodeViewer finalCodeViewer;
     private SymbolTableViewer symbolTableViewer;
     
     public MainView() {
         tab = new JTabbedPane(JTabbedPane.TOP);
+        tab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+
         panelTokenViewer = new TokenViewer();   
         sintacticViewer = new SintacticViewer();
         reversePolishViewer = new ReversePolishViewer();
+        finalCodeViewer = new FinalCodeViewer();
         symbolTableViewer = new SymbolTableViewer();
        
-        tab.addTab("Visualizador de Tokens", generateIcon("Compilador/src/images/1_token.png"), panelTokenViewer, null);
-        tab.addTab("Visualizador sintáctico", generateIcon("Compilador/src/images/2_sintactico.png"), sintacticViewer, null);
+        tab.addTab("Tokens", generateIcon("Compilador/src/images/1_token.png"), panelTokenViewer, null);
+        tab.addTab("Sintáctico", generateIcon("Compilador/src/images/2_sintactico.png"), sintacticViewer, null);
         tab.addTab("Polaca inversa", generateIcon("Compilador/src/images/3_polacainversa.png"), reversePolishViewer, null);
-        tab.addTab("Tabla de símbolos", generateIcon("Compilador/src/images/4_tablasimbolo.png"), symbolTableViewer, null);
+        tab.addTab("Código", generateIcon("Compilador/src/images/4_codigogenerado.png"), finalCodeViewer, null);
+        tab.addTab("Tabla de símbolos", generateIcon("Compilador/src/images/5_tablasimbolo.png"), symbolTableViewer, null);
 
         this.setIconImage(new ImageIcon("Compilador/src/images/logo.png").getImage().getScaledInstance(20,20,Image.SCALE_SMOOTH));
 		setTitle("FasTALC (FASTA Language Compiler)");

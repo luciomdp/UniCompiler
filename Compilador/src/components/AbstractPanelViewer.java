@@ -1,11 +1,16 @@
 package components;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -13,10 +18,23 @@ import javax.swing.text.StyledDocument;
 
 public abstract class AbstractPanelViewer extends JPanel{
 
+    private JPanel verticalLayoutContainer;
     private JTextPane txtArea;
     private StyledDocument styledDocument;
 
-    public AbstractPanelViewer(Color colorPanel,Color colorComponents) {
+    public AbstractPanelViewer(String title, Color colorPanel, Color colorComponents) {
+
+        verticalLayoutContainer = new JPanel();
+        verticalLayoutContainer.setBackground(colorPanel);
+        verticalLayoutContainer.setLayout(new BoxLayout(verticalLayoutContainer, BoxLayout.Y_AXIS));
+        verticalLayoutContainer.setPreferredSize(new Dimension(700, 515));
+        verticalLayoutContainer.add(Box.createRigidArea(new Dimension(0, 10)));
+       
+        JLabel lblTitle = new JLabel("<< " + title + " >>");
+        lblTitle.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setHorizontalAlignment(JLabel.CENTER);
+
         txtArea = new JTextPane();
         txtArea.setPreferredSize(new Dimension(700, 500));
         txtArea.setEditable(false);
@@ -25,13 +43,23 @@ public abstract class AbstractPanelViewer extends JPanel{
         txtArea.setFont(f);
         
         styledDocument = txtArea.getStyledDocument();
-        
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         styledDocument.setParagraphAttributes(0, styledDocument.getLength(), center, false);
-        
+
         JScrollPane panel = new JScrollPane(txtArea);
-        add(panel);
+
+        JPanel panelTitle = new JPanel();
+        panelTitle.setLayout(new BorderLayout());
+        panelTitle.setBackground(new Color(178, 223, 250,150));
+        panelTitle.setPreferredSize(new Dimension(700, 15));
+        panelTitle.add(lblTitle,BorderLayout.CENTER);
+
+        verticalLayoutContainer.add(panelTitle);
+        verticalLayoutContainer.add(Box.createRigidArea(new Dimension(0, 10)));  
+        verticalLayoutContainer.add(panel);
+
+        add(verticalLayoutContainer);
         setBackground(colorPanel);
     }
 

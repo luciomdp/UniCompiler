@@ -5,10 +5,11 @@ import objects.enums.ETokenType;
 
 public class TokenViewer extends AbstractPanelViewer {
 
+    private static final String title = "Visualizador de tokens";
     private static final Color BACKGROUND_PANEL = new Color(178,231,203,255), BACKGROUND_COMPONENTS = new Color(94,211,152,255);
 
     public TokenViewer() {
-        super(BACKGROUND_PANEL,BACKGROUND_COMPONENTS);
+        super(title,BACKGROUND_PANEL,BACKGROUND_COMPONENTS);
         appendData("--------------------------- << Comienzo del análisis léxico >> ---------------------------\n");
         appendData("------------- << [Lexema,Token] >> -------------\n");
     }
@@ -23,7 +24,7 @@ public class TokenViewer extends AbstractPanelViewer {
         appendWarning(ConfigurationParams.lexicalAnalizer.getWarningMessage()!=""?ConfigurationParams.lexicalAnalizer.getWarningMessage()+"\n":"");
         appendError(ConfigurationParams.lexicalAnalizer.getErrorMessage()!=""?ConfigurationParams.lexicalAnalizer.getErrorMessage()+"\n":"");
         
-        try {Thread.sleep(250);} catch (InterruptedException e) {e.printStackTrace();} //Espera (animación)
+        //try {Thread.sleep(250);} catch (InterruptedException e) {e.printStackTrace();} //Espera (animación)
         
         if(tokenValue == ETokenType.END_OF_FILE.getValue()) //Si era último token
             appendData("------------------------------ << Fin del análisis léxico >> ------------------------------");
