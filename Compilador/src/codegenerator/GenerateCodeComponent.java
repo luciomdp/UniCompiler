@@ -27,6 +27,9 @@ public class GenerateCodeComponent {
     private static Map<String, IAssemblerCode> mapAssemblerCode;
     private static Long count;
     private static File fileGenerated;
+    private static StringBuilder sbHeader;
+    private static StringBuilder sbData;
+    private static StringBuilder sbCode;
 
     public GenerateCodeComponent () {
         binaryOperands = new ArrayList<>();
@@ -40,25 +43,27 @@ public class GenerateCodeComponent {
         mapAssemblerCode.put("-", new GC_SUB());
         mapAssemblerCode.put("*", new GC_MUL());
         mapAssemblerCode.put("/", new GC_DIV());
+        sbHeader = new StringBuilder("");
+        sbData = new StringBuilder("");
+        sbCode = new StringBuilder("");
     }
 
     public static void generateAssemblerCode() {
+        //Cabecera  
+        generateHeader();
+        //Código
+        generateCode();
+        //Declaración de variables (Va después del code así las variables están cargadas en la TS)
+        generateVariableDeclaration();
         try {
             fileGenerated = new File("Files/CodeGenerated/finalCode.txt");
             if (!fileGenerated.exists()) 
                 fileGenerated.createNewFile();
             FileWriter fileWriter = new FileWriter(fileGenerated, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            //Cabecera  
-            generateHeader(bufferedWriter);
-
-            //Declaración de variables
-            generateVariableDeclaration(bufferedWriter);
-
-            //Código
-            generateCode(bufferedWriter);
-
+            bufferedWriter.write(sbHeader.toString());
+            bufferedWriter.write(sbData.toString());
+            bufferedWriter.write(sbCode.toString());
             bufferedWriter.close();
             fileWriter.close();
         } catch (IOException e) {
@@ -67,66 +72,41 @@ public class GenerateCodeComponent {
         
     }
 
-    private static void generateHeader(BufferedWriter writer) throws IOException {
-        writer.write(".586");
-        writer.newLine();
-
-        writer.write(".model flat, stdcall");
-        writer.newLine();
-
-        writer.write("option casemap :none");
-        writer.newLine();
-
-        writer.write("include \\masm32\\include\\windows.inc");
-        writer.newLine();
-
-        writer.write("include \\masm32\\include\\kernel32.inc");
-        writer.newLine();
-
-        writer.write("include \\masm32\\include\\user32.inc");
-        writer.newLine();
-
-        writer.write("includelib \\masm32\\lib\\kernel32.lib");
-        writer.newLine();
-
-        writer.write("includelib \\masm32\\lib\\user32.lib");
-        writer.newLine();
+    private static void generateHeader(){
+        sbHeader.append(".586\n");
+        sbHeader.append(".model flat, stdcall\n");
+        sbHeader.append("option casemap :none\n");
+        sbHeader.append("include \\masm32\\include\\windows.inc\n");
+        sbHeader.append("include \\masm32\\include\\kernel32.inc\n");
+        sbHeader.append("include \\masm32\\include\\user32.inc\n");
+        sbHeader.append("includelib \\masm32\\lib\\kernel32.lib\n");
+        sbHeader.append("includelib \\masm32\\lib\\user32.lib\n");
     }
 
-    private static void generateVariableDeclaration(BufferedWriter writer) throws IOException {
-        writer.write(".data");
-        writer.newLine();
-
+    private static void generateVariableDeclaration(){
+        sbData.append(".data\n");
         //Acá iría la declaración de todas las variables de la tabla de símbolos.
         ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
             //Si la entrada a la tabla es una variable o constante
             if(entry.getValue().getDataType() != null){
-                try {
-                    //Si es constante string. Donde está entry.getValue().toString() va el valor de la cadena
-                    if(entry.getValue().getDataType().equals(EDataType.STRING))
-                        writer.write(entry.getKey() + " db \"" + entry.getValue().toString() + "\", 0");
-                    //Si es entero
-                    if(entry.getValue().getDataType().equals(EDataType.INTEGER))
-                        writer.write(entry.getKey() + "dw ?");
-                    //Si es ulongint
-                    if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
-                        writer.write(entry.getKey() + "dd ?");
-                    writer.newLine();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //Si es constante string. Donde está entry.getValue().toString() va el valor de la cadena
+                if(entry.getValue().getDataType().equals(EDataType.STRING))
+                    sbData.append(entry.getKey() + " db \"" + entry.getValue().toString() + "\", 0\n");
+                //Si es entero
+                if(entry.getValue().getDataType().equals(EDataType.INTEGER))
+                    sbData.append(entry.getKey() + "dw ?\n");
+                //Si es ulongint
+                if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
+                    sbData.append(entry.getKey() + "dd ?\n");
             }
         });
     }
 
-    private static void generateCode(BufferedWriter writer) throws IOException {
+    private static void generateCode() {
         Stack<String> stack = new Stack<>();
 
-        writer.write(".code");
-        writer.newLine();
-
-        writer.write("start:");
-        writer.newLine();
+        sbCode.append(".code\n");
+        sbCode.append("start:\n");
 
         ConfigurationParams.reversePolishStructure.getReversePolishList().forEach(e -> {
             String operandA;
@@ -134,41 +114,34 @@ public class GenerateCodeComponent {
             if (binaryOperands.contains(e)){
                 operandA = stack.pop();
                 operandB = stack.pop();
-                stack.push(createAssemblerCode("_"+operandB, "_"+operandA, e, writer));
+                stack.push(createAssemblerCode("_"+operandB, "_"+operandA, e));
             }
-            else if (unaryOperands.contains(e)){
+            else if (unaryOperands.contains(e))
                 operandA = stack.pop();
-            }
-            else {
+            else 
                 stack.push(e);
-            }
         });
 
-        writer.write("end start");
+        sbCode.append("end start\n");
     }
 
-    private static String createAssemblerCode (String operandA, String operandB, String operator, BufferedWriter writer){
+    private static String createAssemblerCode (String operandA, String operandB, String operator){
         count++;
         String variableName = "@aux"+count;
         ConfigurationParams.symbolTable.insert(variableName, null);
         String assemblerCode = "";
-        try {
-            SymbolTableItem symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
-            SymbolTableItem symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
-            boolean is32BitOperation = false;
-            if (operandB != null && symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()){
-                if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue())
-                    is32BitOperation = true;
-                else
-                    is32BitOperation = false;
-                
-                assemblerCode = "    " + mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
-                writer.write(assemblerCode);
-                writer.newLine();
-            } 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
+        SymbolTableItem symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
+        SymbolTableItem symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
+        boolean is32BitOperation = false;
+        if (operandB != null && symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()){
+            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue())
+                is32BitOperation = true;
+            else
+                is32BitOperation = false;
+            assemblerCode = "    " + mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
+            sbCode.append(assemblerCode + "\n");
+        } 
     
         return variableName;
     }
