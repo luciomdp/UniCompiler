@@ -41,38 +41,39 @@ public class GenerateCodeComponent {
             fileGenerated = new File("Files/CodeGenerated/finalCode.txt");
             if (!fileGenerated.exists()) 
                 fileGenerated.createNewFile();
+            FileWriter fileWriter = new FileWriter(fileGenerated, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            //Genero todo el código
+            ConfigurationParams.reversePolishStructure.getReversePolishList().forEach(e -> {
+                String operandA;
+                String operandB;
+                if (binaryOperands.contains(e)){
+                    operandA = stack.pop();
+                    operandB = stack.pop();
+                    stack.push(createAssemblerCode("_"+operandB, "_"+operandA, e, bufferedWriter));
+                }
+                else if (unaryOperands.contains(e)){
+                    operandA = stack.pop();
+                }
+                else {
+                    stack.push(e);
+                }
+            });
+            bufferedWriter.close();
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         
-        ConfigurationParams.reversePolishStructure.getReversePolishList().forEach(e -> {
-            String operandA;
-            String operandB;
-            if (binaryOperands.contains(e)){
-                operandA = stack.pop();
-                operandB = stack.pop();
-                stack.push(createAssemblerCode("_"+operandB, "_"+operandA, e));
-            }
-            else if (unaryOperands.contains(e)){
-                operandA = stack.pop();
-            }
-            else {
-                stack.push(e);
-            }
-        });
     }
-    public static String createAssemblerCode (String operandA, String operandB, String operator){
+    public static String createAssemblerCode (String operandA, String operandB, String operator, BufferedWriter writer){
         count++;
         String variableName = "@var"+count;
         ConfigurationParams.symbolTable.insert(variableName, null);
-        try {
-            FileWriter fileWriter = new FileWriter(fileGenerated, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        try { 
             String assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName);
-            bufferedWriter.write(assemblerCode);
-            bufferedWriter.newLine(); 
-            bufferedWriter.close();
-            fileWriter.close();
+            writer.write(assemblerCode);
+            writer.newLine(); 
         } catch (IOException e) {
             e.printStackTrace();
         }
