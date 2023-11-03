@@ -11,7 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import codegenerator.actions.GC_ADD;
+import codegenerator.actions.GC_DIV;
+import codegenerator.actions.GC_EQUAL;
+import codegenerator.actions.GC_MUL;
+import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
+import objects.SymbolTableItem;
+import objects.enums.EDataType;
 
 public class GenerateCodeComponent {
 
@@ -31,8 +38,8 @@ public class GenerateCodeComponent {
         mapAssemblerCode.put("+", new GC_ADD());
         mapAssemblerCode.put(":=", new GC_EQUAL());
         mapAssemblerCode.put("-", new GC_SUB());
-        mapAssemblerCode.put("*", new GC_IMUL());
-        mapAssemblerCode.put("/", new GC_IDIV());
+        mapAssemblerCode.put("*", new GC_MUL());
+        mapAssemblerCode.put("/", new GC_DIV());
     }
 
     public static void generateAssemblerCode() {
@@ -125,10 +132,21 @@ public class GenerateCodeComponent {
         count++;
         String variableName = "@var"+count;
         ConfigurationParams.symbolTable.insert(variableName, null);
-        try { 
-            String assemblerCode = "    " + mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName); //El tab es para identar el código
-            writer.write(assemblerCode);
-            writer.newLine(); 
+        String assemblerCode = "";
+        try {
+            SymbolTableItem symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
+            SymbolTableItem symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
+            boolean is32BitOperation = false;
+            if (operandB != null && symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()){
+                if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue())
+                    is32BitOperation = true;
+                else
+                    is32BitOperation = false;
+                
+                assemblerCode = "    " + mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
+                writer.write(assemblerCode);
+                writer.newLine();
+            } 
         } catch (IOException e) {
             e.printStackTrace();
         }
