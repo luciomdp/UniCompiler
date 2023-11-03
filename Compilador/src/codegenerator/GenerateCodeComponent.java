@@ -37,46 +37,40 @@ public class GenerateCodeComponent {
 
     public static void startGeneratingCode() {
         Stack<String> stack = new Stack<>();
-        String operandA = "";
-        String operandB = "";  
         try {
             fileGenerated = new File("Files/CodeGenerated/finalCode.txt");
             if (!fileGenerated.exists()) 
                 fileGenerated.createNewFile();
-            
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (String element : ConfigurationParams.reversePolishStructure.getReversePolishList()){
-            if (binaryOperands.contains(element)){
+        
+        ConfigurationParams.reversePolishStructure.getReversePolishList().forEach(e -> {
+            String operandA;
+            String operandB;
+            if (binaryOperands.contains(e)){
                 operandA = stack.pop();
                 operandB = stack.pop();
-                stack.push(createAssemblerCode("_"+operandB, "_"+operandA, element));
+                stack.push(createAssemblerCode("_"+operandB, "_"+operandA, e));
             }
-            else if (unaryOperands.contains(element)){
+            else if (unaryOperands.contains(e)){
                 operandA = stack.pop();
             }
             else {
-                stack.push(element);
-            } 
-        }
+                stack.push(e);
+            }
+        });
     }
     public static String createAssemblerCode (String operandA, String operandB, String operator){
         count++;
         String variableName = "@var"+count;
+        ConfigurationParams.symbolTable.insert(variableName, null);
         try {
-            // Abre el archivo en modo de escritura (al final del archivo)
             FileWriter fileWriter = new FileWriter(fileGenerated, true);
-            // Crea un BufferedWriter para escribir en el archivo
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            // Contenido que deseas agregar al final del archivo
             String assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName);
-            // Escribe el contenido en el archivo
             bufferedWriter.write(assemblerCode);
-            bufferedWriter.newLine(); // Agrega una nueva línea
-
-            // Cierra el BufferedWriter y FileWriter
+            bufferedWriter.newLine(); 
             bufferedWriter.close();
             fileWriter.close();
         } catch (IOException e) {
