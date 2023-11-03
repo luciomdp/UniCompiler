@@ -19,9 +19,6 @@ import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
 import objects.SymbolTableItem;
 import objects.enums.EDataType;
-import objects.enums.EDataType;
-import objects.enums.ETokenType;
-import objects.enums.EUse;
 
 public class GenerateCodeComponent {
 
