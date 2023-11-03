@@ -20,6 +20,7 @@ import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
 import objects.SymbolTableItem;
 import objects.enums.EDataType;
+import objects.enums.EUse;
 
 public class GenerateCodeComponent {
 
@@ -91,18 +92,18 @@ public class GenerateCodeComponent {
         sbData.append(".data\n");
         //Acá iría la declaración de todas las variables de la tabla de símbolos.
         ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
-            //Si la entrada a la tabla es una variable o constante
-            if(entry.getValue().getDataType() != null){
-                //Si es constante string. Donde está entry.getValue().toString() va el valor de la cadena
-                if(entry.getValue().getDataType().equals(EDataType.STRING))
-                    sbData.append(entry.getKey() + " db \"" + entry.getValue().toString() + "\", 0\n");
+            //Si es STRING. Donde está entry.getValue().toString() va el valor de la cadena
+            if(entry.getValue().getDataType() != null && entry.getValue().getDataType().equals(EDataType.STRING))
+                sbData.append(entry.getKey() + " db \"" + entry.getValue().toString() + "\", 0\n");
+            //Si es variable
+            if(entry.getValue().getUse().equals(EUse.VARIABLE)) {
                 //Si es entero
                 if(entry.getValue().getDataType().equals(EDataType.INTEGER))
                     sbData.append(entry.getKey() + "dw ?\n");
                 //Si es ulongint
                 if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
                     sbData.append(entry.getKey() + "dd ?\n");
-            }
+            }            
         });
     }
 
