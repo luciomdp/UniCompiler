@@ -1,4 +1,7 @@
 programa1
 begin
+	integer a;
+	integer b;
+	integer c;
 	b := a+c;
 end
