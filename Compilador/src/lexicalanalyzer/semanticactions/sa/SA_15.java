@@ -9,7 +9,7 @@ public class SA_15 implements ISemanticAction{
 
     @Override
     public void execute(SAParam params) {
-        ConfigurationParams.generateCodeComponent.startGeneratingCode();
+        ConfigurationParams.generateCodeComponent.generateAssemblerCode();
         params.setTokenType(ETokenType.END_OF_FILE);
     }
     
