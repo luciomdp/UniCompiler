@@ -2,7 +2,8 @@ package objects.enums;
 
 public enum EDataType {
     INTEGER(1),
-    ULONGINT(2);
+    ULONGINT(2),
+    STRING(3);
 
     private int value;
     

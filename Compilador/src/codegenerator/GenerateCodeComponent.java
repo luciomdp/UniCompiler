@@ -19,6 +19,9 @@ import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
 import objects.SymbolTableItem;
 import objects.enums.EDataType;
+import objects.enums.EDataType;
+import objects.enums.ETokenType;
+import objects.enums.EUse;
 
 public class GenerateCodeComponent {
 
@@ -98,6 +101,25 @@ public class GenerateCodeComponent {
         writer.newLine();
 
         //Acá iría la declaración de todas las variables de la tabla de símbolos.
+        ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
+            //Si la entrada a la tabla es una variable o constante
+            if(entry.getValue().getDataType() != null){
+                try {
+                    //Si es constante string. Donde está entry.getValue().toString() va el valor de la cadena
+                    if(entry.getValue().getDataType().equals(EDataType.STRING))
+                        writer.write(entry.getKey() + " db \"" + entry.getValue().toString() + "\", 0");
+                    //Si es entero
+                    if(entry.getValue().getDataType().equals(EDataType.INTEGER))
+                        writer.write(entry.getKey() + "dw ?");
+                    //Si es ulongint
+                    if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
+                        writer.write(entry.getKey() + "dd ?");
+                    writer.newLine();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private static void generateCode(BufferedWriter writer) throws IOException {
@@ -130,7 +152,7 @@ public class GenerateCodeComponent {
 
     private static String createAssemblerCode (String operandA, String operandB, String operator, BufferedWriter writer){
         count++;
-        String variableName = "@var"+count;
+        String variableName = "@aux"+count;
         ConfigurationParams.symbolTable.insert(variableName, null);
         String assemblerCode = "";
         try {
