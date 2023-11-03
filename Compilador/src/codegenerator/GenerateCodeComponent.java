@@ -61,7 +61,7 @@ public class GenerateCodeComponent {
     }
 
     private static void generateHeader(BufferedWriter writer) throws IOException {
-        writer.write(".386");
+        writer.write(".586");
         writer.newLine();
 
         writer.write(".model flat, stdcall");
@@ -126,7 +126,7 @@ public class GenerateCodeComponent {
         String variableName = "@var"+count;
         ConfigurationParams.symbolTable.insert(variableName, null);
         try { 
-            String assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName);
+            String assemblerCode = "    " + mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName); //El tab es para identar el código
             writer.write(assemblerCode);
             writer.newLine(); 
         } catch (IOException e) {
