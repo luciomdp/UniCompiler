@@ -9,6 +9,7 @@ public class SymbolTableItem {
     private EDataType dataType;
     private Long itemEntryCount;
     private EUse use;
+    private String value;
 
     public SymbolTableItem(ETokenType tokenType, EDataType dataType) {
         this.tokenType = tokenType;

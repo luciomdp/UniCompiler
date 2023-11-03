@@ -28,8 +28,8 @@ public class SymbolTable {
                
     }
 
-    public void insert(String lexeme, SymbolTableItem tokenType) {
-        symbolTable.put(lexeme, tokenType);
+    public void insert(String lexeme, SymbolTableItem symbolTableItem) {
+        symbolTable.put(lexeme, symbolTableItem);
         ConfigurationParams.updateSymbolTableView();
     }
 
