@@ -60,9 +60,11 @@ public class GenerateCodeComponent {
         //Declaración de variables (Va después del code así las variables están cargadas en la TS)
         generateVariableDeclaration();
         try {
-            fileGenerated = new File("Files/CodeGenerated/finalCode.txt");
-            if (!fileGenerated.exists()) 
-                fileGenerated.createNewFile();
+            fileGenerated = new File("Files/CodeGenerated/" + ConfigurationParams.getOutputFileName().replace(".txt", ".asm"));
+            if (fileGenerated.exists()) 
+                fileGenerated.delete();
+            fileGenerated.createNewFile();
+                
             FileWriter fileWriter = new FileWriter(fileGenerated, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(sbHeader.toString());

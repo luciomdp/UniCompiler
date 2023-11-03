@@ -27,6 +27,7 @@ import lexicalanalyzer.semanticactions.sa.SA_7;
 import lexicalanalyzer.semanticactions.sa.SA_8;
 import lexicalanalyzer.semanticactions.sa.SA_9;
 import lexicalanalyzer.semanticactions.ISemanticAction;
+import objects.ConfigurationParams;
 import objects.enums.ECharacterType;
 import objects.enums.ELexicalAnalizerState;
 import objects.enums.ETokenType;
@@ -73,9 +74,10 @@ public class LexicalAnalizer {
             fileChooser.setAcceptAllFileFilterUsed(false);
             fileChooser.setCurrentDirectory(new File("Files/TestUnits"));
             try {
-                if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+                if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     path = fileChooser.getSelectedFile().getAbsolutePath();
-                else
+                    ConfigurationParams.setOutputFileName(fileChooser.getSelectedFile().getName());
+                }else
                     Thread.currentThread().stop();
             } catch (NullPointerException e) {
                 JOptionPane.showMessageDialog(null,(String)"No se ha seleccionado ningún archivo");

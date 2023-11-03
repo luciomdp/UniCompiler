@@ -20,6 +20,7 @@ public class ConfigurationParams {
     public static EDataType lastFunctionDataType;
     public static StringBuilder currentScope;
     public static GenerateCodeComponent generateCodeComponent;
+    private static String outputFileName;
 
     public ConfigurationParams (Boolean production) {
         if(production){
@@ -173,6 +174,12 @@ public class ConfigurationParams {
         }
         return parameter;
     }
-    
 
+    public static void setOutputFileName(String name) {
+        outputFileName = name;
+    }
+
+    public static String getOutputFileName() {
+        return outputFileName;
+    }
 }
