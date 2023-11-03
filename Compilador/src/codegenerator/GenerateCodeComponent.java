@@ -14,10 +14,12 @@ import java.util.Stack;
 import objects.ConfigurationParams;
 
 public class GenerateCodeComponent {
+
     public static List<String> binaryOperands;
     public static List<String> unaryOperands;
     private static Map<String, IAssemblerCode> mapAssemblerCode;
     private static Long count;
+    private static File fileGenerated;
 
     public GenerateCodeComponent () {
         binaryOperands = new ArrayList<>();
@@ -36,7 +38,15 @@ public class GenerateCodeComponent {
     public static void startGeneratingCode() {
         Stack<String> stack = new Stack<>();
         String operandA = "";
-        String operandB = "";
+        String operandB = "";  
+        try {
+            fileGenerated = new File("Files/CodeGenerated");
+            if (!fileGenerated.exists()) 
+                fileGenerated.createNewFile();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (String element : ConfigurationParams.reversePolishStructure.getReversePolishList()){
             if (binaryOperands.contains(element)){
                 operandA = stack.pop();
@@ -54,16 +64,9 @@ public class GenerateCodeComponent {
     public static String createAssemblerCode (String operandA, String operandB, String operator){
         count++;
         String variableName = "@var"+count;
-
-        String fileName = "C:\\Programacion\\Propio\\CompiladorUNI\\Compilador\\src\\codegenerator\\assemblycode.txt";
         try {
-            File file = new File(fileName);
-            // Si el archivo no existe, lo crea
-            if (!file.exists()) {
-                file.createNewFile();
-            }
             // Abre el archivo en modo de escritura (al final del archivo)
-            FileWriter fileWriter = new FileWriter(file, true);
+            FileWriter fileWriter = new FileWriter(fileGenerated, true);
             // Crea un BufferedWriter para escribir en el archivo
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 

@@ -71,7 +71,7 @@ public class LexicalAnalizer {
             fileChooser.setDialogTitle("Elegí el archivo a compilar");
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             fileChooser.setAcceptAllFileFilterUsed(false);
-            fileChooser.setCurrentDirectory(new File("TestUnits"));
+            fileChooser.setCurrentDirectory(new File("Files/TestUnits"));
             try {
                 if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
                     path = fileChooser.getSelectedFile().getAbsolutePath();
