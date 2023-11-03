@@ -40,7 +40,7 @@ public class GenerateCodeComponent {
         String operandA = "";
         String operandB = "";  
         try {
-            fileGenerated = new File("Files/CodeGenerated");
+            fileGenerated = new File("Files/CodeGenerated/finalCode.txt");
             if (!fileGenerated.exists()) 
                 fileGenerated.createNewFile();
             

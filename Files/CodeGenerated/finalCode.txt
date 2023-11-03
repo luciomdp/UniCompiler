@@ -1,0 +1,9 @@
+MOV eax, _3
+MOV _b.programa1, eax 
+
+MOV eax, _b.programa1
+MOV _probando.funcion2.programa1, eax 
+
+MOV eax, _CALL
+MOV _funcion2.programa1, eax 
+
