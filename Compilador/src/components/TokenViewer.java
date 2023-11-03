@@ -1,5 +1,8 @@
 package components;
 import java.awt.*;
+
+import javax.swing.text.StyleConstants;
+
 import objects.ConfigurationParams;
 import objects.enums.ETokenType;
 
@@ -9,7 +12,7 @@ public class TokenViewer extends AbstractPanelViewer {
     private static final Color BACKGROUND_PANEL = new Color(178,231,203,255), BACKGROUND_COMPONENTS = new Color(94,211,152,255);
 
     public TokenViewer() {
-        super(title,BACKGROUND_PANEL,BACKGROUND_COMPONENTS);
+        super(title,BACKGROUND_PANEL,BACKGROUND_COMPONENTS,StyleConstants.ALIGN_CENTER);
         appendData("--------------------------- << Comienzo del análisis léxico >> ---------------------------\n");
         appendData("------------- << [Lexema,Token] >> -------------\n");
     }

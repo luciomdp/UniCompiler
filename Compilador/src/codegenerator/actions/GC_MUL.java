@@ -7,14 +7,14 @@ public class GC_MUL implements IAssemblerCode {
     public String generateCode(String operandA, String operandB, String variableName, boolean is32BitOperation) {
         StringBuilder sb = new StringBuilder();
         if (is32BitOperation){
-            sb.append("MOV eax, "+operandA+"\n");
-            sb.append("MUL "+operandB+"\n");
-            sb.append("MOV "+variableName+", eax \n");
+            sb.append("     MOV eax, "+operandA+"\n");
+            sb.append("     MUL "+operandB+"\n");
+            sb.append("     MOV "+variableName+", eax \n");
         }
         else {
-            sb.append("MOV ax, "+operandA+"\n");
-            sb.append("IMUL "+operandB+"\n");
-            sb.append("MOV "+variableName+", ax \n");   
+            sb.append("     MOV ax, "+operandA+"\n");
+            sb.append("     IMUL "+operandB+"\n");
+            sb.append("     MOV "+variableName+", ax \n");   
         }
         return sb.toString();
     }

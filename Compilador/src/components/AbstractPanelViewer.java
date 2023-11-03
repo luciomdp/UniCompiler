@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
@@ -22,7 +23,7 @@ public abstract class AbstractPanelViewer extends JPanel{
     private JTextPane txtArea;
     private StyledDocument styledDocument;
 
-    public AbstractPanelViewer(String title, Color colorPanel, Color colorComponents) {
+    public AbstractPanelViewer(String title, Color colorPanel, Color colorComponents, int alignment) {
 
         verticalLayoutContainer = new JPanel();
         verticalLayoutContainer.setBackground(colorPanel);
@@ -44,7 +45,7 @@ public abstract class AbstractPanelViewer extends JPanel{
         
         styledDocument = txtArea.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        StyleConstants.setAlignment(center, alignment);
         styledDocument.setParagraphAttributes(0, styledDocument.getLength(), center, false);
 
         JScrollPane panel = new JScrollPane(txtArea);

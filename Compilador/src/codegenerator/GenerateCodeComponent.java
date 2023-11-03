@@ -20,6 +20,7 @@ import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
 import objects.SymbolTableItem;
 import objects.enums.EDataType;
+import objects.enums.ETokenType;
 import objects.enums.EUse;
 
 public class GenerateCodeComponent {
@@ -94,15 +95,15 @@ public class GenerateCodeComponent {
         ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
             //Si es STRING. Donde está entry.getValue().toString() va el valor de la cadena
             if(entry.getValue().getDataType() != null && entry.getValue().getDataType().equals(EDataType.STRING))
-                sbData.append(entry.getKey() + " db \"" + entry.getValue().toString() + "\", 0\n");
+                sbData.append("     " + entry.getKey() + " db \"" + entry.getValue().toString() + "\", 0\n");
             //Si es variable
-            if(entry.getValue().getUse().equals(EUse.VARIABLE)) {
+            if(entry.getValue().getUse() != null && entry.getValue().getUse().equals(EUse.VARIABLE)) {
                 //Si es entero
                 if(entry.getValue().getDataType().equals(EDataType.INTEGER))
-                    sbData.append(entry.getKey() + "dw ?\n");
+                    sbData.append("     " + entry.getKey() + "dw ?\n");
                 //Si es ulongint
                 if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
-                    sbData.append(entry.getKey() + "dd ?\n");
+                    sbData.append("     " + entry.getKey() + "dd ?\n");
             }            
         });
     }
@@ -127,36 +128,45 @@ public class GenerateCodeComponent {
             }
             else 
                 stack.push(e);
-    });
+        });
 
+        sbCode.append("     invoke ExitProcess, 0\n");
         sbCode.append("end start\n");
     }
 
     private static String createAssemblerCode (String operandA, String operandB, String operator){
         count++;
         String variableName = "@aux"+count;
-        //ConfigurationParams.symbolTable.insert(variableName, null);
-        SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB;
+        
+        SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB, symbolTableItemVariable = new SymbolTableItem(null, null);
         symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
         if (operandB != null){
             symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
             boolean is32BitOperation = false;
             if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()) {
-                if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue())
+                if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()){
+                    symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.INTEGER, EUse.VARIABLE);
                     is32BitOperation = true;
-                else
+                }else{
+                    symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE);
                     is32BitOperation = false;
+                }
+                    
                 writeCode(operator, "_"+operandA, operandB!=null?"_"+operandB:null, variableName, is32BitOperation);
             }
         }
         else
-            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.ULONGINT.getValue())
+            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.ULONGINT.getValue()) {
+                symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE);
                 writeCode(operator, operandA, operandB, variableName, true);
+            }
+      
+        ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
     }
     private static void writeCode (String operator, String operandA, String operandB, String variableName, boolean is32BitOperation){
         String assemblerCode = "";
-        assemblerCode = "    " + mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
+        assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
         sbCode.append(assemblerCode + "\n");
     }
 }
