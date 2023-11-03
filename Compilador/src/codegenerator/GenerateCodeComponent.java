@@ -69,7 +69,9 @@ public class GenerateCodeComponent {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+        ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbHeader.toString());
+        ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbData.toString());
+        ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbCode.toString());
     }
 
     private static void generateHeader(){

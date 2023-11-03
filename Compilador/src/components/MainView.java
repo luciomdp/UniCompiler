@@ -98,6 +98,12 @@ public class MainView  extends JFrame{
         this.reversePolishViewer = reversePolishViewer;
     }
 
-    
+    public FinalCodeViewer getFinalCodeViewer() {
+        return finalCodeViewer;
+    }
+
+    public void setFinalCodeViewer(FinalCodeViewer finalCodeViewer) {
+        this.finalCodeViewer = finalCodeViewer;
+    }
     
 }
