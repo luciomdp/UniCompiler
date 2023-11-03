@@ -118,11 +118,11 @@ public class GenerateCodeComponent {
             if (binaryOperands.contains(e)){
                 operandA = stack.pop();
                 operandB = stack.pop();
-                stack.push(createAssemblerCode("_"+operandA, "_"+operandB, e));
+                stack.push(createAssemblerCode(operandA, operandB, e));
             }
             else if (unaryOperands.contains(e)){
                 operandA = stack.pop();
-                stack.push(createAssemblerCode("_"+operandA, null, e));
+                stack.push(createAssemblerCode(operandA, null, e));
             }
             else 
                 stack.push(e);
@@ -136,24 +136,21 @@ public class GenerateCodeComponent {
         String variableName = "@aux"+count;
         //ConfigurationParams.symbolTable.insert(variableName, null);
         SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB;
-
         symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
         if (operandB != null){
             symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
             boolean is32BitOperation = false;
-            if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()){
+            if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()) {
                 if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue())
                     is32BitOperation = true;
                 else
                     is32BitOperation = false;
-                writeCode(operator, operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
+                writeCode(operator, "_"+operandA, operandB!=null?"_"+operandB:null, variableName, is32BitOperation);
             }
         }
         else
-                if(symbolTableItemOperandA.getDataType().getValue() == EDataType.ULONGINT.getValue())
-                    writeCode(operator, operandA, operandB, variableName, true);
-    
-    
+            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.ULONGINT.getValue())
+                writeCode(operator, operandA, operandB, variableName, true);
         return variableName;
     }
     private static void writeCode (String operator, String operandA, String operandB, String variableName, boolean is32BitOperation){
