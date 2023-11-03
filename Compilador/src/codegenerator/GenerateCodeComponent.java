@@ -14,6 +14,7 @@ import java.util.Stack;
 import codegenerator.actions.GC_ADD;
 import codegenerator.actions.GC_DIV;
 import codegenerator.actions.GC_EQUAL;
+import codegenerator.actions.GC_ITOUL;
 import codegenerator.actions.GC_MUL;
 import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
@@ -40,6 +41,7 @@ public class GenerateCodeComponent {
         mapAssemblerCode.put("-", new GC_SUB());
         mapAssemblerCode.put("*", new GC_MUL());
         mapAssemblerCode.put("/", new GC_DIV());
+        mapAssemblerCode.put("itoul", new GC_ITOUL());
     }
 
     public static void generateAssemblerCode() {
@@ -134,10 +136,11 @@ public class GenerateCodeComponent {
             if (binaryOperands.contains(e)){
                 operandA = stack.pop();
                 operandB = stack.pop();
-                stack.push(createAssemblerCode("_"+operandB, "_"+operandA, e, writer));
+                stack.push(createAssemblerCode("_"+operandA, "_"+operandB, e, writer));
             }
             else if (unaryOperands.contains(e)){
                 operandA = stack.pop();
+                stack.push(createAssemblerCode("_"+operandA, null, e, writer));
             }
             else {
                 stack.push(e);
@@ -151,25 +154,33 @@ public class GenerateCodeComponent {
         count++;
         String variableName = "@aux"+count;
         ConfigurationParams.symbolTable.insert(variableName, null);
-        String assemblerCode = "";
+        SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB;
         try {
-            SymbolTableItem symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
-            SymbolTableItem symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
-            boolean is32BitOperation = false;
-            if (operandB != null && symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()){
-                if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue())
-                    is32BitOperation = true;
-                else
-                    is32BitOperation = false;
-                
-                assemblerCode = "    " + mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
-                writer.write(assemblerCode);
-                writer.newLine();
-            } 
+            symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
+            if (operandB != null){
+                symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
+                boolean is32BitOperation = false;
+                if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()){
+                    if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue())
+                        is32BitOperation = true;
+                    else
+                        is32BitOperation = false;
+                    writeCode(operator, operandA, operandB, variableName, is32BitOperation, writer); //El tab es para identar el código
+                }
+            }
+            else
+                    if(symbolTableItemOperandA.getDataType().getValue() == EDataType.ULONGINT.getValue())
+                        writeCode(operator, operandA, operandB, variableName, true, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
     
         return variableName;
+    }
+    private static void writeCode (String operator, String operandA, String operandB, String variableName, boolean is32BitOperation, BufferedWriter writer) throws IOException{
+        String assemblerCode = "";
+        assemblerCode = "    " + mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
+        writer.write(assemblerCode);
+        writer.newLine();
     }
 }
