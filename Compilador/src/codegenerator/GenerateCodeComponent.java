@@ -34,6 +34,7 @@ public class GenerateCodeComponent {
     private StringBuilder sbHeader;
     private StringBuilder sbData;
     private StringBuilder sbCode;
+    private boolean errorOcurred = false;
 
     public GenerateCodeComponent () {
         binaryOperands = new ArrayList<>();
@@ -60,9 +61,10 @@ public class GenerateCodeComponent {
         //Código
         if (!ConfigurationParams.areErrors())
             generateCode();
-        else 
+        else {
+            errorOcurred = true;
             sbCode = new StringBuilder("No se ha podido generar el codigo debido a la ocurrencia de errores en el codigo fuente ");
-        
+        }   
         //Declaración de variables (Va después del code así las variables están cargadas en la TS)
         generateVariableDeclaration();
         try {
@@ -73,17 +75,23 @@ public class GenerateCodeComponent {
                 
             FileWriter fileWriter = new FileWriter(fileGenerated, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(sbHeader.toString());
-            bufferedWriter.write(sbData.toString());
+            if(!errorOcurred) {
+                ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbHeader.toString());
+                ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbData.toString());
+                ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbCode.toString());
+                bufferedWriter.write(sbHeader.toString());
+                bufferedWriter.write(sbData.toString());
+            }else {
+                ConfigurationParams.mainView.getFinalCodeViewer().appendError(sbCode.toString());
+            }
+            
             bufferedWriter.write(sbCode.toString());
             bufferedWriter.close();
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbHeader.toString());
-        ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbData.toString());
-        ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbCode.toString());
+            
     }
 
     private void generateHeader(){
@@ -169,6 +177,7 @@ public class GenerateCodeComponent {
                 writeCode(operator, "_"+operandA, operandB!=null?"_"+operandB:null, variableName, is32BitOperation);
             }
             else{
+                errorOcurred = true;
                 sbCode = new StringBuilder("Error: incompatibilidad en los tipos de datos de las variables "+ operandA + " y "+ operandB);
                 return null;
             }
@@ -179,6 +188,7 @@ public class GenerateCodeComponent {
             else if (symbolTableItemOperandA.getDataType().getValue() == EDataType.STRING.getValue())
                 symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE);
             else{
+                errorOcurred = true;
                 sbCode = new StringBuilder("Error: no se puede convertir el tipo de dato ULONGINT");
                 return null;                
             }     
