@@ -7,10 +7,11 @@ include \masm32\include\user32.inc
 includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\user32.lib
 .data
+     cf29ccde-a481-42c3-aed4-78e8e1a5a87d db "Esto es un string", 0
      b.programa1dw ?
      c.programa1dw ?
-     d0e272ff-b3c0-4f4e-976e-72d75499ca0e db "Esto es un string", 0
      a.programa1dw ?
+     @aux3 db "null", 0
      @aux2dw ?
      @aux1dw ?
 .code
@@ -22,5 +23,6 @@ start:
      MOV eax, _b.programa1
      MOV _@aux1, eax 
 
+     invoke MessageBox, NULL, addr cf29ccde-a481-42c3-aed4-78e8e1a5a87d , addr Print, MB_OK
      invoke ExitProcess, 0
 end start

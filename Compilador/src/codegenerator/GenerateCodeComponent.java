@@ -16,6 +16,7 @@ import codegenerator.actions.GC_DIV;
 import codegenerator.actions.GC_EQUAL;
 import codegenerator.actions.GC_ITOUL;
 import codegenerator.actions.GC_MUL;
+import codegenerator.actions.GC_PRINT;
 import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
 import objects.SymbolTableItem;
@@ -38,7 +39,7 @@ public class GenerateCodeComponent {
         binaryOperands = new ArrayList<>();
         unaryOperands = new ArrayList<>();
         binaryOperands.addAll(Arrays.asList("+", "-", "*", "/", ":=", "<", ">", ">=", "<="));
-        unaryOperands.addAll(Arrays.asList("itoul"));
+        unaryOperands.addAll(Arrays.asList("itoul", "print"));
         count=0L;
         mapAssemblerCode = new HashMap <String, IAssemblerCode>();
         mapAssemblerCode.put("+", new GC_ADD());
@@ -47,6 +48,7 @@ public class GenerateCodeComponent {
         mapAssemblerCode.put("*", new GC_MUL());
         mapAssemblerCode.put("/", new GC_DIV());
         mapAssemblerCode.put("itoul", new GC_ITOUL());
+        mapAssemblerCode.put("print", new GC_PRINT());
         sbHeader = new StringBuilder("");
         sbData = new StringBuilder("");
         sbCode = new StringBuilder("");
@@ -157,12 +159,14 @@ public class GenerateCodeComponent {
                 writeCode(operator, "_"+operandA, operandB!=null?"_"+operandB:null, variableName, is32BitOperation);
             }
         }
-        else
-            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.ULONGINT.getValue()) {
+        else {          
+            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.ULONGINT.getValue()) 
                 symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE);
-                writeCode(operator, operandA, operandB, variableName, true);
-            }
-      
+            else 
+                symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE);     
+            writeCode(operator, operandA, operandB, variableName, false);
+        }
+    
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
     }

@@ -71,6 +71,15 @@ public class SymbolTable {
     public Map<String, SymbolTableItem> getSymbolTable() {
         return symbolTable;
     }
+
+    public String lookupStringConst(String comment) {
+        for (Map.Entry<String, SymbolTableItem> entry : symbolTable.entrySet()) {
+            if (entry.getValue().getValue() != null && entry.getValue().getValue().equals(comment)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
     
 }
 

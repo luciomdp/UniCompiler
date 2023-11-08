@@ -193,7 +193,8 @@ public class SemanticParserActions {
     //---------------------- << impresion >> ----------------------
     // PRINT '(' STRING_CONST ')' ';'
     public static void ON_impresion1_End(String comment) {
-        ConfigurationParams.reversePolishStructure.add(comment);
+        ConfigurationParams.reversePolishStructure.add(ConfigurationParams.symbolTable.lookupStringConst(comment));
+        ConfigurationParams.reversePolishStructure.add("print");
     }
 
     //---------------------- << iteracion >> ----------------------
