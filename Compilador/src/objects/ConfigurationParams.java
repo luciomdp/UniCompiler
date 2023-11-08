@@ -198,7 +198,7 @@ public class ConfigurationParams {
         return labelCount;
     }
     public static void increaseLabelCount() {
-        ConfigurationParams.labelCount++;
+        labelCount = labelCount+1;
     }
     
 }

@@ -251,6 +251,7 @@ public class SemanticParserActions {
         ConfigurationParams.reversePolishStructure.add(jumpPosition2);
         ConfigurationParams.reversePolishStructure.add("JUMP"); 
         ConfigurationParams.reversePolishStructure.add("Label"+ConfigurationParams.getLabelCount()); 
+        ConfigurationParams.increaseLabelCount();
     }
 
     //---------------------- << condicion_if >> ----------------------
