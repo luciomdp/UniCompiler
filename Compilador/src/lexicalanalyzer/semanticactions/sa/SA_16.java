@@ -8,7 +8,6 @@ public class SA_16 implements ISemanticAction{
 
     @Override
     public void execute(SAParam params) {
-        // TODO Auto-generated method stub
         params.setMessageError("ERROR: caracter inválido");
         params.setTokenType(ETokenType.IGNORE);
     }

@@ -25,14 +25,14 @@ import objects.enums.EUse;
 
 public class GenerateCodeComponent {
 
-    public static List<String> binaryOperands;
-    public static List<String> unaryOperands;
-    private static Map<String, IAssemblerCode> mapAssemblerCode;
-    private static Long count;
-    private static File fileGenerated;
-    private static StringBuilder sbHeader;
-    private static StringBuilder sbData;
-    private static StringBuilder sbCode;
+    private List <String> binaryOperands;
+    private List<String> unaryOperands;
+    private Map<String, IAssemblerCode> mapAssemblerCode;
+    private Long count;
+    private File fileGenerated;
+    private StringBuilder sbHeader;
+    private StringBuilder sbData;
+    private StringBuilder sbCode;
 
     public GenerateCodeComponent () {
         binaryOperands = new ArrayList<>();
@@ -52,7 +52,7 @@ public class GenerateCodeComponent {
         sbCode = new StringBuilder("");
     }
 
-    public static void generateAssemblerCode() {
+    public void generateAssemblerCode() {
         //Cabecera  
         generateHeader();
         //Código
@@ -80,7 +80,7 @@ public class GenerateCodeComponent {
         ConfigurationParams.mainView.getFinalCodeViewer().appendData(sbCode.toString());
     }
 
-    private static void generateHeader(){
+    private void generateHeader(){
         sbHeader.append(".586\n");
         sbHeader.append(".model flat, stdcall\n");
         sbHeader.append("option casemap :none\n");
@@ -91,7 +91,7 @@ public class GenerateCodeComponent {
         sbHeader.append("includelib \\masm32\\lib\\user32.lib\n");
     }
 
-    private static void generateVariableDeclaration(){
+    private void generateVariableDeclaration(){
         sbData.append(".data\n");
         //Acá iría la declaración de todas las variables de la tabla de símbolos.
         ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
@@ -110,7 +110,7 @@ public class GenerateCodeComponent {
         });
     }
 
-    private static void generateCode() {
+    private void generateCode() {
         Stack<String> stack = new Stack<>();
 
         sbCode.append(".code\n");
@@ -136,7 +136,7 @@ public class GenerateCodeComponent {
         sbCode.append("end start\n");
     }
 
-    private static String createAssemblerCode (String operandA, String operandB, String operator){
+    private String createAssemblerCode (String operandA, String operandB, String operator){
         count++;
         String variableName = "@aux"+count;
         
@@ -166,7 +166,7 @@ public class GenerateCodeComponent {
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
     }
-    private static void writeCode (String operator, String operandA, String operandB, String variableName, boolean is32BitOperation){
+    private void writeCode (String operator, String operandA, String operandB, String variableName, boolean is32BitOperation){
         String assemblerCode = "";
         assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
         sbCode.append(assemblerCode + "\n");

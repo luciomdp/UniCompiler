@@ -4,5 +4,5 @@ begin
 	integer b;
 	integer c;
 	b := a+c;
-	PRINT(<<Esto es un string>>);
+	print(<<Esto es un string>>);
 end
