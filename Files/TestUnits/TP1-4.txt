@@ -1,6 +1,5 @@
 programa1
 begin
-	integer a;
 	integer b;
 	ulongint c;
 	b := a+itoul(c);

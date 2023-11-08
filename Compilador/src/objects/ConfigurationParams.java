@@ -21,6 +21,8 @@ public class ConfigurationParams {
     public static StringBuilder currentScope;
     public static GenerateCodeComponent generateCodeComponent;
     private static String outputFileName;
+    private static Long errorCount;
+
 
     public ConfigurationParams (Boolean production) {
         if(production){
@@ -32,7 +34,7 @@ public class ConfigurationParams {
         reversePolishStructure = new ReversePolishStructure();
         currentScope = new StringBuilder();
         mainView = new MainView();
-
+        errorCount = 0L;
     }
 
     public static void updateSymbolTableView() {
@@ -181,5 +183,14 @@ public class ConfigurationParams {
 
     public static String getOutputFileName() {
         return outputFileName;
+    }
+    public static void addError (){
+        errorCount++;
+    }
+    public static boolean areErrors (){
+        if (errorCount > 0)
+            return true;
+        else
+            return false;
     }
 }

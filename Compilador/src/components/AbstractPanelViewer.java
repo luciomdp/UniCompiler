@@ -15,6 +15,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import objects.ConfigurationParams;
+
 public abstract class AbstractPanelViewer extends JPanel{
 
     private JPanel verticalLayoutContainer;
@@ -72,6 +74,7 @@ public abstract class AbstractPanelViewer extends JPanel{
 
     public void appendError(String data) {
         appendText(data, Color.RED); // Color rojo para appendError
+        ConfigurationParams.addError();
     }
 
     private void appendText(String text, Color color) {

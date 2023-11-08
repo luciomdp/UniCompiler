@@ -58,7 +58,11 @@ public class GenerateCodeComponent {
         //Cabecera  
         generateHeader();
         //Código
-        generateCode();
+        if (!ConfigurationParams.areErrors())
+            generateCode();
+        else 
+            sbCode = new StringBuilder("No se ha podido generar el codigo debido a la ocurrencia de errores en el codigo fuente ");
+        
         //Declaración de variables (Va después del code así las variables están cargadas en la TS)
         generateVariableDeclaration();
         try {
