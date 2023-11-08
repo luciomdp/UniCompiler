@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public enum ETokenType {
     
@@ -74,7 +75,7 @@ public enum ETokenType {
     }
 
     public static List<Long> getLexemeTokenTypes() {
-        return Arrays.asList(ETokenType.ID.getValue(),ETokenType.STRING_CONST.getValue(),ETokenType.NUMERIC_CONST.getValue(),ETokenType.NUMERIC_CONST.getValue()).stream().map(element -> element.longValue()).toList();
+        return Arrays.asList(ETokenType.ID.getValue(),ETokenType.STRING_CONST.getValue(),ETokenType.NUMERIC_CONST.getValue(),ETokenType.NUMERIC_CONST.getValue()).stream().map(element -> element.longValue()).collect(Collectors.toList());
     }
 
 }

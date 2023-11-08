@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import objects.enums.ETokenType;
+import objects.enums.EUse;
 
 public class SymbolTable { 
     // Lexema, tipo de dato, uso (Donde se usa ese identificador), eso todavía no lo ponemos
@@ -60,7 +61,7 @@ public class SymbolTable {
             data[rowIndex[0]][0] = key;
             data[rowIndex[0]][1] = value.getTokenType()!=null?value.getTokenType().name():"-";
             data[rowIndex[0]][2] = value.getDataType()!=null?value.getDataType().name():"-";
-            data[rowIndex[0]][3] = value.getUse()!=null?value.getUse().name():"-";
+            data[rowIndex[0]][3] = value.getUse()!=null?(value.getUse().name() + (value.getUse().equals(EUse.CONST)?" (" + value.getValue() + ")":"")):"-";
             data[rowIndex[0]][4] = String.valueOf(value.getItemEntryCount()!=null?value.getItemEntryCount():0); // Opcional si lo necesitas
             rowIndex[0]++;
         });

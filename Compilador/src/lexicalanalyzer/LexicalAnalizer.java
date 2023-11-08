@@ -18,6 +18,7 @@ import lexicalanalyzer.semanticactions.sa.SA_13;
 import lexicalanalyzer.semanticactions.sa.SA_14;
 import lexicalanalyzer.semanticactions.sa.SA_15;
 import lexicalanalyzer.semanticactions.sa.SA_16;
+import lexicalanalyzer.semanticactions.sa.SA_17;
 import lexicalanalyzer.semanticactions.sa.SA_2;
 import lexicalanalyzer.semanticactions.sa.SA_3;
 import lexicalanalyzer.semanticactions.sa.SA_4;
@@ -56,7 +57,7 @@ public class LexicalAnalizer {
         {new SA_8(), new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_7(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(),new SA_8(), new SA_8(), new SA_8()},
         {new SA_9(), new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_10(),new SA_11(),new SA_10(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(),new SA_9(), new SA_9(), new SA_9()},
         {new SA_12(), new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),null,new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(),new SA_12(), new SA_12(), new SA_12()},
-        {new SA_13(), new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),null,new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(), new SA_13(), new SA_13()}
+        {new SA_13(), new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_17(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(),new SA_13(), new SA_13(), new SA_13()}
     };
     private BufferedReader sourceCode;
     private int currentCharacter;

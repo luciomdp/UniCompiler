@@ -43,7 +43,7 @@ public class ConfigurationParams {
     }
     public static void addScope(String newScope) {
         StringBuilder newCurrentScope = new StringBuilder(newScope);
-        if (!currentScope.isEmpty())
+        if (!currentScope.toString().equals(""))
             newCurrentScope.append(".");
         newCurrentScope.append(currentScope);
         currentScope = newCurrentScope; 

@@ -9,6 +9,7 @@ includelib \masm32\lib\user32.lib
 .data
      b.programa1dw ?
      c.programa1dw ?
+     d0e272ff-b3c0-4f4e-976e-72d75499ca0e db "Esto es un string", 0
      a.programa1dw ?
      @aux2dw ?
      @aux1dw ?

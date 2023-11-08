@@ -28,6 +28,14 @@ public class SymbolTableItem {
         itemEntryCount = 1L;
     }
 
+    public SymbolTableItem(ETokenType tokenType, EDataType dataType, EUse use, String value) {
+        this.tokenType = tokenType;
+        this.dataType = dataType;
+        this.use = use;
+        this.value = value;
+        itemEntryCount = 1L;
+    }
+
     public ETokenType getTokenType() {
         return tokenType;
     }
@@ -60,6 +68,11 @@ public class SymbolTableItem {
     public void setUse(EUse use) {
         this.use = use;
     }
+    public String getValue() {
+        return value;
+    }
+    public void setValue(String value) {
+        this.value = value;
+    }
     
-
 }

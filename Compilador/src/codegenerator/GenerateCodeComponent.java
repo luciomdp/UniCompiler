@@ -95,9 +95,9 @@ public class GenerateCodeComponent {
         sbData.append(".data\n");
         //Acá iría la declaración de todas las variables de la tabla de símbolos.
         ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
-            //Si es STRING. Donde está entry.getValue().toString() va el valor de la cadena
+            //Si es STRING.
             if(entry.getValue().getDataType() != null && entry.getValue().getDataType().equals(EDataType.STRING))
-                sbData.append("     " + entry.getKey() + " db \"" + entry.getValue().toString() + "\", 0\n");
+                sbData.append("     " + entry.getKey() + " db \"" + entry.getValue().getValue() + "\", 0\n");
             //Si es variable
             if(entry.getValue().getUse() != null && entry.getValue().getUse().equals(EUse.VARIABLE)) {
                 //Si es entero

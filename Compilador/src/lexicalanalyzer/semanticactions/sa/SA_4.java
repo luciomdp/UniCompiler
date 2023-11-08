@@ -6,6 +6,7 @@ import objects.ConfigurationParams;
 import objects.SymbolTableItem;
 import objects.enums.EDataType;
 import objects.enums.ETokenType;
+import objects.enums.EUse;
 public class SA_4 implements ISemanticAction{
     //-32768 y 32767 --> integer
     // 4294967295 --> ulongint
@@ -25,9 +26,9 @@ public class SA_4 implements ISemanticAction{
         if(longValue <= Long.valueOf(4294967295L)) {
             if (!ConfigurationParams.symbolTable.contains(params.getLexema().toString())){
                 if (longValue <= Long.valueOf(32767)){// es integer
-                    ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.INTEGER));
+                    ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.INTEGER, EUse.CONST, params.getLexema().toString()));
                 }else{// es ulongint
-                    ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.ULONGINT));
+                    ConfigurationParams.symbolTable.insert(params.getLexema().toString(), new SymbolTableItem(ETokenType.NUMERIC_CONST, EDataType.ULONGINT, EUse.CONST, params.getLexema().toString()));
                 }
             }
             else 

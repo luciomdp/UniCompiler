@@ -136,7 +136,7 @@ public class SemanticParserActions {
                 ConfigurationParams.symbolTable.remove(lexema);
             else
                 ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
-        ConfigurationParams.symbolTable.insert(negativeLexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER, EUse.CONST));
+        ConfigurationParams.symbolTable.insert(negativeLexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER, EUse.CONST, negativeLexema));
         }
     }
     // ITOUL '(' expresion ')'
@@ -186,7 +186,7 @@ public class SemanticParserActions {
                 ConfigurationParams.symbolTable.remove(lexema);
             else
                 ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();;
-        ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER));
+        ConfigurationParams.symbolTable.insert("-"+lexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER, EUse.CONST, "-"+lexema));
         }
     }
 
