@@ -220,10 +220,12 @@ public class SemanticParserActions {
     // BEGIN sentencias_ejecutables END 
     public static void ON_bloque_ejecutables_if_con_else1_End() {
         Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-        ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
+        ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+3, jumpPosition);
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
         ConfigurationParams.reversePolishStructure.add("JUMP"); 
+        ConfigurationParams.reversePolishStructure.add("Label"+ConfigurationParams.getLabelCount());
+        ConfigurationParams.increaseLabelCount();
     }
 
     //---------------------- << bloque_ejecutables_if_sin_else >> ----------------------
@@ -244,10 +246,11 @@ public class SemanticParserActions {
     // BEGIN sentencias_ejecutables END
     public static void ON_bloque_ejecutables_while1_End() {
         Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-        ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
+        ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+3, jumpPosition);
         Integer jumpPosition2 = ConfigurationParams.reversePolishStructure.popElementFromStack();
         ConfigurationParams.reversePolishStructure.add(jumpPosition2);
         ConfigurationParams.reversePolishStructure.add("JUMP"); 
+        ConfigurationParams.reversePolishStructure.add("Label"+ConfigurationParams.getLabelCount()); 
     }
 
     //---------------------- << condicion_if >> ----------------------

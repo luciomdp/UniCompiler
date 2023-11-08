@@ -22,7 +22,7 @@ public class ConfigurationParams {
     public static GenerateCodeComponent generateCodeComponent;
     private static String outputFileName;
     private static Long errorCount;
-
+    private static Long labelCount;
 
     public ConfigurationParams (Boolean production) {
         if(production){
@@ -35,6 +35,7 @@ public class ConfigurationParams {
         currentScope = new StringBuilder();
         mainView = new MainView();
         errorCount = 0L;
+        labelCount = 1L;
     }
 
     public static void updateSymbolTableView() {
@@ -193,4 +194,11 @@ public class ConfigurationParams {
         else
             return false;
     }
+    public static Long getLabelCount() {
+        return labelCount;
+    }
+    public static void increaseLabelCount() {
+        ConfigurationParams.labelCount++;
+    }
+    
 }
