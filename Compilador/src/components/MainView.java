@@ -1,11 +1,10 @@
 package components;
+
 import java.awt.BorderLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,9 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
-
-import objects.ConfigurationParams;
-
 public class MainView  extends JFrame{
 
     private JTabbedPane tab;

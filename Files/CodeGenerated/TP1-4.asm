@@ -10,6 +10,7 @@ includelib \masm32\lib\user32.lib
      cf29ccde-a481-42c3-aed4-78e8e1a5a87d db "Esto es un string", 0
      b.programa1dw ?
      c.programa1dw ?
+     be6bffb8-4a33-4417-8ad7-de46b60db3f9 db "Esto es un string", 0
      a.programa1dw ?
      @aux3 db "null", 0
      @aux2dw ?

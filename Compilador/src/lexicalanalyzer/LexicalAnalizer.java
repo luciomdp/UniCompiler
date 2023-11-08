@@ -5,10 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
 import lexicalanalyzer.semanticactions.SAParam;
 import lexicalanalyzer.semanticactions.sa.SA_1;
 import lexicalanalyzer.semanticactions.sa.SA_10;
@@ -31,7 +29,6 @@ import lexicalanalyzer.semanticactions.ISemanticAction;
 import objects.ConfigurationParams;
 import objects.enums.ECharacterType;
 import objects.enums.ELexicalAnalizerState;
-import objects.enums.ETokenType;
 public class LexicalAnalizer {
 
     private final int stateTable [][] = {

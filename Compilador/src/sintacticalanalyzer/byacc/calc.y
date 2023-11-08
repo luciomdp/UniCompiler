@@ -1,14 +1,8 @@
 
 /* --------------- DECLARACION --------------- */
 %{
-import lexicalanalyzer.*;
-import objects.ConfigurationParams;
-import objects.SymbolTableItem;
-import objects.enums.EDataType;
 import objects.enums.ETokenType;
-import objects.ReversePolishStructure;
-import components.*;
-import java.util.Arrays;
+import objects.ConfigurationParams;
 import objects.SemanticParserActions;
 %}
 

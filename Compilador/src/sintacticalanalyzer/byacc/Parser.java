@@ -16,16 +16,10 @@
 
 
 
-//#line 4 "calc.y"
-import lexicalanalyzer.*;
-import objects.ConfigurationParams;
-import objects.SymbolTableItem;
-import objects.enums.EDataType;
 import objects.enums.ETokenType;
-import objects.ReversePolishStructure;
-import components.*;
-import java.util.Arrays;
+import objects.ConfigurationParams;
 import objects.SemanticParserActions;
+
 //#line 27 "Parser.java"
 
 
@@ -444,7 +438,7 @@ final static String yyrule[] = {
 //#line 218 "calc.y"
 
 public static void main(String[] args) throws Exception {
-    ConfigurationParams globalParams = new ConfigurationParams(false);
+    new ConfigurationParams(false);
     Parser parser = new Parser(true);
     parser.yyparse(); 
 }
