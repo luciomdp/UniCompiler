@@ -7,23 +7,8 @@ include \masm32\include\user32.inc
 includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\user32.lib
 .data
-     cf29ccde-a481-42c3-aed4-78e8e1a5a87d db "Esto es un string", 0
-     b.programa1dw ?
-     c.programa1dw ?
-     be6bffb8-4a33-4417-8ad7-de46b60db3f9 db "Esto es un string", 0
-     a.programa1dw ?
-     @aux3 db "null", 0
-     @aux2dw ?
-     @aux1dw ?
-.code
-start:
-     MOV eax, _c.programa1
-     ADD eax, _a.programa1
-     MOV @aux1, eax 
-
-     MOV eax, _b.programa1
-     MOV _@aux1, eax 
-
-     invoke MessageBox, NULL, addr cf29ccde-a481-42c3-aed4-78e8e1a5a87d , addr Print, MB_OK
-     invoke ExitProcess, 0
-end start
+     0421ca52-69e1-48f3-aa3e-86c2839cb18b db "Esto es un string", 0
+     b.programa1 dw ?
+     c.programa1 dd ?
+     a.programa1 dw ?
+Error: no se puede convertir el tipo de dato ULONGINT

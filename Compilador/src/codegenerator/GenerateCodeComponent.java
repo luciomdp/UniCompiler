@@ -104,10 +104,10 @@ public class GenerateCodeComponent {
             if(entry.getValue().getUse() != null && entry.getValue().getUse().equals(EUse.VARIABLE)) {
                 //Si es entero
                 if(entry.getValue().getDataType().equals(EDataType.INTEGER))
-                    sbData.append("     " + entry.getKey() + "dw ?\n");
+                    sbData.append("     " + entry.getKey() + " dw ?\n");
                 //Si es ulongint
                 if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
-                    sbData.append("     " + entry.getKey() + "dd ?\n");
+                    sbData.append("     " + entry.getKey() + " dd ?\n");
             }            
         });
     }
@@ -117,22 +117,28 @@ public class GenerateCodeComponent {
 
         sbCode.append(".code\n");
         sbCode.append("start:\n");
-
-        ConfigurationParams.reversePolishStructure.getReversePolishList().forEach(e -> {
+        for (String e: ConfigurationParams.reversePolishStructure.getReversePolishList()){
             String operandA;
             String operandB;
+            String stackitem;
             if (binaryOperands.contains(e)){
                 operandA = stack.pop();
                 operandB = stack.pop();
-                stack.push(createAssemblerCode(operandA, operandB, e));
+                stackitem = createAssemblerCode(operandA, operandB, e);
+                if (stackitem == null)
+                    return;
+                stack.push(stackitem);
             }
             else if (unaryOperands.contains(e)){
                 operandA = stack.pop();
-                stack.push(createAssemblerCode(operandA, null, e));
+                stackitem = createAssemblerCode(operandA, null, e);
+                if (stackitem == null)
+                    return;
+                stack.push(stackitem);
             }
             else 
                 stack.push(e);
-        });
+        };
 
         sbCode.append("     invoke ExitProcess, 0\n");
         sbCode.append("end start\n");
@@ -158,12 +164,20 @@ public class GenerateCodeComponent {
                     
                 writeCode(operator, "_"+operandA, operandB!=null?"_"+operandB:null, variableName, is32BitOperation);
             }
+            else{
+                sbCode = new StringBuilder("Error: incompatibilidad en los tipos de datos de las variables "+ operandA + " y "+ operandB);
+                return null;
+            }
         }
         else {          
-            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.ULONGINT.getValue()) 
+            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()) 
                 symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE);
-            else 
-                symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE);     
+            else if (symbolTableItemOperandA.getDataType().getValue() == EDataType.STRING.getValue())
+                symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE);
+            else{
+                sbCode = new StringBuilder("Error: no se puede convertir el tipo de dato ULONGINT");
+                return null;                
+            }     
             writeCode(operator, operandA, operandB, variableName, false);
         }
     

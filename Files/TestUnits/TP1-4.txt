@@ -2,7 +2,7 @@ programa1
 begin
 	integer a;
 	integer b;
-	integer c;
-	b := a+c;
+	ulongint c;
+	b := a+itoul(c);
 	print(<<Esto es un string>>);
 end
