@@ -10,25 +10,25 @@ includelib \masm32\lib\user32.lib
      @aux6 dw ?
      @aux5 dw ?
      @aux4 dw ?
+     41c1de0e-6c4b-493e-82c6-0b6e559dc0b5 db "HOLA IF", 0
      @aux9 dw ?
      @aux8 dw ?
      _c.programa1 dw ?
-     b61fe499-cbfd-419d-a56c-79da3ca6e29f db "HOLA IF", 0
+     ae5eb334-8101-4ec0-8d42-f535deaaf208 db "HOLA WHILE", 0
      @aux3 dw ?
      @aux2 dw ?
      @aux1 dw ?
      @aux11 dw ?
      @aux12 db "null", 0
      _d.programa1 dw ?
+     db613010-b790-4300-be5e-e9ce7f888160 db "HOLA ELSE", 0
      @aux10 dw ?
      _b.programa1 dw ?
      @aux19 dw ?
      @aux15 db "null", 0
      @aux16 dw ?
      @aux18 db "null", 0
-     b2f08541-afa4-423f-a2b9-df3709d401d0 db "HOLA WHILE", 0
      _a.programa1 dw ?
-     288bc5db-558c-42eb-a7ef-7b533baff8d9 db "HOLA ELSE", 0
 .code
 start:
      MOV eax, 1
@@ -69,21 +69,21 @@ Label_12
      MOV eax, @aux10
      MOV _c.programa1, eax 
 
-     invoke MessageBox, NULL, addr b2f08541-afa4-423f-a2b9-df3709d401d0 , addr Print, MB_OK
+     invoke MessageBox, NULL, addr ae5eb334-8101-4ec0-8d42-f535deaaf208 , addr Print, MB_OK
      JMP Label_12
 
 Label_36
      CMP a.programa1, b.programa1
      JG Label_49
 
-     invoke MessageBox, NULL, addr b61fe499-cbfd-419d-a56c-79da3ca6e29f , addr Print, MB_OK
+     invoke MessageBox, NULL, addr 41c1de0e-6c4b-493e-82c6-0b6e559dc0b5 , addr Print, MB_OK
      MOV eax, -54678
      MOV _d.programa1, eax 
 
      JMP Label_55
 
 Label_49
-     invoke MessageBox, NULL, addr 288bc5db-558c-42eb-a7ef-7b533baff8d9 , addr Print, MB_OK
+     invoke MessageBox, NULL, addr db613010-b790-4300-be5e-e9ce7f888160 , addr Print, MB_OK
      MOV eax, 5467
      MOV _d.programa1, eax 
 

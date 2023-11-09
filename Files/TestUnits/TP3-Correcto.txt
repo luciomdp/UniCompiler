@@ -4,9 +4,25 @@ begin
 	integer b;
 	integer c;
 	integer d;
-	while (a+b <= c-d) do 
+	a := 1;
+	b := 2;
+	c := 4;
+	d := 2;
+	while (a+b >= c-d) do 
 	begin
 		a:=b+c;
 		c := d-3;
+		print(<<HOLA WHILE>>);
 	end
+	if (a <= b) then
+	begin
+		print(<<HOLA IF>>);
+		d := -54678;
+	end
+	else
+	begin
+		print(<<HOLA ELSE>>);
+		d := 5467;
+	end
+	end_if
 end
