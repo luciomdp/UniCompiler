@@ -73,8 +73,8 @@ public class GenerateCodeComponent {
         //Cabecera  
         generateHeader();
         //Código
-        if (!ConfigurationParams.areErrors())
-            generateCode();
+        if (!ConfigurationParams.areErrors()) 
+            generateCode(); 
         else {
             errorOcurred = true;
             sbCode = new StringBuilder("No se ha podido generar el codigo debido a la ocurrencia de errores en el codigo fuente ");
@@ -145,13 +145,27 @@ public class GenerateCodeComponent {
             }            
         });
     }
-
     private void generateCode() {
-        Stack<String> stack = new Stack<>();
-
         sbCode.append(".code\n");
+        //Programa principal
         sbCode.append("start:\n");
-        for (String e: ConfigurationParams.reversePolishStructure.merge()){
+        String key = ConfigurationParams.reversePolishStructure.getNextKey();
+        generateCode(null,ConfigurationParams.reversePolishStructure.removePolish(key));
+        sbCode.append("     invoke ExitProcess, 0\n");
+        sbCode.append("end start\n");
+        //Funciones
+        key = ConfigurationParams.reversePolishStructure.getNextKey();
+        while(key != null) {
+            generateCode(key,ConfigurationParams.reversePolishStructure.removePolish(key));
+            key = ConfigurationParams.reversePolishStructure.getNextKey();
+        } 
+    }
+
+    private void generateCode(String fname,List<String> reversepolish) {
+        Stack<String> stack = new Stack<>();
+        if(fname != null) //Si no es funcion
+            sbCode.append(fname + ":\n");
+        for (String e: reversepolish){
             String operandA;
             String operandB;
             String stackitem;
@@ -191,9 +205,8 @@ public class GenerateCodeComponent {
             else 
                 stack.push(e);
         };
-
-        sbCode.append("     invoke ExitProcess, 0\n");
-        sbCode.append("end start\n");
+        if(fname != null) //Si no es funcion
+            sbCode.append("ret");
     }
 
     private String createAssemblerCode (String operandA, String operandB, String operator){

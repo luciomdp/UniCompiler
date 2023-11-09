@@ -66,12 +66,12 @@ public class ReversePolishStructure {
         this.reversePolishList.put(ConfigurationParams.getCurrentScope(),reversePolishList);
     }
 
-    public List<String> merge() {
-        List<String> finalReversePolish = new ArrayList<>();
-        reversePolishList.values().stream().forEach(reversePolish -> {
-            finalReversePolish.addAll(reversePolish);
-        });
-        return finalReversePolish;
+    public List<String> removePolish(String key) {
+        return reversePolishList.remove(key);
+    }
+
+    public String getNextKey() {
+        return reversePolishList.keySet().iterator().hasNext()?reversePolishList.keySet().iterator().next():null;
     }
 
 }

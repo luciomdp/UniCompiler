@@ -10,6 +10,5 @@ public class FinalCodeViewer extends AbstractPanelViewer {
 
     public FinalCodeViewer() {
         super(title,BACKGROUND_PANEL,BACKGROUND_COMPONENTS,StyleConstants.ALIGN_LEFT);
-        appendData("--------------------------- << Comienzo del código generado >> ---------------------------\n");
     }
 }
