@@ -1,7 +1,0 @@
-programa1
-begin
-	integer b;
-	ulongint c;
-	b := a+itoul(c);
-	print(<<Esto es un string>>);
-end
