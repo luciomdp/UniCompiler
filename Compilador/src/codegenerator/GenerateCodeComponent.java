@@ -34,7 +34,6 @@ import objects.enums.EUse;
 public class GenerateCodeComponent {
 
     private List <String> binaryOperands;
-    private List <String> splitters;
     private List<String> unaryOperands;
     private Map<String, IAssemblerCode> mapAssemblerCode;
     private Long count;
@@ -47,10 +46,8 @@ public class GenerateCodeComponent {
     public GenerateCodeComponent () {
         binaryOperands = new ArrayList<>();
         unaryOperands = new ArrayList<>();
-        splitters = new ArrayList<>();
-        binaryOperands.addAll(Arrays.asList("+", "-", "*", "/", ":=", "<", ">", ">=", "<="));
+        binaryOperands.addAll(Arrays.asList("+", "-", "*", "/", ":="));
         unaryOperands.addAll(Arrays.asList("itoul", "print"));
-        splitters.addAll(Arrays.asList("BF", "JUMP"));
         count=0L;
         mapAssemblerCode = new HashMap <String, IAssemblerCode>();
         mapAssemblerCode.put("+", new GC_ADD());
@@ -133,6 +130,14 @@ public class GenerateCodeComponent {
             if(entry.getValue().getUse() != null && entry.getValue().getUse().equals(EUse.VARIABLE)) {
                 //Si es entero
                 if(entry.getValue().getDataType().equals(EDataType.INTEGER))
+                    sbData.append("     " + "_"+entry.getKey() + " dw ?\n");
+                //Si es ulongint
+                if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
+                    sbData.append("     " + "_"+entry.getKey() + " dd ?\n");
+            }
+            if(entry.getValue().getUse() != null && entry.getValue().getUse().equals(EUse.VARIABLE_ASSEMBLER)) {
+                //Si es entero
+                if(entry.getValue().getDataType().equals(EDataType.INTEGER))
                     sbData.append("     " + entry.getKey() + " dw ?\n");
                 //Si es ulongint
                 if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
@@ -153,7 +158,7 @@ public class GenerateCodeComponent {
             if (binaryOperands.contains(e)){
                 operandA = stack.pop();
                 operandB = stack.pop();
-                stackitem = createAssemblerCode(operandA, operandB, e);
+                stackitem = createAssemblerCode(operandB, operandA, e);
                 if (stackitem == null)
                     return;
                 stack.push(stackitem);
@@ -166,19 +171,22 @@ public class GenerateCodeComponent {
                 stack.push(stackitem);
             }
             else if (e.equals("JUMP")){
-                String label = "Label"+stack.pop();
+                String label = "Label_"+stack.pop();
                 createAssemblerCodeForConditions(null, null, e, label);
             }
             else if (e.equals("BF")){
                 // nro de label al que debemos saltar
-                String labelName = "Label"+stack.pop();
+                String labelName = "Label_"+stack.pop();
                 String comparativeOperator = stack.pop();
                 operandA = stack.pop();
                 operandB = stack.pop();
                 // aca habría que generar el codigo para los operadores condicionales
-                stackitem = createAssemblerCodeForConditions(operandA, operandB, comparativeOperator, labelName);
+                stackitem = createAssemblerCodeForConditions(operandB, operandA, comparativeOperator, labelName);
                 if (stackitem == null)
                     return;
+            }
+            else if (e.startsWith("Label_")){
+                writeLabelName(e);
             }
             else 
                 stack.push(e);
@@ -194,19 +202,21 @@ public class GenerateCodeComponent {
         
         SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB, symbolTableItemVariable = new SymbolTableItem(null, null);
         symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
+        operandA = renameOperand(operandA, symbolTableItemOperandA);
         if (operandB != null){
             symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
+            operandB = renameOperand(operandB, symbolTableItemOperandB);
             boolean is32BitOperation = false;
             if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()) {
                 if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()){
-                    symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.INTEGER, EUse.VARIABLE);
+                    symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.INTEGER, EUse.VARIABLE_ASSEMBLER);
                     is32BitOperation = true;
                 }else{
-                    symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE);
+                    symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE_ASSEMBLER);
                     is32BitOperation = false;
                 }
                     
-                writeCode(operator, "_"+operandA, operandB!=null?"_"+operandB:null, variableName, is32BitOperation);
+                writeCode(operator, operandA, operandB!=null?operandB:null, variableName, is32BitOperation);
             }
             else{
                 errorOcurred = true;
@@ -230,6 +240,13 @@ public class GenerateCodeComponent {
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
     }
+    private String renameOperand(String operand, SymbolTableItem symbolTableItem) {
+        if (symbolTableItem.getUse() == EUse.VARIABLE)
+            return "_"+operand;
+        else
+            return operand;
+    }
+
     private String createAssemblerCodeForConditions (String operandA, String operandB, String operator, String label){
         count++;
         String variableName = "@aux"+count;
@@ -239,7 +256,7 @@ public class GenerateCodeComponent {
             symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
             
             if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()) 
-                writeCodeForCondicions(operator, "_"+operandA, "_"+operandB, label);
+                writeCodeForCondicions(operator, operandA, operandB, label);
             else {
                 errorOcurred = true;
                 sbCode = new StringBuilder("Error: incompatibilidad en los tipos de datos de las variables "+ operandA + " y "+ operandB);
@@ -260,5 +277,8 @@ public class GenerateCodeComponent {
         String assemblerCode = "";
         assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, null, false, label); //El tab es para identar el código
         sbCode.append(assemblerCode + "\n");
+    }
+    private void writeLabelName(String label) {
+        sbCode.append(label + "\n");
     }
 }

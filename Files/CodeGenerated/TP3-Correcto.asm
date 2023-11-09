@@ -11,17 +11,15 @@ includelib \masm32\lib\user32.lib
      @aux6 dw ?
      @aux5 dw ?
      @aux4 dw ?
-     _c.programa1 dw ?
+     c.programa1 dw ?
      @aux2 dw ?
      @aux1 dw ?
-     @aux12 dw ?
-     _d.programa1 dw ?
-     @aux10 dw ?
-     _b.programa1 dw ?
-     _a.programa1 dw ?
+     d.programa1 dw ?
+     b.programa1 dw ?
+     a.programa1 dw ?
 .code
 start:
-Label_0
+Label0
      MOV eax, _a.programa1
      ADD eax, _b.programa1
      MOV @aux1, eax 
@@ -31,7 +29,7 @@ Label_0
      MOV @aux2, eax 
 
      CMP @aux1, @aux2
-     JL Label_22
+     JG Label22
 
      MOV eax, _b.programa1
      ADD eax, _c.programa1
@@ -47,21 +45,8 @@ Label_0
      MOV eax, @aux6
      MOV _c.programa1, eax 
 
-     JMP Label_0
+     JMP Label0
 
-Label_22
-     CMP a.programa1, b.programa1
-     JG Label_33
-
-     MOV eax, -54678
-     MOV _d.programa1, eax 
-
-     JMP Label_37
-
-Label_33
-     MOV eax, 5467
-     MOV _d.programa1, eax 
-
-Label_37
+Label22
      invoke ExitProcess, 0
 end start

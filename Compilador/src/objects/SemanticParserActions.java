@@ -214,7 +214,7 @@ public class SemanticParserActions {
     public static void ON_inicio_while_End() {
         ConfigurationParams.mainView.getSintacticViewer().appendData("while linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
-        ConfigurationParams.reversePolishStructure.add("Label"+ConfigurationParams.reversePolishStructure.getReversePolishList().size()); 
+        ConfigurationParams.reversePolishStructure.add("Label_"+ConfigurationParams.reversePolishStructure.getReversePolishList().size()); 
         ConfigurationParams.increaseLabelCount();
     }
 
@@ -222,11 +222,11 @@ public class SemanticParserActions {
     // BEGIN sentencias_ejecutables END 
     public static void ON_bloque_ejecutables_if_con_else1_End() {
         Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-        ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+3, jumpPosition);
+        ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
         ConfigurationParams.reversePolishStructure.add(""); 
         ConfigurationParams.reversePolishStructure.add("JUMP"); 
-        ConfigurationParams.reversePolishStructure.add("Label"+ConfigurationParams.reversePolishStructure.getReversePolishList().size());
+        ConfigurationParams.reversePolishStructure.add("Label_"+ConfigurationParams.reversePolishStructure.getReversePolishList().size());
         ConfigurationParams.increaseLabelCount();
     }
 
@@ -242,17 +242,18 @@ public class SemanticParserActions {
     public static void ON_bloque_ejecutables_else1_End() {
         Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
         ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()), jumpPosition);
+        ConfigurationParams.reversePolishStructure.add("Label_"+ConfigurationParams.reversePolishStructure.getReversePolishList().size());
     }
 
     //---------------------- << bloque_ejecutables_while >> ----------------------
     // BEGIN sentencias_ejecutables END
     public static void ON_bloque_ejecutables_while1_End() {
         Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
-        ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+3, jumpPosition);
+        ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope())+2, jumpPosition);
         Integer jumpPosition2 = ConfigurationParams.reversePolishStructure.popElementFromStack();
         ConfigurationParams.reversePolishStructure.add(jumpPosition2);
         ConfigurationParams.reversePolishStructure.add("JUMP"); 
-        ConfigurationParams.reversePolishStructure.add("Label"+ConfigurationParams.reversePolishStructure.getReversePolishList().size()); 
+        ConfigurationParams.reversePolishStructure.add("Label_"+ConfigurationParams.reversePolishStructure.getReversePolishList().size()); 
         ConfigurationParams.increaseLabelCount();
     }
 

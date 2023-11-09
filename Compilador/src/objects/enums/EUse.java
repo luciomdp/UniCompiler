@@ -6,7 +6,8 @@ public enum EUse {
     VARIABLE(3),
     CONST(4),
     RESERVED_WORD(5), 
-    PARAMETER(6);
+    PARAMETER(6),
+    VARIABLE_ASSEMBLER(7);
 
     private int value;
     private EUse(int value) {
