@@ -24,8 +24,10 @@ public class TokenViewer extends AbstractPanelViewer {
             else
                 appendData((ConfigurationParams.VIEW_TOKEN_NUMBER?(Integer.valueOf(tokenValue).toString() +" \"" + ETokenType.getDescriptionForValue(tokenValue) + "\""):ETokenType.getDescriptionForValue(tokenValue)) + "\n");
         }
-        appendWarning(ConfigurationParams.lexicalAnalizer.getWarningMessage()!=""?ConfigurationParams.lexicalAnalizer.getWarningMessage()+"\n":"");
-        appendError(ConfigurationParams.lexicalAnalizer.getErrorMessage()!=""?ConfigurationParams.lexicalAnalizer.getErrorMessage()+"\n":"");
+        if(ConfigurationParams.lexicalAnalizer.getWarningMessage()!="")
+            appendWarning(ConfigurationParams.lexicalAnalizer.getWarningMessage()+"\n");
+        if(ConfigurationParams.lexicalAnalizer.getErrorMessage()!="")
+            appendError(ConfigurationParams.lexicalAnalizer.getErrorMessage()+"\n");
         
         //try {Thread.sleep(250);} catch (InterruptedException e) {e.printStackTrace();} //Espera (animación)
         

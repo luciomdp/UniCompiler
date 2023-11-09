@@ -129,7 +129,7 @@ public class GenerateCodeComponent {
 
         sbCode.append(".code\n");
         sbCode.append("start:\n");
-        for (String e: ConfigurationParams.reversePolishStructure.getReversePolishList()){
+        for (String e: ConfigurationParams.reversePolishStructure.merge()){
             String operandA;
             String operandB;
             String stackitem;

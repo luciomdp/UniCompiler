@@ -1,0 +1,15 @@
+programa1
+begin
+	integer a;
+	a:=1;
+	integer b;
+	b:=2;
+    if(a<b) then
+	begin
+		integer c;
+		ulongint d;
+		c := a + b;
+		print(<<A es menor a b>>);
+	end
+	end_if
+end
