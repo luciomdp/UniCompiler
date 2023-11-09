@@ -2,34 +2,11 @@ programa1
 begin
 	integer a;
 	integer b;
-	b := 3;
-	integer fun funcion2 (integer probando)
+	integer c;
+	integer d;
+	while (a+b <= c-d) do 
 	begin
-		integer a;
-		a:=1;
-		integer z;
-		return (59);
-	end
-	a := funcion2(b);
-	if (a <= b) then
-	begin
-		integer d;
-		d := -54678;
-		while (a <> d) do 
-		begin
-			if (a <= b) then
-			begin
-				d := -54678;
-			end
-			end_if		
-		end
-	end
-	end_if
-	integer fun funcion1 ()
-	begin
-		integer a;
-		a:=1;
-		integer z;
-		return (59);
+		a:=b+c;
+		c := d-3;
 	end
 end

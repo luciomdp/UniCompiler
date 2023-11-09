@@ -214,6 +214,8 @@ public class SemanticParserActions {
     public static void ON_inicio_while_End() {
         ConfigurationParams.mainView.getSintacticViewer().appendData("while linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
         ConfigurationParams.reversePolishStructure.pushElementInStack(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()));
+        ConfigurationParams.reversePolishStructure.add("Label"+ConfigurationParams.getLabelCount()); 
+        ConfigurationParams.increaseLabelCount();
     }
 
     //---------------------- << bloque_ejecutables_if_con_else >> ----------------------
