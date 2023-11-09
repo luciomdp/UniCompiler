@@ -4,7 +4,7 @@ import codegenerator.IAssemblerCode;
 
 public class GC_MUL implements IAssemblerCode {
     @Override
-    public String generateCode(String operandA, String operandB, String variableName, boolean is32BitOperation) {
+    public String generateCode(String operandA, String operandB, String variableName, boolean is32BitOperation, String label) {
         StringBuilder sb = new StringBuilder();
         if (is32BitOperation){
             sb.append("     MOV eax, "+operandA+"\n");

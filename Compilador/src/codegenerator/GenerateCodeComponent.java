@@ -14,8 +14,15 @@ import java.util.Stack;
 import codegenerator.actions.GC_ADD;
 import codegenerator.actions.GC_DIV;
 import codegenerator.actions.GC_EQUAL;
+import codegenerator.actions.GC_ASIGN;
+import codegenerator.actions.GC_GREATER;
+import codegenerator.actions.GC_GREATER_EQUAL;
 import codegenerator.actions.GC_ITOUL;
+import codegenerator.actions.GC_JUMP;
+import codegenerator.actions.GC_LESS;
+import codegenerator.actions.GC_LESS_EQUAL;
 import codegenerator.actions.GC_MUL;
+import codegenerator.actions.GC_NOT_EQUAL;
 import codegenerator.actions.GC_PRINT;
 import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
@@ -27,6 +34,7 @@ import objects.enums.EUse;
 public class GenerateCodeComponent {
 
     private List <String> binaryOperands;
+    private List <String> splitters;
     private List<String> unaryOperands;
     private Map<String, IAssemblerCode> mapAssemblerCode;
     private Long count;
@@ -39,17 +47,26 @@ public class GenerateCodeComponent {
     public GenerateCodeComponent () {
         binaryOperands = new ArrayList<>();
         unaryOperands = new ArrayList<>();
+        splitters = new ArrayList<>();
         binaryOperands.addAll(Arrays.asList("+", "-", "*", "/", ":=", "<", ">", ">=", "<="));
         unaryOperands.addAll(Arrays.asList("itoul", "print"));
+        splitters.addAll(Arrays.asList("BF", "JUMP"));
         count=0L;
         mapAssemblerCode = new HashMap <String, IAssemblerCode>();
         mapAssemblerCode.put("+", new GC_ADD());
-        mapAssemblerCode.put(":=", new GC_EQUAL());
+        mapAssemblerCode.put(":=", new GC_ASIGN());
         mapAssemblerCode.put("-", new GC_SUB());
         mapAssemblerCode.put("*", new GC_MUL());
         mapAssemblerCode.put("/", new GC_DIV());
         mapAssemblerCode.put("itoul", new GC_ITOUL());
         mapAssemblerCode.put("print", new GC_PRINT());
+        mapAssemblerCode.put("<", new GC_LESS());
+        mapAssemblerCode.put("<=", new GC_LESS_EQUAL());
+        mapAssemblerCode.put(">", new GC_GREATER());
+        mapAssemblerCode.put(">=", new GC_GREATER_EQUAL());
+        mapAssemblerCode.put("<>", new GC_NOT_EQUAL());
+        mapAssemblerCode.put("=", new GC_EQUAL());
+        mapAssemblerCode.put("JUMP", new GC_JUMP());
         sbHeader = new StringBuilder("");
         sbData = new StringBuilder("");
         sbCode = new StringBuilder("");
@@ -148,6 +165,21 @@ public class GenerateCodeComponent {
                     return;
                 stack.push(stackitem);
             }
+            else if (e.equals("JUMP")){
+                String label = "Label"+stack.pop();
+                createAssemblerCodeForConditions(null, null, e, label);
+            }
+            else if (e.equals("BF")){
+                // nro de label al que debemos saltar
+                String labelName = "Label"+stack.pop();
+                String comparativeOperator = stack.pop();
+                operandA = stack.pop();
+                operandB = stack.pop();
+                // aca habría que generar el codigo para los operadores condicionales
+                stackitem = createAssemblerCodeForConditions(operandA, operandB, comparativeOperator, labelName);
+                if (stackitem == null)
+                    return;
+            }
             else 
                 stack.push(e);
         };
@@ -198,9 +230,35 @@ public class GenerateCodeComponent {
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
     }
+    private String createAssemblerCodeForConditions (String operandA, String operandB, String operator, String label){
+        count++;
+        String variableName = "@aux"+count;
+        SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB, symbolTableItemVariable = new SymbolTableItem(null, null);
+        if (operandA != null && operandB != null){
+            symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
+            symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
+            
+            if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()) 
+                writeCodeForCondicions(operator, "_"+operandA, "_"+operandB, label);
+            else {
+                errorOcurred = true;
+                sbCode = new StringBuilder("Error: incompatibilidad en los tipos de datos de las variables "+ operandA + " y "+ operandB);
+                return null;
+            }
+        }
+        else 
+            writeCodeForCondicions(operator, null, null, label);
+
+        return variableName;
+    }
     private void writeCode (String operator, String operandA, String operandB, String variableName, boolean is32BitOperation){
         String assemblerCode = "";
-        assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation); //El tab es para identar el código
+        assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation, null); //El tab es para identar el código
+        sbCode.append(assemblerCode + "\n");
+    }
+    private void writeCodeForCondicions (String operator, String operandA, String operandB, String label){
+        String assemblerCode = "";
+        assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, null, false, label); //El tab es para identar el código
         sbCode.append(assemblerCode + "\n");
     }
 }

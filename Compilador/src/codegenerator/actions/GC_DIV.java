@@ -7,7 +7,7 @@ public class GC_DIV implements IAssemblerCode {
      Este es para ulongint
      */
     @Override
-    public String generateCode(String operandA, String operandB, String variableName, boolean is32BitOperation) {
+    public String generateCode(String operandA, String operandB, String variableName, boolean is32BitOperation, String label) {
         StringBuilder sb = new StringBuilder();
         if (is32BitOperation){
             sb.append("     MOV edx, 0 \n");
