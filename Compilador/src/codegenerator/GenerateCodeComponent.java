@@ -131,13 +131,13 @@ public class GenerateCodeComponent {
             if(entry.getValue().getDataType() != null && entry.getValue().getDataType().equals(EDataType.STRING))
                 sbData.append("     " + entry.getKey() + " db \"" + entry.getValue().getValue() + "\", 0\n");
             //Si es variable
-            if(entry.getValue().getUse() != null && entry.getValue().getUse().equals(EUse.VARIABLE)) {
+            if(entry.getValue().getUse() != null && (entry.getValue().getUse().equals(EUse.VARIABLE) || entry.getValue().getUse().equals(EUse.PARAMETER))) {
                 //Si es entero
                 if(entry.getValue().getDataType().equals(EDataType.INTEGER))
-                    sbData.append("     " + "_"+entry.getKey() + " dw ?\n");
+                    sbData.append("     " + "_"+entry.getKey().replace(".", "_") + " dw ?\n");
                 //Si es ulongint
                 if(entry.getValue().getDataType().equals(EDataType.ULONGINT))
-                    sbData.append("     " + "_"+entry.getKey() + " dd ?\n");
+                    sbData.append("     " + "_"+entry.getKey().replace(".", "_") + " dd ?\n");
             }
             if(entry.getValue().getUse() != null && entry.getValue().getUse().equals(EUse.VARIABLE_ASSEMBLER)) {
                 //Si es entero
@@ -309,8 +309,8 @@ public class GenerateCodeComponent {
 
     private String renameOperand(String operand, SymbolTableItem symbolTableItem) {
         if (symbolTableItem.getUse() == EUse.VARIABLE || symbolTableItem.getUse() == EUse.PARAMETER)
-            return "_"+operand;
+            return "_"+operand.replace(".", "_");
         else
-            return operand;
+            return operand.replace(".", "_");
     }
 }
