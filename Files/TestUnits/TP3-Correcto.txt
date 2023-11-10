@@ -25,4 +25,13 @@ begin
 		d := 5467;
 	end
 	end_if
+	integer fun funcion2 (integer probando)
+	begin
+		integer a;
+		a:=1;
+		integer z;
+		return (59);
+	end
+
+	c := funcion2(a);
 end
