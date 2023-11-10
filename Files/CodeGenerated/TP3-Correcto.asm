@@ -7,31 +7,31 @@ include \masm32\include\user32.inc
 includelib \masm32\lib\kernel32.lib
 includelib \masm32\lib\user32.lib
 .data
-     @aux22 dw ?
      @aux6 dw ?
-     @aux23 dw ?
      @aux5 dw ?
      @aux4 dw ?
      @aux9 dw ?
      @aux20 dw ?
      @aux8 dw ?
      @aux21 dw ?
+     f5f72859-05fd-4cf9-b3a7-30ec7b627195 db "HOLA WHILE", 0
      @aux3 dw ?
      @aux2 dw ?
      @aux1 dw ?
      _d.programa1 dw ?
      _z.funcion2.programa1 dw ?
      _a.programa1 dw ?
+     9d2c76b8-ce32-4566-bd51-3bc4b6c24fe3 db "HOLA ELSE", 0
+     9439ad92-3623-4ff6-94a4-5f29682a32aa db "HOLA IF", 0
      _c.programa1 dw ?
-     3472d988-29d4-4b0e-ae51-f72ba15102c5 db "HOLA IF", 0
-     176d8877-d207-4794-ab77-e325055b73ca db "HOLA WHILE", 0
      _a.funcion2.programa1 dw ?
      @aux11 dw ?
-     3d81c520-808f-4ff1-b10a-93e6376ba8db db "HOLA ELSE", 0
      @aux10 dw ?
      _b.programa1 dw ?
      @aux19 dw ?
-     @aux16 dw ?
+     @aux15 dw ?
+     @aux17 dw ?
+     @aux18 dw ?
 .code
 start:
      MOV eax, 1
@@ -72,21 +72,21 @@ Label_12
      MOV eax, @aux10
      MOV _c.programa1, eax 
 
-     invoke MessageBox, NULL, addr 176d8877-d207-4794-ab77-e325055b73ca , addr Print, MB_OK
+     invoke MessageBox, NULL, addr f5f72859-05fd-4cf9-b3a7-30ec7b627195 , addr Print, MB_OK
      JMP Label_12
 
 Label_36
-     CMP a.programa1, b.programa1
+     CMP _a.programa1, _b.programa1
      JG Label_49
 
-     invoke MessageBox, NULL, addr 3472d988-29d4-4b0e-ae51-f72ba15102c5 , addr Print, MB_OK
+     invoke MessageBox, NULL, addr 9439ad92-3623-4ff6-94a4-5f29682a32aa , addr Print, MB_OK
      MOV eax, -54678
      MOV _d.programa1, eax 
 
      JMP Label_55
 
 Label_49
-     invoke MessageBox, NULL, addr 3d81c520-808f-4ff1-b10a-93e6376ba8db , addr Print, MB_OK
+     invoke MessageBox, NULL, addr 9d2c76b8-ce32-4566-bd51-3bc4b6c24fe3 , addr Print, MB_OK
      MOV eax, 5467
      MOV _d.programa1, eax 
 
@@ -95,9 +95,9 @@ Label_55
      MOV _probando.funcion2.programa1, eax 
 
      CALL  funcion2.programa1
-     MOV @aux21, eax
+     MOV @aux19, eax
 
-     MOV eax, @aux21
+     MOV eax, @aux19
      MOV _c.programa1, eax 
 
      invoke ExitProcess, 0
