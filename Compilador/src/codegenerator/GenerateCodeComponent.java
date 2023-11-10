@@ -15,6 +15,7 @@ import codegenerator.actions.GC_ADD;
 import codegenerator.actions.GC_DIV;
 import codegenerator.actions.GC_EQUAL;
 import codegenerator.actions.GC_ASIGN;
+import codegenerator.actions.GC_CALL;
 import codegenerator.actions.GC_GREATER;
 import codegenerator.actions.GC_GREATER_EQUAL;
 import codegenerator.actions.GC_ITOUL;
@@ -24,6 +25,7 @@ import codegenerator.actions.GC_LESS_EQUAL;
 import codegenerator.actions.GC_MUL;
 import codegenerator.actions.GC_NOT_EQUAL;
 import codegenerator.actions.GC_PRINT;
+import codegenerator.actions.GC_RETURN;
 import codegenerator.actions.GC_SUB;
 import objects.ConfigurationParams;
 import objects.SymbolTableItem;
@@ -64,6 +66,8 @@ public class GenerateCodeComponent {
         mapAssemblerCode.put("<>", new GC_NOT_EQUAL());
         mapAssemblerCode.put("=", new GC_EQUAL());
         mapAssemblerCode.put("JUMP", new GC_JUMP());
+        mapAssemblerCode.put("CALL", new GC_CALL());
+        mapAssemblerCode.put("return", new GC_RETURN());
         sbHeader = new StringBuilder("");
         sbData = new StringBuilder("");
         sbCode = new StringBuilder("");
@@ -202,6 +206,20 @@ public class GenerateCodeComponent {
             else if (e.startsWith("Label_")){
                 writeLabelName(e);
             }
+            else if (e.equals("CALL")){
+                operandA = stack.pop();
+                stackitem = createAssemblerCode(operandA, null, e);
+                if (stackitem == null)
+                    return;
+                stack.push(stackitem);
+            }
+            else if (e.equals("return")){
+                operandA = stack.pop();
+                stackitem = createAssemblerCode(operandA, null, e);
+                if (stackitem == null)
+                    return;
+                stack.push(stackitem);
+            }
             else 
                 stack.push(e);
         };
@@ -237,24 +255,36 @@ public class GenerateCodeComponent {
                 return null;
             }
         }
-        else {          
-            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()) 
-                symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE);
-            else if (symbolTableItemOperandA.getDataType().getValue() == EDataType.STRING.getValue())
-                symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE);
-            else{
-                errorOcurred = true;
-                sbCode = new StringBuilder("Error: no se puede convertir el tipo de dato ULONGINT");
-                return null;                
-            }     
-            writeCode(operator, operandA, operandB, variableName, false);
+        else {
+            // el tema aca es que si es itoul hay que si o si hacer un cambio en el tipo de dato de la variable
+            // si es un CALL el tipo de datos tiene que ser el que viene en getDataType
+            if (operator.equals("itoul")){            
+                if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()) 
+                    symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE);
+                else if (symbolTableItemOperandA.getDataType().getValue() == EDataType.STRING.getValue())
+                    symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE);
+                else{
+                    errorOcurred = true;
+                    sbCode = new StringBuilder("Error: no se puede convertir el tipo de dato ULONGINT");
+                    return null;                
+                }     
+                writeCode(operator, operandA, operandB, variableName, false);
+            }
+            else if (operator.equals("CALL")){
+                // en este caso la variable assembler va a tener el tipo de dato de la función
+                symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, symbolTableItemOperandA.getDataType(), EUse.VARIABLE_ASSEMBLER);
+                writeCode(operator, operandA, operandB, variableName, false);
+            }
+            else {
+                writeCode(operator, operandA, operandB, variableName, false);
+            }
         }
     
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
     }
     private String renameOperand(String operand, SymbolTableItem symbolTableItem) {
-        if (symbolTableItem.getUse() == EUse.VARIABLE)
+        if (symbolTableItem.getUse() == EUse.VARIABLE || symbolTableItem.getUse() == EUse.PARAMETER)
             return "_"+operand;
         else
             return operand;
@@ -263,7 +293,7 @@ public class GenerateCodeComponent {
     private String createAssemblerCodeForConditions (String operandA, String operandB, String operator, String label){
         count++;
         String variableName = "@aux"+count;
-        SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB, symbolTableItemVariable = new SymbolTableItem(null, null);
+        SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB = new SymbolTableItem(null, null);
         if (operandA != null && operandB != null){
             symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
             symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);

@@ -349,6 +349,7 @@ public class SemanticParserActions {
     // RETURN '(' expresion ')' ';'
     public static void ON_retorno1_End() {
         ConfigurationParams.mainView.getSintacticViewer().appendData("return linea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
+        ConfigurationParams.reversePolishStructure.add("return");
     }
 
     public static void ON_tipo1_End() {
