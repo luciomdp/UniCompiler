@@ -238,9 +238,9 @@ public class GenerateCodeComponent {
             symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, symbolTableItemOperandA.getDataType(), EUse.VARIABLE_ASSEMBLER);
             writeCode(operator, operandA, null, variableName, false);
         }
-        else {
+        else if (operator.equals("return"))
             writeCode(operator, operandA, null, variableName, false);
-        }
+        
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
     }
@@ -257,13 +257,13 @@ public class GenerateCodeComponent {
         if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()) {
             if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()){
                 symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.INTEGER, EUse.VARIABLE_ASSEMBLER);
-                is32BitOperation = true;
+                is32BitOperation = false;
             }else{
                 symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE_ASSEMBLER);
-                is32BitOperation = false;
+                is32BitOperation = true;
             }
                 
-            writeCode(operator, operandA, operandB!=null?operandB:null, variableName, is32BitOperation);
+            writeCode(operator, operandA, operandB, variableName, is32BitOperation);
         }
         else{
             errorOcurred = true;

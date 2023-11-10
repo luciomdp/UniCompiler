@@ -1,7 +1,0 @@
-programa1
-begin
-	integer a;
-	a:=1;
-	integer b;
-	b:=2;
-end
