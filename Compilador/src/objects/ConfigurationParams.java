@@ -108,38 +108,46 @@ public class ConfigurationParams {
         return true;
     }
     public static boolean checkIfLexemaIsDeclared (String id, String operand){
-        String idWithScope = id+getFullCurrentScope();
-        reversePolishStructure.add(idWithScope);
-        if (operand != null)
-            reversePolishStructure.add(operand);
-        String[] wordsInId = idWithScope.split("\\.");
-        for (int i=wordsInId.length; i > 1 ; i--){
-            if (symbolTable.contains(idWithScope)){
-                symbolTable.addEntryCount(idWithScope);
+        String scope = getFullCurrentScope();
+        String[] wordsInId = scope.split("\\.");
+        for (int i=0; i < wordsInId.length-1 ; i++){
+            if (symbolTable.contains(id+scope)){
+                symbolTable.addEntryCount(id+scope);
                 symbolTable.remove(id);
+                reversePolishStructure.add(id+scope);
                 return true;
             }
-            int index = idWithScope.indexOf("."+wordsInId[i-1]);
-            idWithScope = idWithScope.substring(0, index);
+            int index = scope.indexOf("."+wordsInId[i]);
+            int endIndex = index + wordsInId[i+1].length()+1;
+            scope = scope.substring(endIndex, scope.length());
         }
+        reversePolishStructure.add(id+getFullCurrentScope());
+        if (operand != null)
+            reversePolishStructure.add(operand);
         return false;
     }
     public static boolean checkIfFunctionIsDeclared (String id, boolean params){
-        String idWithScope = id+getFullCurrentScope();
-        reversePolishStructure.add(idWithScope);
-        reversePolishStructure.add("CALL");
-        String[] wordsInId = idWithScope.split("\\.");
-        for (int i=wordsInId.length; i > 1 ; i--){
-            if (symbolTable.contains(idWithScope)){
-                symbolTable.addEntryCount(idWithScope);
+        String scope = getFullCurrentScope();
+        String[] wordsInId = scope.split("\\.");
+        for (int i=0; i < wordsInId.length-1 ; i++){
+            if (symbolTable.contains(id+scope)){
+                symbolTable.addEntryCount(id+scope);
                 symbolTable.remove(id);
-                if ((symbolTable.lookup(idWithScope).getUse() == EUse.FUNCTION_PARAM && !params) ||(symbolTable.lookup(idWithScope).getUse() == EUse.FUNCTION && params))
+                if ((symbolTable.lookup(id+scope).getUse() == EUse.FUNCTION_PARAM && !params) ||(symbolTable.lookup(id+scope).getUse() == EUse.FUNCTION && params)){
+                    reversePolishStructure.add(id+getFullCurrentScope());
+                    reversePolishStructure.add("CALL");
                     return false;
+                }
+                reversePolishStructure.add(id+scope);
+                reversePolishStructure.add("CALL");
                 return true;
             }
-            int index = idWithScope.indexOf("."+wordsInId[i-1]);
-            idWithScope = idWithScope.substring(0, index);
+            int index = scope.indexOf("."+wordsInId[i]);
+            int endIndex = index + wordsInId[i+1].length()+1;
+            scope = scope.substring(endIndex, scope.length());
         }
+        reversePolishStructure.add(id+getFullCurrentScope());
+        reversePolishStructure.add("CALL");
         return false;
     }
 

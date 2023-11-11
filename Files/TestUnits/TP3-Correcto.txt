@@ -30,8 +30,8 @@ begin
 		integer a;
 		a:=1;
 		integer z;
+		q := 30;
 		return (59);
 	end
-
-	c := funcion2(a);
+	c := funcion3(a);
 end
