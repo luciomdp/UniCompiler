@@ -16,11 +16,11 @@
 
 
 
+//#line 4 "calc.y"
 import objects.enums.ETokenType;
 import objects.ConfigurationParams;
 import objects.SemanticParserActions;
-
-//#line 27 "Parser.java"
+//#line 21 "Parser.java"
 
 
 
@@ -181,12 +181,12 @@ public final static short INTEGER=276;
 public final static short ULONGINT=277;
 public final static short YYERRCODE=256;
 final static short yylhs[] = {                           -1,
-    0,    1,    2,    3,    3,    5,    5,    4,    4,    6,
-    6,    6,    6,    6,    6,    7,    7,   17,   17,   13,
-   19,   14,   15,   16,    8,   20,   20,   18,   18,   22,
-   22,   23,    9,   24,   24,   24,   25,   25,   25,   26,
+    0,    1,    2,    3,    3,    5,    5,    4,    6,    6,
+    6,    6,    6,    6,    6,   12,   12,   17,   17,   13,
+   19,   14,   15,   16,    7,   20,   20,   18,   18,   22,
+   22,   23,    8,   24,   24,   24,   25,   25,   25,   26,
    26,   26,   26,   26,   27,   27,   28,   28,   29,   29,
-   29,   10,   11,   11,   12,   12,   33,   30,   35,   37,
+   29,    9,   10,   10,   11,   11,   33,   30,   35,   37,
    36,   32,   34,   34,   34,   34,   34,   34,   31,   31,
    31,   31,   31,   31,   21,
 };
@@ -202,7 +202,7 @@ final static short yylen[] = {                            2,
 };
 final static short yydefred[] = {                         0,
     3,    0,    1,    0,    0,    0,    0,   57,    0,   58,
-    0,    0,    0,    5,    9,    8,   10,   11,   12,   13,
+    0,    0,    0,    5,    8,    9,   10,   11,   12,   13,
    14,    0,    0,    0,    0,    0,    0,    0,    0,    2,
     4,   22,    0,    0,   21,    0,   32,    0,   31,    0,
     0,    0,   41,    0,    0,    0,    0,   37,   42,    0,
@@ -213,19 +213,18 @@ final static short yydefred[] = {                         0,
    49,   50,   46,    0,    0,   48,    0,    0,    0,   38,
    39,   52,    0,   26,   27,   20,    0,    0,    0,    0,
     0,    0,    0,    0,    0,   54,    0,    0,    0,    0,
-    0,    0,    0,   51,   45,    0,   44,    0,    0,   15,
-    0,    7,   53,    0,    0,    0,   47,    0,   18,   62,
-    6,    0,    0,   56,   75,    0,    0,    0,    0,   55,
-   61,
+    0,    0,    0,   51,   45,    0,   44,    0,    0,    0,
+    7,   53,    0,    0,    0,   47,    0,   18,   62,    6,
+    0,    0,   56,   75,    0,    0,    0,    0,   55,   61,
 };
 final static short yydgoto[] = {                          2,
-    3,    4,   51,   14,  131,   15,   16,   17,   18,   19,
+    3,    4,   51,   14,  130,   15,   16,   17,   18,   19,
    20,   21,   22,   33,   52,   73,   23,   24,   36,   25,
    71,   38,   39,   46,   47,   48,   49,   95,   96,   26,
-   58,  116,   27,   60,  135,  148,  136,
+   58,  116,   27,   60,  134,  147,  135,
 };
 final static short yysindex[] = {                      -214,
-    0,    0,    0, -218,  -83,    0, -180,    0,   41,    0,
+    0,    0,    0, -218,  -83,    0, -184,    0,   40,    0,
     0,    0, -136,    0,    0,    0,    0,    0,    0,    0,
     0, -179, -179, -176, -156,   63,   67,  -44, -150,    0,
     0,    0,  -83,  -83,    0, -147,    0,   18,    0,  -44,
@@ -234,13 +233,12 @@ final static short yysindex[] = {                      -214,
     6,  -44,    0,    0,  -44,  -44,  -44,  -44,   79,   99,
     0,    0,    0,    0,  -41,    0,  -44,  -44,  -44,  -44,
   -44,  -44, -203,  -44,  -44,  -44,  -44,  -44,  -44, -123,
-    0,    0,    0, -110,   35,    0,   29,   21,   21,    0,
+    0,    0,    0, -110,   37,    0,   29,   21,   21,    0,
     0,    0,  -44,    0,    0,    0, -106,   57,   57,   57,
-   57,   57,   57,  -67, -115,    0,   57,   57,   57,   57,
-   57,   57, -113,    0,    0,  -40,    0,   30,  117,    0,
- -111,    0,    0,  -67, -105, -107,    0,  105,    0,    0,
-    0, -101,  -99,    0,    0,    0,  -67,  -92,  -85,    0,
-    0,
+   57,   57,   57,  -83, -115,    0,   57,   57,   57,   57,
+   57,   57, -113,    0,    0,  -40,    0,   30,  117, -111,
+    0,    0,  -83, -105, -107,    0,  105,    0,    0,    0,
+ -101,  -99,    0,    0,    0,  -83,  -92,  -85,    0,    0,
 };
 final static short yyrindex[] = {                         0,
     0,    0,    0,    0,    0, -152,    0,    0,    0,    0,
@@ -254,17 +252,16 @@ final static short yyrindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,  -29,   -7,    0,
     0,    0,    0,    0,    0,    0,    0,   85,  137,  139,
-  141,  143,  154,    0,    0,    0,  155,  157,  158,  159,
-  160,  161,    0,    0,    0,    0,    0,    0,    0,    0,
+  141,  143,  148,    0,    0,    0,  149,  154,  155,  156,
+  157,  158,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0, -170,    0,    0,    0,    0,
-    0,
+    0,    0,    0,    0, -170,    0,    0,    0,    0,    0,
 };
 final static short yygindex[] = {                         0,
-    0,    0,  200,   -3,  -97,  -36,    0,    0,    0,    0,
-    0,    0,    0,  183,  173,  162,    0,    0,    0,  133,
-    0,    0,  156,    5,  -48,   -2,    0,    0,   90,    0,
-    0,   96,    0,    0,    0,    0,    0,
+    0,    0,  195,   -3,  -96,  -35,    0,    0,    0,    0,
+    0,    0,    0,  178,  168,  150,    0,    0,    0,  129,
+    0,    0,  151,    5,  -48,   -2,    0,    0,   80,    0,
+    0,   90,    0,    0,    0,    0,    0,
 };
 final static int YYTABLESIZE=264;
 static short yytable[];
@@ -274,25 +271,25 @@ yytable = new short[]{                        106,
    45,   40,   40,   40,   94,   40,   34,   40,   34,   31,
    34,   35,   65,   35,   66,   35,   98,   99,   26,   40,
    40,   40,   40,   27,   34,   34,   34,   34,   64,   35,
-   35,   35,   35,   36,   28,   36,  142,   36,   65,   29,
-   66,   65,    1,   66,   57,   59,   93,   31,    5,  149,
+   35,   35,   35,   36,   28,   36,  141,   36,   65,   29,
+   66,   65,    1,   66,   57,   59,   93,   31,    5,  148,
    94,   36,   36,   36,   36,   81,   82,   80,   88,   89,
    87,   56,   67,  114,  100,  101,   97,   68,  115,  127,
-  138,   65,   65,   66,   66,  125,   55,  132,  126,   28,
-   29,  108,  109,  110,  111,  112,  113,   32,  117,  118,
-  119,  120,  121,  122,  141,   59,   35,  132,   60,   65,
-   37,   66,   40,   15,   15,  141,   41,  128,   50,   54,
-  132,   15,  141,   61,   19,   15,   62,   15,   15,    6,
+  137,   65,   65,   66,   66,   28,   55,  125,  131,   29,
+  126,  108,  109,  110,  111,  112,  113,   32,  117,  118,
+  119,  120,  121,  122,  140,   59,   35,  131,   60,   65,
+   37,   66,   40,   15,   15,  140,   41,  128,   50,   54,
+  131,   15,  140,   61,   19,   15,   62,   15,   15,    6,
     7,   15,   63,   15,   15,   69,   72,    8,    6,    7,
    75,   30,   83,    9,   10,   90,    8,  102,  103,   11,
-   12,  123,    9,   10,  130,    7,   70,  124,   11,   12,
-  129,  114,    8,  134,  130,    7,  140,  139,    9,   10,
-  143,  144,    8,  145,  104,  105,  146,  147,    9,   10,
-  130,    7,    6,    7,  104,  105,  150,   70,    8,   71,
-    8,   72,  151,   73,    9,   10,    9,   10,  130,    7,
-  104,  105,   11,   12,   74,   63,    8,   64,   65,   66,
-   67,   68,    9,   10,   13,   34,   53,  107,  104,  105,
-  133,   76,   42,   43,   74,  137,   91,   92,    0,    0,
+   12,  123,    9,   10,    6,    7,   70,  124,   11,   12,
+  129,  114,    8,  133,    6,    7,  139,  138,    9,   10,
+  142,  143,    8,  144,   11,   12,  145,  146,    9,   10,
+    6,    7,    6,    7,   11,   12,  149,   70,    8,   71,
+    8,   72,  150,   73,    9,   10,    9,   10,   74,   63,
+   11,   12,   11,   12,   64,   65,   66,   67,   68,   13,
+   34,   53,   74,  107,  132,  136,   76,    0,    0,    0,
+    0,    0,   42,   43,    0,    0,   91,   92,    0,    0,
     0,   40,   40,   40,    0,    0,   34,   34,   34,    0,
    44,   35,   35,   35,  104,  105,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -307,25 +304,25 @@ yycheck = new short[] {                         41,
    45,   41,   42,   43,   45,   45,   41,   47,   43,   13,
    45,   41,   43,   43,   45,   45,   65,   66,  257,   59,
    60,   61,   62,  257,   59,   60,   61,   62,   59,   59,
-   60,   61,   62,   41,  273,   43,  134,   45,   43,  273,
-   45,   43,  257,   45,   40,   41,   41,   51,  267,  147,
+   60,   61,   62,   41,  273,   43,  133,   45,   43,  273,
+   45,   43,  257,   45,   40,   41,   41,   51,  267,  146,
    45,   59,   60,   61,   62,   60,   61,   62,   60,   61,
    62,   44,   42,  267,   67,   68,   62,   47,  272,   41,
-   41,   43,   43,   45,   45,   41,   59,  114,   44,  260,
-   40,   77,   78,   79,   80,   81,   82,  267,   84,   85,
-   86,   87,   88,   89,  131,  266,  273,  134,  269,   43,
-  257,   45,   40,  256,  257,  142,   40,  103,  259,  257,
-  147,  264,  149,   40,  267,  268,   40,  270,  271,  256,
+   41,   43,   43,   45,   45,  260,   59,   41,  114,   40,
+   44,   77,   78,   79,   80,   81,   82,  267,   84,   85,
+   86,   87,   88,   89,  130,  266,  273,  133,  269,   43,
+  257,   45,   40,  256,  257,  141,   40,  103,  259,  257,
+  146,  264,  148,   40,  267,  268,   40,  270,  271,  256,
   257,  274,  258,  276,  277,   41,  268,  264,  256,  257,
    40,  268,   41,  270,  271,   41,  264,   59,   40,  276,
   277,  265,  270,  271,  256,  257,  274,  258,  276,  277,
   257,  267,  264,  267,  256,  257,  268,   41,  270,  271,
   266,  269,  264,   59,  276,  277,  268,  267,  270,  271,
   256,  257,  256,  257,  276,  277,  269,   41,  264,   41,
-  264,   41,  268,   41,  270,  271,  270,  271,  256,  257,
-  276,  277,  276,  277,   41,   41,  264,   41,   41,   41,
-   41,   41,  270,  271,    5,   23,   34,   75,  276,  277,
-  115,   56,  257,  258,   53,  126,  257,  258,   -1,   -1,
+  264,   41,  268,   41,  270,  271,  270,  271,   41,   41,
+  276,  277,  276,  277,   41,   41,   41,   41,   41,    5,
+   23,   34,   53,   75,  115,  126,   56,   -1,   -1,   -1,
+   -1,   -1,  257,  258,   -1,   -1,  257,  258,   -1,   -1,
    -1,  261,  262,  263,   -1,   -1,  261,  262,  263,   -1,
   275,  261,  262,  263,  276,  277,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
@@ -365,13 +362,13 @@ final static String yyrule[] = {
 "sentencias : sentencia",
 "sentencias_ejecutables : sentencias_ejecutables sentencia_ejecutable",
 "sentencias_ejecutables : sentencia_ejecutable",
-"sentencia : declaracion_funcion",
 "sentencia : sentencia_ejecutable",
 "sentencia_ejecutable : declaracion_variables",
 "sentencia_ejecutable : asignacion",
 "sentencia_ejecutable : impresion",
 "sentencia_ejecutable : iteracion",
 "sentencia_ejecutable : seleccion",
+"sentencia_ejecutable : declaracion_funcion",
 "sentencia_ejecutable : error",
 "declaracion_funcion : cabecera_funcion inicio_funcion cuerpo_funcion fin_funcion",
 "declaracion_funcion : cabecera_funcion_parametro inicio_funcion cuerpo_funcion fin_funcion",
@@ -435,10 +432,10 @@ final static String yyrule[] = {
 "retorno : RETURN '(' expresion ')' ';'",
 };
 
-//#line 218 "calc.y"
+//#line 212 "calc.y"
 
 public static void main(String[] args) throws Exception {
-    new ConfigurationParams(false);
+    ConfigurationParams globalParams = new ConfigurationParams(false);
     Parser parser = new Parser(true);
     parser.yyparse(); 
 }
@@ -454,7 +451,7 @@ public int yylex() {
 public void yyerror(String s) {
     ConfigurationParams.mainView.getSintacticViewer().appendError(s + ", en la línea "+ ConfigurationParams.lexicalAnalizer.getNewLineCount() +"\n");
 }
-//#line 392 "Parser.java"
+//#line 383 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -609,239 +606,239 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 2:
-//#line 28 "calc.y"
+//#line 22 "calc.y"
 {SemanticParserActions.ON_bloque1_End();}
 break;
 case 3:
-//#line 31 "calc.y"
+//#line 25 "calc.y"
 {
                 SemanticParserActions.ON_nombre_programa1_End(val_peek(0).sval);
             }
 break;
-case 11:
-//#line 49 "calc.y"
+case 10:
+//#line 42 "calc.y"
 {SemanticParserActions.ON_sentencia_ejecutable2_End();}
 break;
-case 12:
-//#line 50 "calc.y"
+case 11:
+//#line 43 "calc.y"
 {SemanticParserActions.ON_sentencia_ejecutable3_End();}
 break;
 case 15:
-//#line 53 "calc.y"
+//#line 47 "calc.y"
 {SemanticParserActions.ON_sentencia_ejecutable6_End();}
 break;
 case 18:
-//#line 61 "calc.y"
+//#line 55 "calc.y"
 {
                 SemanticParserActions.ON_cabecera_funcion_parametro1_End(val_peek(4).sval, val_peek(1).sval);
             }
 break;
 case 19:
-//#line 64 "calc.y"
+//#line 58 "calc.y"
 {
                  SemanticParserActions.ON_cabecera_funcion_parametro2_End();
             }
 break;
 case 20:
-//#line 69 "calc.y"
+//#line 63 "calc.y"
 {
                 SemanticParserActions.ON_cabecera_funcion1_End(val_peek(2).sval);
             }
 break;
 case 24:
-//#line 83 "calc.y"
+//#line 77 "calc.y"
 {
                 SemanticParserActions.ON_fin_funcion1_End();
             }
 break;
 case 25:
-//#line 88 "calc.y"
+//#line 82 "calc.y"
 {
                                 SemanticParserActions.ON_declaracion_variables1_End();
                             }
 break;
 case 26:
-//#line 94 "calc.y"
+//#line 88 "calc.y"
 {SemanticParserActions.ON_tipo1_End();}
 break;
 case 27:
-//#line 95 "calc.y"
+//#line 89 "calc.y"
 {SemanticParserActions.ON_tipo2_End();}
 break;
 case 28:
-//#line 98 "calc.y"
+//#line 92 "calc.y"
 {SemanticParserActions.ON_tipo_funcion1_End();}
 break;
 case 29:
-//#line 99 "calc.y"
+//#line 93 "calc.y"
 {SemanticParserActions.ON_tipo_funcion2_End();}
 break;
 case 32:
-//#line 106 "calc.y"
+//#line 100 "calc.y"
 {
                 /* Debo primero verificar que no sea existente, de serlo arrojar un error. */
                 SemanticParserActions.ON_variable1_End(val_peek(0).sval);
             }
 break;
 case 33:
-//#line 115 "calc.y"
+//#line 109 "calc.y"
 { 
                                             SemanticParserActions.ON_asignacion1_End(val_peek(3).sval);
                                         }
 break;
 case 35:
-//#line 122 "calc.y"
+//#line 116 "calc.y"
 {SemanticParserActions.ON_expresion2_End();}
 break;
 case 36:
-//#line 123 "calc.y"
+//#line 117 "calc.y"
 {SemanticParserActions.ON_expresion3_End();}
 break;
 case 38:
-//#line 128 "calc.y"
+//#line 122 "calc.y"
 {SemanticParserActions.ON_termino2_End();}
 break;
 case 39:
-//#line 129 "calc.y"
+//#line 123 "calc.y"
 {SemanticParserActions.ON_termino3_End();}
 break;
 case 40:
-//#line 133 "calc.y"
+//#line 127 "calc.y"
 {
                     SemanticParserActions.ON_factor1_End(val_peek(0).sval);
                 }
 break;
 case 41:
-//#line 136 "calc.y"
+//#line 130 "calc.y"
 {SemanticParserActions.ON_factor2_End(val_peek(0).sval);}
 break;
 case 42:
-//#line 137 "calc.y"
+//#line 131 "calc.y"
 {SemanticParserActions.ON_factor3_End();}
 break;
 case 43:
-//#line 138 "calc.y"
+//#line 132 "calc.y"
 {
                                     SemanticParserActions.ON_factor4_End(val_peek(0).sval);
                                 }
 break;
 case 44:
-//#line 141 "calc.y"
+//#line 135 "calc.y"
 {SemanticParserActions.ON_factor4_End();}
 break;
 case 45:
-//#line 145 "calc.y"
+//#line 139 "calc.y"
 {
                     SemanticParserActions.ON_invocacion1_End(val_peek(3).sval);
                 }
 break;
 case 46:
-//#line 148 "calc.y"
+//#line 142 "calc.y"
 {
                     SemanticParserActions.ON_invocacion2_End(val_peek(2).sval);
                 }
 break;
 case 47:
-//#line 153 "calc.y"
+//#line 147 "calc.y"
 {SemanticParserActions.ON_parametros1_End();}
 break;
 case 49:
-//#line 157 "calc.y"
+//#line 151 "calc.y"
 {SemanticParserActions.ON_parametro1_End(val_peek(0).sval);}
 break;
 case 50:
-//#line 158 "calc.y"
+//#line 152 "calc.y"
 {SemanticParserActions.ON_parametro2_End(val_peek(0).sval);}
 break;
 case 51:
-//#line 159 "calc.y"
+//#line 153 "calc.y"
 {SemanticParserActions.ON_parametro3_End(val_peek(0).sval);}
 break;
 case 52:
-//#line 164 "calc.y"
+//#line 158 "calc.y"
 {SemanticParserActions.ON_impresion1_End(val_peek(2).sval);}
 break;
 case 54:
-//#line 169 "calc.y"
+//#line 163 "calc.y"
 {SemanticParserActions.ON_iteracion2_End();}
 break;
 case 57:
-//#line 176 "calc.y"
+//#line 170 "calc.y"
 {SemanticParserActions.ON_inicio_if1_End();}
 break;
 case 58:
-//#line 179 "calc.y"
+//#line 173 "calc.y"
 {SemanticParserActions.ON_inicio_while_End();}
 break;
 case 59:
-//#line 182 "calc.y"
+//#line 176 "calc.y"
 {SemanticParserActions.ON_bloque_ejecutables_if_con_else1_End();}
 break;
 case 60:
-//#line 185 "calc.y"
+//#line 179 "calc.y"
 {SemanticParserActions.ON_bloque_ejecutables_if_sin_else1_End();}
 break;
 case 61:
-//#line 188 "calc.y"
+//#line 182 "calc.y"
 {SemanticParserActions.ON_bloque_ejecutables_else1_End();}
 break;
 case 62:
-//#line 191 "calc.y"
+//#line 185 "calc.y"
 {SemanticParserActions.ON_bloque_ejecutables_while1_End();}
 break;
 case 63:
-//#line 195 "calc.y"
+//#line 189 "calc.y"
 {SemanticParserActions.ON_condicion_if1_End();}
 break;
 case 64:
-//#line 196 "calc.y"
+//#line 190 "calc.y"
 {SemanticParserActions.ON_condicion_if2_End();}
 break;
 case 65:
-//#line 197 "calc.y"
+//#line 191 "calc.y"
 {SemanticParserActions.ON_condicion_if3_End();}
 break;
 case 66:
-//#line 198 "calc.y"
+//#line 192 "calc.y"
 {SemanticParserActions.ON_condicion_if4_End();}
 break;
 case 67:
-//#line 199 "calc.y"
+//#line 193 "calc.y"
 {SemanticParserActions.ON_condicion_if5_End();}
 break;
 case 68:
-//#line 200 "calc.y"
+//#line 194 "calc.y"
 {SemanticParserActions.ON_condicion_if6_End();}
 break;
 case 69:
-//#line 203 "calc.y"
+//#line 197 "calc.y"
 {SemanticParserActions.ON_condicion_while1_End();}
 break;
 case 70:
-//#line 204 "calc.y"
+//#line 198 "calc.y"
 {SemanticParserActions.ON_condicion_while2_End();}
 break;
 case 71:
-//#line 205 "calc.y"
+//#line 199 "calc.y"
 {SemanticParserActions.ON_condicion_while3_End();}
 break;
 case 72:
-//#line 206 "calc.y"
+//#line 200 "calc.y"
 {SemanticParserActions.ON_condicion_while4_End();}
 break;
 case 73:
-//#line 207 "calc.y"
+//#line 201 "calc.y"
 {SemanticParserActions.ON_condicion_while5_End();}
 break;
 case 74:
-//#line 208 "calc.y"
+//#line 202 "calc.y"
 {SemanticParserActions.ON_condicion_while6_End();}
 break;
 case 75:
-//#line 213 "calc.y"
+//#line 207 "calc.y"
 {SemanticParserActions.ON_retorno1_End();}
 break;
-//#line 774 "Parser.java"
+//#line 765 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

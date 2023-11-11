@@ -35,15 +35,15 @@ sentencias_ejecutables :
         |   sentencia_ejecutable
 ;
 sentencia :  
-            declaracion_funcion
-        |   sentencia_ejecutable
+        sentencia_ejecutable
 ;
 sentencia_ejecutable :  
             declaracion_variables
         |   asignacion {SemanticParserActions.ON_sentencia_ejecutable2_End();}
         |   impresion {SemanticParserActions.ON_sentencia_ejecutable3_End();}
         |   iteracion 
-        |   seleccion 
+        |   seleccion
+        |   declaracion_funcion 
         |   error   {SemanticParserActions.ON_sentencia_ejecutable6_End();}
 ;
 /* ----- SENTENCIAS DECLARATIVAS ----- */

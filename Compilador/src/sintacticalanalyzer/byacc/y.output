@@ -12,14 +12,14 @@
    6  sentencias_ejecutables : sentencias_ejecutables sentencia_ejecutable
    7                         | sentencia_ejecutable
 
-   8  sentencia : declaracion_funcion
-   9            | sentencia_ejecutable
+   8  sentencia : sentencia_ejecutable
 
-  10  sentencia_ejecutable : declaracion_variables
-  11                       | asignacion
-  12                       | impresion
-  13                       | iteracion
-  14                       | seleccion
+   9  sentencia_ejecutable : declaracion_variables
+  10                       | asignacion
+  11                       | impresion
+  12                       | iteracion
+  13                       | seleccion
+  14                       | declaracion_funcion
   15                       | error
 
   16  declaracion_funcion : cabecera_funcion inicio_funcion cuerpo_funcion fin_funcion
@@ -164,12 +164,12 @@ state 5
 	sentencias  goto 13
 	sentencia  goto 14
 	sentencia_ejecutable  goto 15
-	declaracion_funcion  goto 16
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
 	cabecera_funcion  goto 22
 	cabecera_funcion_parametro  goto 23
 	tipo_funcion  goto 24
@@ -252,12 +252,12 @@ state 13
 
 	sentencia  goto 31
 	sentencia_ejecutable  goto 15
-	declaracion_funcion  goto 16
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
 	cabecera_funcion  goto 22
 	cabecera_funcion_parametro  goto 23
 	tipo_funcion  goto 24
@@ -273,43 +273,43 @@ state 14
 
 
 state 15
-	sentencia : sentencia_ejecutable .  (9)
-
-	.  reduce 9
-
-
-state 16
-	sentencia : declaracion_funcion .  (8)
+	sentencia : sentencia_ejecutable .  (8)
 
 	.  reduce 8
 
 
+state 16
+	sentencia_ejecutable : declaracion_variables .  (9)
+
+	.  reduce 9
+
+
 state 17
-	sentencia_ejecutable : declaracion_variables .  (10)
+	sentencia_ejecutable : asignacion .  (10)
 
 	.  reduce 10
 
 
 state 18
-	sentencia_ejecutable : asignacion .  (11)
+	sentencia_ejecutable : impresion .  (11)
 
 	.  reduce 11
 
 
 state 19
-	sentencia_ejecutable : impresion .  (12)
+	sentencia_ejecutable : iteracion .  (12)
 
 	.  reduce 12
 
 
 state 20
-	sentencia_ejecutable : iteracion .  (13)
+	sentencia_ejecutable : seleccion .  (13)
 
 	.  reduce 13
 
 
 state 21
-	sentencia_ejecutable : seleccion .  (14)
+	sentencia_ejecutable : declaracion_funcion .  (14)
 
 	.  reduce 14
 
@@ -423,12 +423,12 @@ state 33
 	sentencias  goto 51
 	sentencia  goto 14
 	sentencia_ejecutable  goto 15
-	declaracion_funcion  goto 16
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
 	cabecera_funcion  goto 22
 	cuerpo_funcion  goto 52
 	cabecera_funcion_parametro  goto 23
@@ -453,12 +453,12 @@ state 34
 	sentencias  goto 51
 	sentencia  goto 14
 	sentencia_ejecutable  goto 15
-	declaracion_funcion  goto 16
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
 	cabecera_funcion  goto 22
 	cuerpo_funcion  goto 53
 	cabecera_funcion_parametro  goto 23
@@ -642,12 +642,12 @@ state 51
 
 	sentencia  goto 31
 	sentencia_ejecutable  goto 15
-	declaracion_funcion  goto 16
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
 	cabecera_funcion  goto 22
 	cabecera_funcion_parametro  goto 23
 	tipo_funcion  goto 24
@@ -1316,22 +1316,26 @@ state 113
 state 114
 	bloque_ejecutables_while : BEGIN . sentencias_ejecutables END  (62)
 
-	error  shift 130
+	error  shift 6
 	ID  shift 7
 	IF  shift 8
 	PRINT  shift 9
 	WHILE  shift 10
-	INTEGER  shift 104
-	ULONGINT  shift 105
+	INTEGER  shift 11
+	ULONGINT  shift 12
 	.  error
 
-	sentencias_ejecutables  goto 131
-	sentencia_ejecutable  goto 132
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	sentencias_ejecutables  goto 130
+	sentencia_ejecutable  goto 131
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
+	cabecera_funcion  goto 22
+	cabecera_funcion_parametro  goto 23
+	tipo_funcion  goto 24
 	tipo  goto 25
 	inicio_while  goto 26
 	inicio_if  goto 27
@@ -1343,7 +1347,7 @@ state 115
 	BEGIN  shift 114
 	.  error
 
-	bloque_ejecutables_while  goto 133
+	bloque_ejecutables_while  goto 132
 
 
 state 116
@@ -1416,11 +1420,11 @@ state 123
 	seleccion : inicio_if '(' condicion_if ')' THEN . bloque_ejecutables_if_con_else ELSE bloque_ejecutables_else END_IF  (55)
 	seleccion : inicio_if '(' condicion_if ')' THEN . bloque_ejecutables_if_sin_else END_IF  (56)
 
-	BEGIN  shift 134
+	BEGIN  shift 133
 	.  error
 
-	bloque_ejecutables_if_con_else  goto 135
-	bloque_ejecutables_if_sin_else  goto 136
+	bloque_ejecutables_if_con_else  goto 134
+	bloque_ejecutables_if_sin_else  goto 135
 
 
 state 124
@@ -1443,7 +1447,7 @@ state 126
 	'-'  shift 94
 	.  error
 
-	parametro  goto 137
+	parametro  goto 136
 
 
 state 127
@@ -1457,7 +1461,7 @@ state 128
 	expresion : expresion . '-' termino  (36)
 	retorno : RETURN '(' expresion . ')' ';'  (75)
 
-	')'  shift 138
+	')'  shift 137
 	'+'  shift 65
 	'-'  shift 66
 	.  error
@@ -1466,171 +1470,177 @@ state 128
 state 129
 	cabecera_funcion_parametro : tipo_funcion token_fun ID '(' tipo ID . ')'  (18)
 
-	')'  shift 139
+	')'  shift 138
 	.  error
 
 
 state 130
-	sentencia_ejecutable : error .  (15)
-
-	.  reduce 15
-
-
-state 131
 	sentencias_ejecutables : sentencias_ejecutables . sentencia_ejecutable  (6)
 	bloque_ejecutables_while : BEGIN sentencias_ejecutables . END  (62)
 
-	error  shift 130
+	error  shift 6
 	ID  shift 7
 	IF  shift 8
-	END  shift 140
+	END  shift 139
 	PRINT  shift 9
 	WHILE  shift 10
-	INTEGER  shift 104
-	ULONGINT  shift 105
+	INTEGER  shift 11
+	ULONGINT  shift 12
 	.  error
 
-	sentencia_ejecutable  goto 141
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	sentencia_ejecutable  goto 140
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
+	cabecera_funcion  goto 22
+	cabecera_funcion_parametro  goto 23
+	tipo_funcion  goto 24
 	tipo  goto 25
 	inicio_while  goto 26
 	inicio_if  goto 27
 
 
-state 132
+state 131
 	sentencias_ejecutables : sentencia_ejecutable .  (7)
 
 	.  reduce 7
 
 
-state 133
+state 132
 	iteracion : inicio_while '(' condicion_while ')' DO bloque_ejecutables_while .  (53)
 
 	.  reduce 53
 
 
-state 134
+state 133
 	bloque_ejecutables_if_con_else : BEGIN . sentencias_ejecutables END  (59)
 	bloque_ejecutables_if_sin_else : BEGIN . sentencias_ejecutables END  (60)
 
-	error  shift 130
+	error  shift 6
 	ID  shift 7
 	IF  shift 8
 	PRINT  shift 9
 	WHILE  shift 10
-	INTEGER  shift 104
-	ULONGINT  shift 105
+	INTEGER  shift 11
+	ULONGINT  shift 12
 	.  error
 
-	sentencias_ejecutables  goto 142
-	sentencia_ejecutable  goto 132
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	sentencias_ejecutables  goto 141
+	sentencia_ejecutable  goto 131
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
+	cabecera_funcion  goto 22
+	cabecera_funcion_parametro  goto 23
+	tipo_funcion  goto 24
 	tipo  goto 25
 	inicio_while  goto 26
 	inicio_if  goto 27
 
 
-state 135
+state 134
 	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_con_else . ELSE bloque_ejecutables_else END_IF  (55)
 
-	ELSE  shift 143
+	ELSE  shift 142
+	.  error
+
+
+state 135
+	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else . END_IF  (56)
+
+	END_IF  shift 143
 	.  error
 
 
 state 136
-	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else . END_IF  (56)
-
-	END_IF  shift 144
-	.  error
-
-
-state 137
 	parametros : parametros ',' parametro .  (47)
 
 	.  reduce 47
 
 
-state 138
+state 137
 	retorno : RETURN '(' expresion ')' . ';'  (75)
 
-	';'  shift 145
+	';'  shift 144
 	.  error
 
 
-state 139
+state 138
 	cabecera_funcion_parametro : tipo_funcion token_fun ID '(' tipo ID ')' .  (18)
 
 	.  reduce 18
 
 
-state 140
+state 139
 	bloque_ejecutables_while : BEGIN sentencias_ejecutables END .  (62)
 
 	.  reduce 62
 
 
-state 141
+state 140
 	sentencias_ejecutables : sentencias_ejecutables sentencia_ejecutable .  (6)
 
 	.  reduce 6
 
 
-state 142
+state 141
 	sentencias_ejecutables : sentencias_ejecutables . sentencia_ejecutable  (6)
 	bloque_ejecutables_if_con_else : BEGIN sentencias_ejecutables . END  (59)
 	bloque_ejecutables_if_sin_else : BEGIN sentencias_ejecutables . END  (60)
 
-	error  shift 130
+	error  shift 6
 	ID  shift 7
 	IF  shift 8
-	END  shift 146
+	END  shift 145
 	PRINT  shift 9
 	WHILE  shift 10
-	INTEGER  shift 104
-	ULONGINT  shift 105
+	INTEGER  shift 11
+	ULONGINT  shift 12
 	.  error
 
-	sentencia_ejecutable  goto 141
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	sentencia_ejecutable  goto 140
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
+	cabecera_funcion  goto 22
+	cabecera_funcion_parametro  goto 23
+	tipo_funcion  goto 24
 	tipo  goto 25
 	inicio_while  goto 26
 	inicio_if  goto 27
 
 
-state 143
+state 142
 	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_con_else ELSE . bloque_ejecutables_else END_IF  (55)
 
-	BEGIN  shift 147
+	BEGIN  shift 146
 	.  error
 
-	bloque_ejecutables_else  goto 148
+	bloque_ejecutables_else  goto 147
 
 
-state 144
+state 143
 	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_sin_else END_IF .  (56)
 
 	.  reduce 56
 
 
-state 145
+state 144
 	retorno : RETURN '(' expresion ')' ';' .  (75)
 
 	.  reduce 75
 
 
-state 146
+state 145
 	bloque_ejecutables_if_con_else : BEGIN sentencias_ejecutables END .  (59)
 	bloque_ejecutables_if_sin_else : BEGIN sentencias_ejecutables END .  (60)
 
@@ -1638,73 +1648,81 @@ state 146
 	END_IF  reduce 60
 
 
-state 147
+state 146
 	bloque_ejecutables_else : BEGIN . sentencias_ejecutables END  (61)
 
-	error  shift 130
+	error  shift 6
 	ID  shift 7
 	IF  shift 8
 	PRINT  shift 9
 	WHILE  shift 10
-	INTEGER  shift 104
-	ULONGINT  shift 105
+	INTEGER  shift 11
+	ULONGINT  shift 12
 	.  error
 
-	sentencias_ejecutables  goto 149
-	sentencia_ejecutable  goto 132
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	sentencias_ejecutables  goto 148
+	sentencia_ejecutable  goto 131
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
+	cabecera_funcion  goto 22
+	cabecera_funcion_parametro  goto 23
+	tipo_funcion  goto 24
 	tipo  goto 25
 	inicio_while  goto 26
 	inicio_if  goto 27
+
+
+state 147
+	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_con_else ELSE bloque_ejecutables_else . END_IF  (55)
+
+	END_IF  shift 149
+	.  error
 
 
 state 148
-	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_con_else ELSE bloque_ejecutables_else . END_IF  (55)
-
-	END_IF  shift 150
-	.  error
-
-
-state 149
 	sentencias_ejecutables : sentencias_ejecutables . sentencia_ejecutable  (6)
 	bloque_ejecutables_else : BEGIN sentencias_ejecutables . END  (61)
 
-	error  shift 130
+	error  shift 6
 	ID  shift 7
 	IF  shift 8
-	END  shift 151
+	END  shift 150
 	PRINT  shift 9
 	WHILE  shift 10
-	INTEGER  shift 104
-	ULONGINT  shift 105
+	INTEGER  shift 11
+	ULONGINT  shift 12
 	.  error
 
-	sentencia_ejecutable  goto 141
-	declaracion_variables  goto 17
-	asignacion  goto 18
-	impresion  goto 19
-	iteracion  goto 20
-	seleccion  goto 21
+	sentencia_ejecutable  goto 140
+	declaracion_variables  goto 16
+	asignacion  goto 17
+	impresion  goto 18
+	iteracion  goto 19
+	seleccion  goto 20
+	declaracion_funcion  goto 21
+	cabecera_funcion  goto 22
+	cabecera_funcion_parametro  goto 23
+	tipo_funcion  goto 24
 	tipo  goto 25
 	inicio_while  goto 26
 	inicio_if  goto 27
 
 
-state 150
+state 149
 	seleccion : inicio_if '(' condicion_if ')' THEN bloque_ejecutables_if_con_else ELSE bloque_ejecutables_else END_IF .  (55)
 
 	.  reduce 55
 
 
-state 151
+state 150
 	bloque_ejecutables_else : BEGIN sentencias_ejecutables END .  (61)
 
 	.  reduce 61
 
 
 34 terminals, 39 nonterminals
-76 grammar rules, 152 states
+76 grammar rules, 151 states
