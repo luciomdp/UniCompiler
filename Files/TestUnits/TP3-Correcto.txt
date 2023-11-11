@@ -30,8 +30,17 @@ begin
 		integer a;
 		a:=1;
 		integer z;
-		q := 30;
+		a := 30;
+		integer fun funcion3 (integer probando)
+			begin
+				integer a;
+				a:=1;
+				integer z;
+				a := 30;
+				return (60);
+			end
+					integer x;
+		x := funcion3(65);
 		return (59);
 	end
-	c := funcion3(a);
 end

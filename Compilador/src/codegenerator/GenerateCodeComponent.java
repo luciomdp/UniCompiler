@@ -212,7 +212,7 @@ public class GenerateCodeComponent {
                 stack.push(e);
         };
         if(fname != null) //Si no es funcion
-            sbCode.append("ret");
+            sbCode.append("ret \n");
     }
 
     private String createAssemblerCodeForUnaryOperators(String operandA, String operator) {
