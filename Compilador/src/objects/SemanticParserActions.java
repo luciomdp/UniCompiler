@@ -235,6 +235,8 @@ public class SemanticParserActions {
     public static void ON_bloque_ejecutables_if_sin_else1_End() {
         Integer jumpPosition = ConfigurationParams.reversePolishStructure.popElementFromStack();
         ConfigurationParams.reversePolishStructure.addInPosition(ConfigurationParams.reversePolishStructure.getNextIndex(ConfigurationParams.getCurrentScope()), jumpPosition);
+        ConfigurationParams.reversePolishStructure.add("Label_"+ConfigurationParams.reversePolishStructure.getReversePolishList().size());
+        
     }
 
     //---------------------- << bloque_ejecutables_else >> ----------------------

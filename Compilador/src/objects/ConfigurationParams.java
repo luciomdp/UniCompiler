@@ -115,6 +115,8 @@ public class ConfigurationParams {
                 symbolTable.addEntryCount(id+scope);
                 symbolTable.remove(id);
                 reversePolishStructure.add(id+scope);
+                if (operand != null)
+                    reversePolishStructure.add(operand);
                 return true;
             }
             int index = scope.indexOf("."+wordsInId[i]);

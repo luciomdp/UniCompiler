@@ -9,23 +9,23 @@ includelib \masm32\lib\user32.lib
 .data
      @aux5 dw ?
      @aux4 dw ?
-     1fc2072c-c18a-4f86-b931-c924eebf2c24 db "HOLA IF", 0
      @aux2 dw ?
      @aux1 dw ?
      _d_programa1 dw ?
      _z_funcion2_programa1 dw ?
      _probando_funcion2_programa1 dw ?
-     9edebde1-6ab1-4ff4-a315-3a7c9d2c45ae db "HOLA ELSE", 0
      _a_programa1 dw ?
      _c_programa1 dw ?
      _a_funcion2_programa1 dw ?
      _z_funcion3_funcion2_programa1 dw ?
      _probando_funcion3_funcion2_programa1 dw ?
      _x_funcion2_programa1 dw ?
-     498dc725-60ec-45d1-893a-5abe6a88c7e9 db "HOLA WHILE", 0
+     0cfe7103-effd-437f-9872-709556db3081 db "HOLA WHILE", 0
      @aux11 dw ?
+     5c02dfab-fd64-4c0c-9953-a26d2a90dcf1 db "HOLA IF", 0
      @aux10 dw ?
      _b_programa1 dw ?
+     912fdcbb-aa48-4596-8eb4-e9c8986da720 db "HOLA ELSE", 0
      _a_funcion3_funcion2_programa1 dw ?
 .code
 start:

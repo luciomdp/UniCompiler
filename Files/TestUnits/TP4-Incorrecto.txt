@@ -1,15 +1,17 @@
 programa1
 begin
 	integer a;
-	a:=1;
 	integer b;
-	b:=2;
-    if(a<b) then
+	integer c;
+	integer d;
+	a := 1;
+	b := 2;
+	c := 4;
+	d := 2;
+	if (a <= b) then
 	begin
-		integer c;
-		ulongint d;
-		c := a + b;
-		print(<<A es menor a b>>);
+		print(<<HOLA IF>>);
+		d := -54678;
 	end
 	end_if
 end
