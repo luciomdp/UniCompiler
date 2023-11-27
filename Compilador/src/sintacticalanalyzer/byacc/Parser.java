@@ -436,7 +436,7 @@ final static String yyrule[] = {
 
 public static void main(String[] args) throws Exception {
     ConfigurationParams globalParams = new ConfigurationParams(false);
-    Parser parser = new Parser(true);
+    Parser parser = new Parser(false);
     parser.yyparse(); 
 }
 

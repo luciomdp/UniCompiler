@@ -1,0 +1,38 @@
+programa1
+begin
+	integer a, b, c;
+	ulongint x;
+	integer d;
+	
+	##Anidamientos de sentencias de control/*
+
+	if (b <> c) then
+	begin
+		print(<<solo then>>);
+	end
+	end_if
+	
+	if (a <= b) then
+	begin
+		a := 123;
+		print(<<cuerpo then>>);
+		if (a > b) then
+		begin
+			print (<<mayor>>);
+		end
+		end_if
+	end
+	else
+	begin
+		a := 1;
+		print(<<cuerpo else>>);
+		if (a >= b) then
+		begin
+			print (<<mayor o igual>>);
+		end
+		end_if
+	end
+	end_if
+
+
+end

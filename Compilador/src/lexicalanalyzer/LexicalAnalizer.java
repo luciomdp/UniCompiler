@@ -115,7 +115,6 @@ public class LexicalAnalizer {
                 }
                 else if (currentCharacter == 10){ // es el new line verdadero, no el 
                     newLineCount++;
-                    System.out.println("New line: "+newLineCount);
                 }
                 //Calculo próximo estado en base al estado en el que estoy y el tipo de caracter que consumí
                 currentState = stateTable [currentState][ECharacterType.fromChar((char)currentCharacter).getValue()];
