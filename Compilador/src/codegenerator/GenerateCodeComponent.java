@@ -206,7 +206,7 @@ public class GenerateCodeComponent {
             }
             else if (e.startsWith("Label_")){
                 // escribo directamente el nombre del label porque no hay operador de por medio
-                writeLabelName(e);
+                writeLabelName(e+":");
             }
             else 
                 stack.push(e);
@@ -238,8 +238,8 @@ public class GenerateCodeComponent {
             symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, symbolTableItemOperandA.getDataType(), EUse.VARIABLE_ASSEMBLER);
             writeCode(operator, operandA, null, variableName, false);
         }
-        else if (operator.equals("return"))
-            writeCode(operator, operandA, null, variableName, false);
+        else if (operator.equals("return") || operator.equals("print"))
+            writeCode(operator, operandA, null, null, false);
         
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
