@@ -126,6 +126,8 @@ public class SemanticParserActions {
     // '-' NUMERIC_CONST 
     public static void ON_factor4_End(String lexema) {
         String negativeLexema = "-"+lexema;
+        if (Long.valueOf(negativeLexema) < -32768)
+            ConfigurationParams.mainView.getSintacticViewer().appendError("Error: "+ negativeLexema + " no pertenece al rango válido de integer \n");
         ConfigurationParams.reversePolishStructure.add(negativeLexema);
         if (ConfigurationParams.symbolTable.contains(negativeLexema)){
             ConfigurationParams.symbolTable.lookup(negativeLexema).addOneItemEntry();
@@ -136,7 +138,7 @@ public class SemanticParserActions {
                 ConfigurationParams.symbolTable.remove(lexema);
             else
                 ConfigurationParams.symbolTable.lookup(lexema).subtractOneItemEntry();
-        ConfigurationParams.symbolTable.insert(negativeLexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER, EUse.CONST, negativeLexema));
+            ConfigurationParams.symbolTable.insert(negativeLexema, new SymbolTableItem(ETokenType.INTEGER, EDataType.INTEGER, EUse.CONST, negativeLexema));
         }
     }
     // ITOUL '(' expresion ')'
