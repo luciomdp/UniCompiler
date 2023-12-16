@@ -124,10 +124,6 @@ public class LexicalAnalizer {
                 else 
                     readNewCharacter = false;
             }
-            /*if(ETokenType.getLexemeTokenTypes().contains(SAParam.getTokenType().getValue()))
-                yylval = new ParserVal(getLexema());
-            else
-                yylval = null;*/
             return SAParam.getTokenType().getValue();
 
         } catch (IOException e) {
