@@ -131,6 +131,8 @@ public class GenerateCodeComponent {
 
     private void generateVariableDeclaration(){
         sbData.append(".data\n");
+        //Agrego la definición del Título de los prints
+        sbData.append("TitPrint db \"Imprimir\", 0\n");
         //Acá iría la declaración de todas las variables de la tabla de símbolos.
         ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
             //Si es STRING.
