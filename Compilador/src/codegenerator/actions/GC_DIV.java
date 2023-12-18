@@ -12,12 +12,17 @@ public class GC_DIV implements IAssemblerCode {
         if (is32BitOperation){
             sb.append("     MOV edx, 0 \n");
             sb.append("     MOV eax, "+operandA+"\n");
+            sb.append("     CMP "+operandB+", edx \n");
+            sb.append("     JE ZeroDivision \n"); 
             sb.append("     DIV "+operandB+"\n");
             sb.append("     MOV "+variableName+", eax \n");
         }
         else {
+             sb.append("     MOV edx, 0 \n");
             sb.append("     MOV ax, "+operandA+"\n");
             sb.append("     CWD \n");
+            sb.append("     CMP "+operandB+", edx \n");
+            sb.append("     JE ZeroDivision \n"); 
             sb.append("     IDIV "+operandB+"\n");
             sb.append("     MOV "+variableName+", ax \n");
         }

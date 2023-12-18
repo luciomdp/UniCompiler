@@ -133,6 +133,9 @@ public class GenerateCodeComponent {
         sbData.append(".data\n");
         //Agrego la definición del Título de los prints
         sbData.append("TitPrint db \"Imprimir\", 0\n");
+        sbData.append("     msgZeroDivision dd \"" + "Error: división por 0" + "\", 0\n");
+        sbData.append("     msgOverflow dd \"" + "Error: overflow" + "\", 0\n");
+        sbData.append("     msgNegativeItoul dd \"" + "Error: no se pueden convertir números negativos o el valor cero" + "\", 0\n");
         //Acá iría la declaración de todas las variables de la tabla de símbolos.
         ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
             //Si es STRING.
@@ -156,6 +159,7 @@ public class GenerateCodeComponent {
                     sbData.append("     " + entry.getKey() + " dd ?\n");
             }            
         });
+        
     }
     private void generateCode() {
         sbCode.append(".code\n");
@@ -170,7 +174,17 @@ public class GenerateCodeComponent {
         while(key != null) {
             generateCode(key,ConfigurationParams.reversePolishStructure.removePolish(key));
             key = ConfigurationParams.reversePolishStructure.getNextKey();
-        } 
+        }
+        sbCode.append("ZeroDivision: \n");
+        sbCode.append("     invoke MessageBox, NULL, addr msgZeroDivision , addr TitPrint, MB_OK \n");
+        sbCode.append("     invoke ExitProcess, 0\n");
+        sbCode.append("Overflow: \n");
+        sbCode.append("     invoke MessageBox, NULL, addr msgOverflow , addr TitPrint, MB_OK \n");
+        sbCode.append("     invoke ExitProcess, 0\n");
+        sbCode.append("NegativeItoul: \n");
+        sbCode.append("     invoke MessageBox, NULL, addr msgNegativeItoul , addr TitPrint, MB_OK \n");
+        sbCode.append("     invoke ExitProcess, 0\n");
+        
     }
 
     private void generateCode(String fname,List<String> reversepolish) {
@@ -242,15 +256,26 @@ public class GenerateCodeComponent {
             writeCode(operator, operandA, null, variableName, false);
         }
         else if (operator.equals("CALL")){
-            // en este caso la variable assembler va a tener el tipo de dato de la función
             symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, symbolTableItemOperandA.getDataType(), EUse.VARIABLE_ASSEMBLER);
+            operandA = getFunctionName(operandA);
             writeCode(operator, operandA, null, variableName, false);
         }
-        else if (operator.equals("return") || operator.equals("print"))
+        else if (operator.equals("return")) {
+            writeCode(operator, operandA, null, null, symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()?false:true );
+        }
+        else if (operator.equals("print")){
             writeCode(operator, operandA, null, null, false);
-        
+        }
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
+    }
+
+    private String getFunctionName(String operandA) {
+        int indiceGuionBajo = operandA.indexOf('_');
+        String resultado= "";
+        if (indiceGuionBajo != -1) 
+            resultado = operandA.substring(0, indiceGuionBajo);
+        return resultado;
     }
 
     private String createAssemblerCodeForBinaryOperators (String operandA, String operandB, String operator){
