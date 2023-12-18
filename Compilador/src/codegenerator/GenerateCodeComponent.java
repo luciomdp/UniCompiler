@@ -39,6 +39,7 @@ public class GenerateCodeComponent {
     private List<String> unaryOperands;
     private Map<String, IAssemblerCode> mapAssemblerCode;
     private Long count;
+    private File fileGeneratedDirectory;
     private File fileGenerated;
     private StringBuilder sbHeader;
     private StringBuilder sbData;
@@ -86,11 +87,16 @@ public class GenerateCodeComponent {
         //Declaración de variables (Va después del code así las variables están cargadas en la TS)
         generateVariableDeclaration();
         try {
-            fileGenerated = new File("Files/CodeGenerated/" + ConfigurationParams.getOutputFileName().replace(".txt", ".asm"));
+            String directoryPath = "Files/CodeGenerated/";
+            fileGeneratedDirectory = new File(directoryPath);
+            
+            if (!fileGeneratedDirectory.exists()) 
+                fileGeneratedDirectory.mkdirs();
+
+            fileGenerated = new File(directoryPath+ ConfigurationParams.getOutputFileName().replace(".txt", ".asm"));
             if (fileGenerated.exists()) 
                 fileGenerated.delete();
             fileGenerated.createNewFile();
-                
             FileWriter fileWriter = new FileWriter(fileGenerated, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             if(!errorOcurred) {
