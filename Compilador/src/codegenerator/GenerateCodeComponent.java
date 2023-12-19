@@ -132,10 +132,11 @@ public class GenerateCodeComponent {
     private void generateVariableDeclaration(){
         sbData.append(".data\n");
         //Agrego la definición del Título de los prints
-        sbData.append("TitPrint db \"Imprimir\", 0\n");
-        sbData.append("     msgZeroDivision dd \"" + "Error: división por 0" + "\", 0\n");
-        sbData.append("     msgOverflow dd \"" + "Error: overflow" + "\", 0\n");
-        sbData.append("     msgNegativeItoul dd \"" + "Error: no se pueden convertir números negativos o el valor cero" + "\", 0\n");
+        sbData.append("     TitPrint db \"Imprimir\", 0\n");
+        sbData.append("     TitError db \"Error\", 0\n");
+        sbData.append("     msgZeroDivision db \"Error: division por cero\", 0\n");
+        sbData.append("     msgOverflow db \"Error: overflow\", 0\n");
+        sbData.append("     msgNegativeItoul db \"Error: perdida de informacion por conversion\", 0\n");
         //Acá iría la declaración de todas las variables de la tabla de símbolos.
         ConfigurationParams.symbolTable.getSymbolTable().entrySet().forEach(entry -> {
             //Si es STRING.
@@ -163,31 +164,37 @@ public class GenerateCodeComponent {
     }
     private void generateCode() {
         sbCode.append(".code\n");
+        //Claves
+        List<String> mainPolish = ConfigurationParams.reversePolishStructure.removePolish(ConfigurationParams.reversePolishStructure.getNextKey());
+        String keyFunctions = ConfigurationParams.reversePolishStructure.getNextKey();
+        //Funciones
+        while(keyFunctions != null) {
+            generateCode(keyFunctions,ConfigurationParams.reversePolishStructure.removePolish(keyFunctions));
+            keyFunctions = ConfigurationParams.reversePolishStructure.getNextKey();
+        }
+
         //Programa principal
         sbCode.append("start:\n");
-        String key = ConfigurationParams.reversePolishStructure.getNextKey();
-        generateCode(null,ConfigurationParams.reversePolishStructure.removePolish(key));
-        sbCode.append("     invoke ExitProcess, 0\n");
-        sbCode.append("end start\n");
-        //Funciones
-        key = ConfigurationParams.reversePolishStructure.getNextKey();
-        while(key != null) {
-            generateCode(key,ConfigurationParams.reversePolishStructure.removePolish(key));
-            key = ConfigurationParams.reversePolishStructure.getNextKey();
-        }
-        sbCode.append("ZeroDivision: \n");
-        sbCode.append("     invoke MessageBox, NULL, addr msgZeroDivision , addr TitPrint, MB_OK \n");
-        sbCode.append("     invoke ExitProcess, 0\n");
-        sbCode.append("Overflow: \n");
-        sbCode.append("     invoke MessageBox, NULL, addr msgOverflow , addr TitPrint, MB_OK \n");
-        sbCode.append("     invoke ExitProcess, 0\n");
-        sbCode.append("NegativeItoul: \n");
-        sbCode.append("     invoke MessageBox, NULL, addr msgNegativeItoul , addr TitPrint, MB_OK \n");
-        sbCode.append("     invoke ExitProcess, 0\n");
-        
+        generateCode(null, mainPolish);
+        if(!errorOcurred) {
+            sbCode.append("     invoke ExitProcess, 0\n");
+            //Códigos de error
+            sbCode.append("ZeroDivision: \n");
+            sbCode.append("     invoke MessageBox, NULL, addr msgZeroDivision , addr TitError, MB_OK \n");
+            sbCode.append("     invoke ExitProcess, 0\n");
+            sbCode.append("Overflow: \n");
+            sbCode.append("     invoke MessageBox, NULL, addr msgOverflow , addr TitError, MB_OK \n");
+            sbCode.append("     invoke ExitProcess, 0\n");
+            sbCode.append("NegativeItoul: \n");
+            sbCode.append("     invoke MessageBox, NULL, addr msgNegativeItoul , addr TitError, MB_OK \n");
+            sbCode.append("     invoke ExitProcess, 0\n");
+
+            //Fin del programa
+            sbCode.append("end start\n");
+        }        
     }
 
-    private void generateCode(String fname,List<String> reversepolish) {
+    private void generateCode(String fname, List<String> reversepolish) {
         Stack<String> stack = new Stack<>();
         if(fname != null) //Si no es funcion
             sbCode.append(fname + ":\n");
@@ -258,7 +265,7 @@ public class GenerateCodeComponent {
         else if (operator.equals("CALL")){
             symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, symbolTableItemOperandA.getDataType(), EUse.VARIABLE_ASSEMBLER);
             operandA = getFunctionName(operandA);
-            writeCode(operator, operandA, null, variableName, false);
+            writeCode(operator, operandA, null, variableName, symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()?false:true);
         }
         else if (operator.equals("return")) {
             writeCode(operator, operandA, null, null, symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()?false:true );
