@@ -220,7 +220,7 @@ public class GenerateCodeComponent {
             else if (e.equals("JUMP")){
                 String label = "Label_"+stack.pop();
                 // pasa null en ambos operandos porque salta siempre, no debemos hacer una comparación y tomar la decisión
-                writeCodeForCondicions(e, null, null, label);
+                writeCodeForCondicions(e, null, null, label, false);
             }
             else if (e.equals("BF")){
                 // nro de label al que debemos saltar
@@ -246,21 +246,25 @@ public class GenerateCodeComponent {
 
     private String createAssemblerCodeForUnaryOperators(String operandA, String operator) {
         count++;
+        boolean is32BitOperation = false;
         String variableName = "@aux"+count;
         SymbolTableItem symbolTableItemOperandA, symbolTableItemOperandB, symbolTableItemVariable = new SymbolTableItem(null, null);
         symbolTableItemOperandA = ConfigurationParams.symbolTable.lookup(operandA);
         operandA = renameOperand(operandA, symbolTableItemOperandA);
         if (operator.equals("itoul")){            
-            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()) 
-                symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE);
-            else if (symbolTableItemOperandA.getDataType().getValue() == EDataType.STRING.getValue())
-                symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE);
+            if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()){ 
+                symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE_ASSEMBLER);
+                is32BitOperation = true;
+            }
+            else if (symbolTableItemOperandA.getDataType().getValue() == EDataType.STRING.getValue()){
+                symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE_ASSEMBLER);
+            }
             else{
                 errorOcurred = true;
                 sbCode = new StringBuilder("Error: no se puede convertir el tipo de dato ULONGINT");
                 return null;                
             }     
-            writeCode(operator, operandA, null, variableName, false);
+            writeCode(operator, operandA, null, variableName, is32BitOperation);
         }
         else if (operator.equals("CALL")){
             symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, symbolTableItemOperandA.getDataType(), EUse.VARIABLE_ASSEMBLER);
@@ -323,8 +327,8 @@ public class GenerateCodeComponent {
         symbolTableItemOperandB = ConfigurationParams.symbolTable.lookup(operandB);
         operandA = renameOperand(operandA, symbolTableItemOperandA);
         operandB = renameOperand(operandB, symbolTableItemOperandB);
-        if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType()) 
-            writeCodeForCondicions(operator, operandA, operandB, label);
+        if (symbolTableItemOperandA.getDataType() == symbolTableItemOperandB.getDataType())
+            writeCodeForCondicions(operator, operandA, operandB, label, symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()?false:true);
         else {
             errorOcurred = true;
             sbCode = new StringBuilder("Error: incompatibilidad en los tipos de datos de las variables "+ operandA + " y "+ operandB);
@@ -338,9 +342,9 @@ public class GenerateCodeComponent {
         assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, variableName, is32BitOperation, null); //El tab es para identar el código
         sbCode.append(assemblerCode + "\n");
     }
-    private void writeCodeForCondicions (String operator, String operandA, String operandB, String label){
+    private void writeCodeForCondicions (String operator, String operandA, String operandB, String label, boolean is32BitOperation){
         String assemblerCode = "";
-        assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, null, false, label); //El tab es para identar el código
+        assemblerCode = mapAssemblerCode.get(operator).generateCode(operandA, operandB, null, is32BitOperation, label); //El tab es para identar el código
         sbCode.append(assemblerCode + "\n");
     }
     private void writeLabelName(String label) {

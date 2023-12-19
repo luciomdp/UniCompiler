@@ -8,7 +8,7 @@ public class GC_ITOUL implements IAssemblerCode {
         StringBuilder sb = new StringBuilder();
         sb.append("     MOV ax, 0\n");
         sb.append("     CMP ax, "+operandA+"\n");
-        sb.append("     JLE NegativeItoul \n");
+        sb.append("     JGE NegativeItoul \n");
         sb.append("     MOV eax, 0 \n");
         sb.append("     MOV ax, "+operandA+" \n");
         sb.append("     MOV "+variableName+", eax \n");
