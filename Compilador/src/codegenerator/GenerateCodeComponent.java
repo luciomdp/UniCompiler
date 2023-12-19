@@ -254,7 +254,6 @@ public class GenerateCodeComponent {
         if (operator.equals("itoul")){            
             if(symbolTableItemOperandA.getDataType().getValue() == EDataType.INTEGER.getValue()){ 
                 symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, EDataType.ULONGINT, EUse.VARIABLE_ASSEMBLER);
-                is32BitOperation = true;
             }
             else if (symbolTableItemOperandA.getDataType().getValue() == EDataType.STRING.getValue()){
                 symbolTableItemVariable = new SymbolTableItem(ETokenType.STRING_CONST, EDataType.STRING, EUse.VARIABLE_ASSEMBLER);
@@ -264,7 +263,7 @@ public class GenerateCodeComponent {
                 sbCode = new StringBuilder("Error: no se puede convertir el tipo de dato ULONGINT");
                 return null;                
             }     
-            writeCode(operator, operandA, null, variableName, is32BitOperation);
+            writeCode(operator, operandA, null, variableName, true);
         }
         else if (operator.equals("CALL")){
             symbolTableItemVariable = new SymbolTableItem(ETokenType.ID, symbolTableItemOperandA.getDataType(), EUse.VARIABLE_ASSEMBLER);
@@ -280,6 +279,7 @@ public class GenerateCodeComponent {
         ConfigurationParams.symbolTable.insert(variableName, symbolTableItemVariable);
         return variableName;
     }
+
 
     private String getFunctionName(String operandA) {
         int indiceGuionBajo = operandA.indexOf('_');
