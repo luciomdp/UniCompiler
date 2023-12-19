@@ -166,15 +166,15 @@ public class GenerateCodeComponent {
         sbCode.append(".code\n");
         String keyToRemove;
         //Escribo las funciones de atrás para adelante
-        while(ConfigurationParams.reversePolishStructure.getReversePolishListSize() != 1) {
+        while(ConfigurationParams.reversePolishStructure.getReversePolishListSize() != 1 && !errorOcurred) {
             keyToRemove = ConfigurationParams.reversePolishStructure.getLastKey();
             generateCode(keyToRemove, ConfigurationParams.reversePolishStructure.removePolish(keyToRemove));
         }  
-
-        //Escribo el programa principal
-        sbCode.append("start:\n");
-        generateCode(null, ConfigurationParams.reversePolishStructure.removePolish(ConfigurationParams.reversePolishStructure.getLastKey()));
         if(!errorOcurred) {
+            //Escribo el programa principal
+            sbCode.append("start:\n");
+            generateCode(null, ConfigurationParams.reversePolishStructure.removePolish(ConfigurationParams.reversePolishStructure.getLastKey()));
+            
             sbCode.append("     invoke ExitProcess, 0\n");
             //Códigos de error
             sbCode.append("ZeroDivision: \n");
@@ -189,7 +189,8 @@ public class GenerateCodeComponent {
 
             //Fin del programa
             sbCode.append("end start\n");
-        }        
+                    
+        }
     }
 
     private void generateCode(String fname, List<String> reversepolish) {
