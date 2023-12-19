@@ -68,11 +68,15 @@ public class ReversePolishStructure {
     }
 
     public List<String> removePolish(String key) {
-        return reversePolishList.remove(key);
+       return reversePolishList.remove(key);
     }
 
-    public String getNextKey() {
-        return reversePolishList.keySet().iterator().hasNext()?reversePolishList.keySet().iterator().next():null;
+    public String getLastKey() {
+       return reversePolishList.keySet().stream().reduce((first, second) -> second).get();
+    }
+
+    public int getReversePolishListSize() {
+        return reversePolishList.keySet().size();
     }
 
 }

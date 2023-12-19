@@ -164,18 +164,16 @@ public class GenerateCodeComponent {
     }
     private void generateCode() {
         sbCode.append(".code\n");
-        //Claves
-        List<String> mainPolish = ConfigurationParams.reversePolishStructure.removePolish(ConfigurationParams.reversePolishStructure.getNextKey());
-        String keyFunctions = ConfigurationParams.reversePolishStructure.getNextKey();
-        //Funciones
-        while(keyFunctions != null) {
-            generateCode(keyFunctions,ConfigurationParams.reversePolishStructure.removePolish(keyFunctions));
-            keyFunctions = ConfigurationParams.reversePolishStructure.getNextKey();
-        }
+        String keyToRemove;
+        //Escribo las funciones de atrás para adelante
+        while(ConfigurationParams.reversePolishStructure.getReversePolishListSize() != 1) {
+            keyToRemove = ConfigurationParams.reversePolishStructure.getLastKey();
+            generateCode(keyToRemove, ConfigurationParams.reversePolishStructure.removePolish(keyToRemove));
+        }  
 
-        //Programa principal
+        //Escribo el programa principal
         sbCode.append("start:\n");
-        generateCode(null, mainPolish);
+        generateCode(null, ConfigurationParams.reversePolishStructure.removePolish(ConfigurationParams.reversePolishStructure.getLastKey()));
         if(!errorOcurred) {
             sbCode.append("     invoke ExitProcess, 0\n");
             //Códigos de error
