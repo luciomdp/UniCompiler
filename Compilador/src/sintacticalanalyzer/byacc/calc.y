@@ -72,6 +72,7 @@ inicio_funcion :
 ;
 cuerpo_funcion :   
             sentencias retorno
+        |   retorno
 ;
 fin_funcion : 
             END {
